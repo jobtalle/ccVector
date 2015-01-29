@@ -20,6 +20,7 @@
 #pragma once
 
 #include <math.h>
+#include <string.h>
 
 #ifndef inline
 #define inline __inline
@@ -29,8 +30,13 @@
 
 #define _CCV_DEFINE_VEC_TYPE(dim) \
 	typedef struct { \
-	float elements[dim]; \
+		float elements[dim]; \
 	} _CCV_VEC_TYPENAME(dim);
+
+#define _CCV_DEFINE_VEC_ZERO(dim) \
+	static inline void _CCV_VEC_TYPENAME(dim)##Zero(_CCV_VEC_TYPENAME(dim) *v) { \
+		memset(v->elements, 0, sizeof(float)* dim); \
+	}
 
 #define _CCV_DEFINE_VEC_ADD(dim) \
 	static inline void _CCV_VEC_TYPENAME(dim)##Add(_CCV_VEC_TYPENAME(dim) *v, const _CCV_VEC_TYPENAME(dim) a, const _CCV_VEC_TYPENAME(dim) b) { \
@@ -88,6 +94,7 @@
 
 #define CCV_DEFINE_VEC(dim) \
 	_CCV_DEFINE_VEC_TYPE(dim) \
+	_CCV_DEFINE_VEC_ZERO(dim) \
 	_CCV_DEFINE_VEC_ADD(dim) \
 	_CCV_DEFINE_VEC_SUBTRACT(dim) \
 	_CCV_DEFINE_VEC_CROSSPRODUCT(dim) \

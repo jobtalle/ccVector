@@ -3,11 +3,12 @@
 #include <ccVector/ccVector.h>
 
 CCV_DEFINE_VEC(2)
+CCV_DEFINE_VEC(6)
 
 int main(int argc, char **argv) {
 	ccvVec2 vec0, vec1, vec2;
-	vec0.elements[0] = 0;
-	vec0.elements[1] = 0;
+	
+	ccvVec2Zero(&vec0);
 
 	CCV_SET(vec1, 0, 0.5f);
 	CCV_SET(vec1, 1, 0.5f);
