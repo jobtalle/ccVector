@@ -86,10 +86,7 @@
 
 #define _CCV_DEFINE_VEC_NORMALIZE(dim) \
 	static inline _CCV_VEC_TYPENAME(dim)##Normalize(_CCV_VEC_TYPENAME(dim) *v) { \
-		unsigned int i; \
-		float length = _CCV_VEC_TYPENAME(dim)##Length(*v); \
-		for(i = 0; i < dim; i++) \
-			v->elements[i] /= length; \
+		_CCV_VEC_TYPENAME(dim)##Multiply(v, 1.0f / _CCV_VEC_TYPENAME(dim)##Length(*v)); \
 	}
 
 #define CCV_DEFINE_VEC(dim) \
