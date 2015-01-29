@@ -17,6 +17,12 @@ int main(int argc, char **argv) {
 	ccvVec2CrossProduct(&vec0, vec1, vec2);
 
 	printf("%f\t%f\n", CCV_GET(vec0, 0), CCV_GET(vec0, 1));
+	printf("Length: %f\n", ccvVec2Length(vec0));
+
+	ccvVec2Normalize(&vec0);
+	
+	printf("%f\t%f\n", CCV_GET(vec0, 0), CCV_GET(vec0, 1));
+	printf("Length: %f\n", ccvVec2Length(vec0));
 
 	getchar();
 

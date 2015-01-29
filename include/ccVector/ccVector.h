@@ -19,6 +19,8 @@
 
 #pragma once
 
+#include <math.h>
+
 #ifndef inline
 #define inline __inline
 #endif
@@ -31,31 +33,31 @@
 	} _CCV_VEC_TYPENAME(dim);
 
 #define _CCV_DEFINE_VEC_ADD(dim) \
-	static inline void _CCV_VEC_TYPENAME(dim)##Add(_CCV_VEC_TYPENAME(dim) *result, const _CCV_VEC_TYPENAME(dim) a, const _CCV_VEC_TYPENAME(dim) b) { \
+	static inline void _CCV_VEC_TYPENAME(dim)##Add(_CCV_VEC_TYPENAME(dim) *v, const _CCV_VEC_TYPENAME(dim) a, const _CCV_VEC_TYPENAME(dim) b) { \
 		unsigned int i; \
 		for(i = 0; i < dim; i++) \
-			result->elements[i] = a.elements[i] + b.elements[i]; \
+			v->elements[i] = a.elements[i] + b.elements[i]; \
 	}
 
 #define _CCV_DEFINE_VEC_SUBTRACT(dim) \
-	static inline void _CCV_VEC_TYPENAME(dim)##Subtract(_CCV_VEC_TYPENAME(dim) *result, const _CCV_VEC_TYPENAME(dim) a, const _CCV_VEC_TYPENAME(dim) b) { \
+	static inline void _CCV_VEC_TYPENAME(dim)##Subtract(_CCV_VEC_TYPENAME(dim) *v, const _CCV_VEC_TYPENAME(dim) a, const _CCV_VEC_TYPENAME(dim) b) { \
 		unsigned int i; \
 		for(i = 0; i < dim; i++) \
-			result->elements[i] = a.elements[i] - b.elements[i]; \
+			v->elements[i] = a.elements[i] - b.elements[i]; \
 	}
 
 #define _CCV_DEFINE_VEC_CROSSPRODUCT(dim) \
-	static inline void _CCV_VEC_TYPENAME(dim)##CrossProduct(_CCV_VEC_TYPENAME(dim) *result, const _CCV_VEC_TYPENAME(dim) a, const _CCV_VEC_TYPENAME(dim) b) { \
+	static inline void _CCV_VEC_TYPENAME(dim)##CrossProduct(_CCV_VEC_TYPENAME(dim) *v, const _CCV_VEC_TYPENAME(dim) a, const _CCV_VEC_TYPENAME(dim) b) { \
 		unsigned int i; \
 		for(i = 0; i < dim; i++) \
-			result->elements[i] = a.elements[i] * b.elements[i]; \
+			v->elements[i] = a.elements[i] * b.elements[i]; \
 	}
 
 #define _CCV_DEFINE_VEC_MULTIPLY(dim) \
-	static inline void _CCV_VEC_TYPENAME(dim)##Multiply(_CCV_VEC_TYPENAME(dim) *result, float n) { \
+	static inline void _CCV_VEC_TYPENAME(dim)##Multiply(_CCV_VEC_TYPENAME(dim) *v, float n) { \
 		unsigned int i; \
 		for(i = 0; i < dim; i++) \
-			result->elements[i] *= n; \
+			v->elements[i] *= n; \
 	}
 
 #define _CCV_DEFINE_VEC_DOTPRODUCT(dim) \
@@ -67,13 +69,32 @@
 		return result; \
 	}
 
+#define _CCV_DEFINE_VEC_LENGTH(dim) \
+	static inline float _CCV_VEC_TYPENAME(dim)##Length(const _CCV_VEC_TYPENAME(dim) v) { \
+		unsigned int i; \
+		float squaredResult = 0; \
+		for(i = 0; i < dim; i++) \
+			squaredResult += v.elements[i] * v.elements[i]; \
+		return sqrtf(squaredResult); \
+	}
+
+#define _CCV_DEFINE_VEC_NORMALIZE(dim) \
+	static inline _CCV_VEC_TYPENAME(dim)##Normalize(_CCV_VEC_TYPENAME(dim) *v) { \
+		unsigned int i; \
+		float length = _CCV_VEC_TYPENAME(dim)##Length(*v); \
+		for(i = 0; i < dim; i++) \
+			v->elements[i] /= length; \
+	}
+
 #define CCV_DEFINE_VEC(dim) \
 	_CCV_DEFINE_VEC_TYPE(dim) \
 	_CCV_DEFINE_VEC_ADD(dim) \
 	_CCV_DEFINE_VEC_SUBTRACT(dim) \
 	_CCV_DEFINE_VEC_CROSSPRODUCT(dim) \
 	_CCV_DEFINE_VEC_MULTIPLY(dim) \
-	_CCV_DEFINE_VEC_DOTPRODUCT(dim)
+	_CCV_DEFINE_VEC_DOTPRODUCT(dim) \
+	_CCV_DEFINE_VEC_LENGTH(dim) \
+	_CCV_DEFINE_VEC_NORMALIZE(dim)
 
 #define CCV_SET(vec, n, value) vec.elements[n] = value
 #define CCV_GET(vec, n) (vec.elements[n])
