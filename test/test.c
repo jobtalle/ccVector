@@ -11,7 +11,7 @@ int main(int argc, char **argv) {
 	CCV_SET(vec1, 0, 0.5f);
 	CCV_SET(vec2, 0, 0.2f);
 
-	ccvVec1Add(&vec0, vec1, vec2);
+	ccvVec1Subtract(&vec0, vec1, vec2);
 
 	printf("%f\n", CCV_GET(vec0, 0));
 
