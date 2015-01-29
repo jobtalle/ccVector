@@ -54,11 +54,20 @@
 		} \
 	}
 
+#define _CCV_DEFINE_VEC_MULTIPLY(dim) \
+	static inline void _CCV_VEC_TYPENAME(dim)##Multiply(_CCV_VEC_TYPENAME(dim) *result, float n) { \
+		unsigned int i; \
+		for(i = 0; i < dim; i++) { \
+			result->elements[i] *= n; \
+		} \
+	}
+
 #define CCV_DEFINE_VEC(dim) \
 	_CCV_DEFINE_VEC_TYPE(dim) \
 	_CCV_DEFINE_VEC_ADD(dim) \
 	_CCV_DEFINE_VEC_SUBTRACT(dim) \
-	_CCV_DEFINE_VEC_DOTPRODUCT(dim)
+	_CCV_DEFINE_VEC_DOTPRODUCT(dim) \
+	_CCV_DEFINE_VEC_MULTIPLY(dim)
 
 #define CCV_SET(vec, n, value) vec.elements[n] = value
 #define CCV_GET(vec, n) (vec.elements[n])
