@@ -46,8 +46,8 @@
 		} \
 	}
 
-#define _CCV_DEFINE_VEC_MULTIPLY(dim) \
-	static inline void _CCV_VEC_TYPENAME(dim)##Multiply(_CCV_VEC_TYPENAME(dim) *result, const _CCV_VEC_TYPENAME(dim) a, const _CCV_VEC_TYPENAME(dim) b) { \
+#define _CCV_DEFINE_VEC_DOTPRODUCT(dim) \
+	static inline void _CCV_VEC_TYPENAME(dim)##DotProduct(_CCV_VEC_TYPENAME(dim) *result, const _CCV_VEC_TYPENAME(dim) a, const _CCV_VEC_TYPENAME(dim) b) { \
 		unsigned int i; \
 		for(i = 0; i < dim; i++) { \
 			result->elements[i] = a.elements[i] * b.elements[i]; \
@@ -58,7 +58,7 @@
 	_CCV_DEFINE_VEC_TYPE(dim) \
 	_CCV_DEFINE_VEC_ADD(dim) \
 	_CCV_DEFINE_VEC_SUBTRACT(dim) \
-	_CCV_DEFINE_VEC_MULTIPLY(dim)
+	_CCV_DEFINE_VEC_DOTPRODUCT(dim)
 
 #define CCV_SET(vec, n, value) vec.elements[n] = value
 #define CCV_GET(vec, n) (vec.elements[n])
