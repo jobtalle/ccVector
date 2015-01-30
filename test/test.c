@@ -3,7 +3,6 @@
 #include <ccVector/ccVector.h>
 
 CCV_DEFINE_VEC(2)
-CCV_DEFINE_VEC(6)
 
 int main(int argc, char **argv) {
 	ccvVec2 vec0, vec1, vec2;
