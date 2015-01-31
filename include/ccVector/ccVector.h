@@ -26,15 +26,21 @@
 #define inline __inline
 #endif
 
+// Prefixes
+
 #define _CCV_VEC_TYPENAME(dim) ccvVec##dim
 
-#define _CCV_MAT_TYPENAME(dim_x, dim_y) ccvMat##dim_x##x##dim_y
+#define _CCV_MAT_TYPENAME(rows, cols) ccvMat##rows##x##cols
 
-#define _CCV_DEFINE_VEC_TYPE(dim) \
-	typedef float _CCV_VEC_TYPENAME(dim)[dim];
+// Type definitions
 
-#define _CCV_DEFINE_MAT_TYPE(dim_x, dim_y) \
-	typedef float _CCV_MAT_TYPENAME(dim_x, dim_y)[dim_x][dim_y];
+#define _CCV_DEFINE_VEC_TYPE(type, dim) \
+	typedef type _CCV_VEC_TYPENAME(dim)[dim];
+
+#define _CCV_DEFINE_MAT_TYPE(type, rows, cols) \
+	typedef type _CCV_MAT_TYPENAME(rows, cols)[rows][cols];
+
+// Vector operations
 
 #define _CCV_DEFINE_VEC_ZERO(dim) \
 	static inline void _CCV_VEC_TYPENAME(dim)##Zero(_CCV_VEC_TYPENAME(dim) v) { \
@@ -92,8 +98,20 @@
 		_CCV_VEC_TYPENAME(dim)##Multiply(v, 1.0f / _CCV_VEC_TYPENAME(dim)##Length(v)); \
 	}
 
-#define CCV_DEFINE_VEC(dim) \
-	_CCV_DEFINE_VEC_TYPE(dim) \
+// Matrix operations
+
+#define _CCV_DEFINE_MAT_ZERO(rows, cols) \
+	static inline _CCV_MAT_TYPENAME(rows, cols)##Zero(_CCV_MAT_TYPENAME(rows, cols) m) { \
+		unsigned int row = 0; \
+		unsigned int col = 0; \
+		for(col = 0; col < cols; col++) \
+			for(row = 0; row < rows; row++) m[rows][cols] = 0; \
+		}
+
+// Definition calls
+
+#define CCV_DEFINE_VEC(type, dim) \
+	_CCV_DEFINE_VEC_TYPE(type, dim) \
 	_CCV_DEFINE_VEC_ZERO(dim) \
 	_CCV_DEFINE_VEC_ADD(dim) \
 	_CCV_DEFINE_VEC_SUBTRACT(dim) \
@@ -103,8 +121,15 @@
 	_CCV_DEFINE_VEC_LENGTH(dim) \
 	_CCV_DEFINE_VEC_NORMALIZE(dim)
 
-#define CCV_DEFINE_MAT(dim_x, dim_y) \
-	_CCV_DEFINE_MAT_TYPE(dim_x, dim_y)
+#define CCV_DEFINE_MAT(type, rows, cols) \
+	_CCV_DEFINE_VEC_TYPE(type, cols) \
+	_CCV_DEFINE_MAT_TYPE(type, rows, cols) \
+	_CCV_DEFINE_MAT_ZERO(rows, cols)
 
-#define CCV_SET(vec, n, value) vec[n] = value
-#define CCV_GET(vec, n) vec[n]
+// Getters & setters
+
+#define CCV_VEC_SET(vec, n, value) vec[n] = value
+#define CCV_VEC_GET(vec, n) vec[n]
+
+#define CCV_MAT_SET(mat, row, col, value) mat[row][col] = value
+#define CCV_MAT_GET(mat, row, col) mat[row][col]
