@@ -28,8 +28,13 @@
 
 #define _CCV_VEC_TYPENAME(dim) ccvVec##dim
 
+#define _CCV_MAT_TYPENAME(dim_x, dim_y) ccvMat##dim_x##x##dim_y
+
 #define _CCV_DEFINE_VEC_TYPE(dim) \
 	typedef float _CCV_VEC_TYPENAME(dim)[dim];
+
+#define _CCV_DEFINE_MAT_TYPE(dim_x, dim_y) \
+	typedef float _CCV_MAT_TYPENAME(dim_x, dim_y)[dim_x][dim_y];
 
 #define _CCV_DEFINE_VEC_ZERO(dim) \
 	static inline void _CCV_VEC_TYPENAME(dim)##Zero(_CCV_VEC_TYPENAME(dim) v) { \
@@ -97,6 +102,9 @@
 	_CCV_DEFINE_VEC_DOTPRODUCT(dim) \
 	_CCV_DEFINE_VEC_LENGTH(dim) \
 	_CCV_DEFINE_VEC_NORMALIZE(dim)
+
+#define CCV_DEFINE_MAT(dim_x, dim_y) \
+	_CCV_DEFINE_MAT_TYPE(dim_x, dim_y)
 
 #define CCV_SET(vec, n, value) vec[n] = value
 #define CCV_GET(vec, n) vec[n]
