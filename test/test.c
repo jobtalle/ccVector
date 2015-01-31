@@ -11,7 +11,7 @@ int main(int argc, char **argv) {
 
 	ccvVec2Zero(vec0);
 
-	CCV_VEC_SET(vec0, 0, 0.5f);
+	CCV_VEC_SET(vec0, 0, 0.3f);
 	CCV_VEC_SET(vec0, 1, 0.5f);
 
 	printf("%f\t%f\n", CCV_VEC_GET(vec0, 0), CCV_VEC_GET(vec0, 1));
@@ -22,7 +22,7 @@ int main(int argc, char **argv) {
 	printf("%f\t%f\n", CCV_VEC_GET(vec0, 0), CCV_VEC_GET(vec0, 1));
 	printf("Length: %f\n", ccvVec2Length(vec0));
 
-	ccvMat2x2Zero(mat0);
+	ccvMat2x2Identity(mat0);
 
 	for(int col = 0; col < 2; col++) {
 		for(int row = 0; row < 2; row++) {

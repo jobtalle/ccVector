@@ -105,7 +105,15 @@
 		unsigned int row = 0; \
 		unsigned int col = 0; \
 		for(col = 0; col < cols; col++) \
-			for(row = 0; row < rows; row++) m[rows][cols] = 0; \
+			for(row = 0; row < rows; row++) m[row][col] = 0; \
+		}
+
+#define _CCV_DEFINE_MAT_IDENTITY(rows, cols) \
+	static inline _CCV_MAT_TYPENAME(rows, cols)##Identity(_CCV_MAT_TYPENAME(rows, cols) m) { \
+		unsigned int row = 0; \
+		unsigned int col = 0; \
+		for(col = 0; col < cols; col++) \
+			for(row = 0; row < rows; row++) m[row][col] = row == col ? 1.f : 0; \
 		}
 
 // Definition calls
@@ -124,7 +132,8 @@
 #define CCV_DEFINE_MAT(type, rows, cols) \
 	_CCV_DEFINE_VEC_TYPE(type, cols) \
 	_CCV_DEFINE_MAT_TYPE(type, rows, cols) \
-	_CCV_DEFINE_MAT_ZERO(rows, cols)
+	_CCV_DEFINE_MAT_ZERO(rows, cols) \
+	_CCV_DEFINE_MAT_IDENTITY(rows, cols)
 
 // Getters & setters
 
