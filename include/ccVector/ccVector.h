@@ -116,6 +116,14 @@
 			for(row = 0; row < rows; row++) m[row][col] = row == col ? 1.f : 0; \
 		}
 
+#define _CCV_DEFINE_MAT_MULTIPLY_SCALAR(rows, cols) \
+	static inline _CCV_MAT_TYPENAME(rows, cols)##MultiplyScalar(_CCV_MAT_TYPENAME(rows, cols) m, float n) { \
+		unsigned int row = 0; \
+		unsigned int col = 0; \
+		for(col = 0; col < cols; col++) \
+			for(row = 0; row < rows; row++) m[row][col] *= n; \
+		}
+
 // Definition calls
 
 #define CCV_DEFINE_VEC(type, dim) \
@@ -133,7 +141,8 @@
 	_CCV_DEFINE_VEC_TYPE(type, cols) \
 	_CCV_DEFINE_MAT_TYPE(type, rows, cols) \
 	_CCV_DEFINE_MAT_ZERO(rows, cols) \
-	_CCV_DEFINE_MAT_IDENTITY(rows, cols)
+	_CCV_DEFINE_MAT_IDENTITY(rows, cols) \
+	_CCV_DEFINE_MAT_MULTIPLY_SCALAR(rows, cols)
 
 // Getters & setters
 

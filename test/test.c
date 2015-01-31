@@ -23,6 +23,7 @@ int main(int argc, char **argv) {
 	printf("Length: %f\n", ccvVec2Length(vec0));
 
 	ccvMat2x2Identity(mat0);
+	ccvMat2x2MultiplyScalar(mat0, 3.f);
 
 	for(int col = 0; col < 2; col++) {
 		for(int row = 0; row < 2; row++) {
