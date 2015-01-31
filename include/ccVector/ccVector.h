@@ -29,41 +29,39 @@
 #define _CCV_VEC_TYPENAME(dim) ccvVec##dim
 
 #define _CCV_DEFINE_VEC_TYPE(dim) \
-	typedef struct { \
-		float elements[dim]; \
-	} _CCV_VEC_TYPENAME(dim);
+	typedef float _CCV_VEC_TYPENAME(dim)[dim];
 
 #define _CCV_DEFINE_VEC_ZERO(dim) \
-	static inline void _CCV_VEC_TYPENAME(dim)##Zero(_CCV_VEC_TYPENAME(dim) *v) { \
-		memset(v->elements, 0, sizeof(float)* dim); \
+	static inline void _CCV_VEC_TYPENAME(dim)##Zero(_CCV_VEC_TYPENAME(dim) v) { \
+		memset(v, 0, sizeof(float)* dim); \
 	}
 
 #define _CCV_DEFINE_VEC_ADD(dim) \
-	static inline void _CCV_VEC_TYPENAME(dim)##Add(_CCV_VEC_TYPENAME(dim) *v, const _CCV_VEC_TYPENAME(dim) a, const _CCV_VEC_TYPENAME(dim) b) { \
+	static inline void _CCV_VEC_TYPENAME(dim)##Add(_CCV_VEC_TYPENAME(dim) v, const _CCV_VEC_TYPENAME(dim) a, const _CCV_VEC_TYPENAME(dim) b) { \
 		unsigned int i; \
 		for(i = 0; i < dim; i++) \
-			v->elements[i] = a.elements[i] + b.elements[i]; \
+			v[i] = a[i] + b[i]; \
 	}
 
 #define _CCV_DEFINE_VEC_SUBTRACT(dim) \
-	static inline void _CCV_VEC_TYPENAME(dim)##Subtract(_CCV_VEC_TYPENAME(dim) *v, const _CCV_VEC_TYPENAME(dim) a, const _CCV_VEC_TYPENAME(dim) b) { \
+	static inline void _CCV_VEC_TYPENAME(dim)##Subtract(_CCV_VEC_TYPENAME(dim) v, const _CCV_VEC_TYPENAME(dim) a, const _CCV_VEC_TYPENAME(dim) b) { \
 		unsigned int i; \
 		for(i = 0; i < dim; i++) \
-			v->elements[i] = a.elements[i] - b.elements[i]; \
+			v[i] = a[i] - b[i]; \
 	}
 
 #define _CCV_DEFINE_VEC_CROSSPRODUCT(dim) \
-	static inline void _CCV_VEC_TYPENAME(dim)##CrossProduct(_CCV_VEC_TYPENAME(dim) *v, const _CCV_VEC_TYPENAME(dim) a, const _CCV_VEC_TYPENAME(dim) b) { \
+	static inline void _CCV_VEC_TYPENAME(dim)##CrossProduct(_CCV_VEC_TYPENAME(dim) v, const _CCV_VEC_TYPENAME(dim) a, const _CCV_VEC_TYPENAME(dim) b) { \
 		unsigned int i; \
 		for(i = 0; i < dim; i++) \
-			v->elements[i] = a.elements[i] * b.elements[i]; \
+			v[i] = a[i] * b[i]; \
 	}
 
 #define _CCV_DEFINE_VEC_MULTIPLY(dim) \
-	static inline void _CCV_VEC_TYPENAME(dim)##Multiply(_CCV_VEC_TYPENAME(dim) *v, float n) { \
+	static inline void _CCV_VEC_TYPENAME(dim)##Multiply(_CCV_VEC_TYPENAME(dim) v, float n) { \
 		unsigned int i; \
 		for(i = 0; i < dim; i++) \
-			v->elements[i] *= n; \
+			v[i] *= n; \
 	}
 
 #define _CCV_DEFINE_VEC_DOTPRODUCT(dim) \
@@ -71,7 +69,7 @@
 		unsigned int i; \
 		float result = 0; \
 		for(i = 0; i < dim; i++) \
-			result += a.elements[i] * b.elements[i]; \
+			result += a[i] * b[i]; \
 		return result; \
 	}
 
@@ -80,13 +78,13 @@
 		unsigned int i; \
 		float squaredResult = 0; \
 		for(i = 0; i < dim; i++) \
-			squaredResult += v.elements[i] * v.elements[i]; \
+			squaredResult += v[i] * v[i]; \
 		return sqrtf(squaredResult); \
 	}
 
 #define _CCV_DEFINE_VEC_NORMALIZE(dim) \
-	static inline _CCV_VEC_TYPENAME(dim)##Normalize(_CCV_VEC_TYPENAME(dim) *v) { \
-		_CCV_VEC_TYPENAME(dim)##Multiply(v, 1.0f / _CCV_VEC_TYPENAME(dim)##Length(*v)); \
+	static inline _CCV_VEC_TYPENAME(dim)##Normalize(_CCV_VEC_TYPENAME(dim) v) { \
+		_CCV_VEC_TYPENAME(dim)##Multiply(v, 1.0f / _CCV_VEC_TYPENAME(dim)##Length(v)); \
 	}
 
 #define CCV_DEFINE_VEC(dim) \
@@ -100,5 +98,5 @@
 	_CCV_DEFINE_VEC_LENGTH(dim) \
 	_CCV_DEFINE_VEC_NORMALIZE(dim)
 
-#define CCV_SET(vec, n, value) vec.elements[n] = value
-#define CCV_GET(vec, n) (vec.elements[n])
+#define CCV_SET(vec, n, value) vec[n] = value
+#define CCV_GET(vec, n) vec[n]
