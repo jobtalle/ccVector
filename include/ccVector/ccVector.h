@@ -80,18 +80,18 @@
 	}
 
 #define _CCV_DEFINE_VEC_DOTPRODUCT(dim) \
-	static inline float _CCV_VEC_TYPENAME(dim)##DotProduct(const _CCV_VEC_TYPENAME(dim) a, const _CCV_VEC_TYPENAME(dim) b) { \
+	static inline _CCV_TYPE _CCV_VEC_TYPENAME(dim)##DotProduct(const _CCV_VEC_TYPENAME(dim) a, const _CCV_VEC_TYPENAME(dim) b) { \
 		unsigned int i; \
-		float result = 0; \
+		_CCV_TYPE result = 0; \
 		for(i = 0; i < dim; i++) \
 			result += a[i] * b[i]; \
 		return result; \
 	}
 
 #define _CCV_DEFINE_VEC_LENGTH(dim) \
-	static inline float _CCV_VEC_TYPENAME(dim)##Length(const _CCV_VEC_TYPENAME(dim) v) { \
+	static inline _CCV_TYPE _CCV_VEC_TYPENAME(dim)##Length(const _CCV_VEC_TYPENAME(dim) v) { \
 		unsigned int i; \
-		float squaredResult = 0; \
+		_CCV_TYPE squaredResult = 0; \
 		for(i = 0; i < dim; i++) \
 			squaredResult += v[i] * v[i]; \
 		return sqrtf(squaredResult); \
@@ -99,7 +99,7 @@
 
 #define _CCV_DEFINE_VEC_NORMALIZE(dim) \
 	static inline _CCV_VEC_TYPENAME(dim)##Normalize(_CCV_VEC_TYPENAME(dim) v) { \
-		_CCV_VEC_TYPENAME(dim)##Multiply(v, 1.0f / _CCV_VEC_TYPENAME(dim)##Length(v)); \
+		_CCV_VEC_TYPENAME(dim)##Multiply(v, 1 / _CCV_VEC_TYPENAME(dim)##Length(v)); \
 	}
 
 // Matrix operations
@@ -138,6 +138,17 @@
 		} \
 	}
 
+#define _CCV_DEFINE_MAT_MULTIPLY_MATRIX(dim) \
+	static inline _CCV_MAT_TYPENAME(dim)##MultiplyMatrix(_CCV_MAT_TYPENAME(dim) m, _CCV_MAT_TYPENAME(dim) a, _CCV_MAT_TYPENAME(dim) b) { \
+		unsigned int i, j, k; \
+		for(i = 0; i < dim; i++) \
+			for(j = 0; j < dim; j++) { \
+				m[i][j] = a[0][j] * b[i][0]; \
+				for(k = 1; k < dim; k++) \
+					m[i][j] += a[k][j] * b[i][k]; \
+			} \
+	}
+
 // Definition calls
 
 #define CCV_DEFINE_VEC(dim) \
@@ -157,7 +168,8 @@
 	_CCV_DEFINE_MAT_ZERO(dim) \
 	_CCV_DEFINE_MAT_IDENTITY(dim) \
 	_CCV_DEFINE_MAT_MULTIPLY_SCALAR(dim) \
-	_CCV_DEFINE_MAT_MULTIPLY_VECTOR(dim)
+	_CCV_DEFINE_MAT_MULTIPLY_VECTOR(dim) \
+	_CCV_DEFINE_MAT_MULTIPLY_MATRIX(dim)
 
 // Getters & setters
 

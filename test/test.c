@@ -9,9 +9,9 @@ CCV_DEFINE_MAT(2)
 
 int main(int argc, char **argv) {
 	ccvVec2 vec0, vec1;
-	ccvMat2 mat0;
+	ccvMat2 mat0, mat1, mat2;
 
-	float r = PI / 2;
+	float r = PI;
 
 	ccvVec2Zero(vec0);
 
@@ -26,10 +26,14 @@ int main(int argc, char **argv) {
 	printf("%f\t%f\n", CCV_VEC_GET(vec0, 0), CCV_VEC_GET(vec0, 1));
 	printf("Length: %f\n", ccvVec2Length(vec0));
 
-	CCV_MAT_SET(mat0, 0, 0, cosf(r));
-	CCV_MAT_SET(mat0, 1, 0, -sinf(r));
-	CCV_MAT_SET(mat0, 0, 1, sinf(r));
-	CCV_MAT_SET(mat0, 1, 1, cosf(r));
+	CCV_MAT_SET(mat1, 0, 0, cosf(r));
+	CCV_MAT_SET(mat1, 1, 0, -sinf(r));
+	CCV_MAT_SET(mat1, 0, 1, sinf(r));
+	CCV_MAT_SET(mat1, 1, 1, cosf(r));
+
+	ccvMat2Identity(mat2);
+	ccvMat2MultiplyScalar(mat2, 3.f);
+	ccvMat2MultiplyMatrix(mat0, mat1, mat2);
 
 	printf("\n");
 	for(int col = 0; col < 2; col++) {
