@@ -26,25 +26,29 @@
 #define inline __inline
 #endif
 
+// Type
+
+#define _CCV_TYPE float
+
 // Prefixes
 
 #define _CCV_VEC_TYPENAME(dim) ccvVec##dim
 
-#define _CCV_MAT_TYPENAME(rows, cols) ccvMat##rows##x##cols
+#define _CCV_MAT_TYPENAME(dim) ccvMat##dim
 
 // Type definitions
 
-#define _CCV_DEFINE_VEC_TYPE(type, dim) \
-	typedef type _CCV_VEC_TYPENAME(dim)[dim];
+#define _CCV_DEFINE_VEC_TYPE(dim) \
+	typedef _CCV_TYPE _CCV_VEC_TYPENAME(dim)[dim];
 
-#define _CCV_DEFINE_MAT_TYPE(type, rows, cols) \
-	typedef type _CCV_MAT_TYPENAME(rows, cols)[rows][cols];
+#define _CCV_DEFINE_MAT_TYPE(dim) \
+	typedef _CCV_TYPE _CCV_MAT_TYPENAME(dim)[dim][dim];
 
 // Vector operations
 
 #define _CCV_DEFINE_VEC_ZERO(dim) \
 	static inline void _CCV_VEC_TYPENAME(dim)##Zero(_CCV_VEC_TYPENAME(dim) v) { \
-		memset(v, 0, sizeof(float)* dim); \
+		memset(v, 0, sizeof(_CCV_TYPE)* dim); \
 	}
 
 #define _CCV_DEFINE_VEC_ADD(dim) \
@@ -69,7 +73,7 @@
 	}
 
 #define _CCV_DEFINE_VEC_MULTIPLY(dim) \
-	static inline void _CCV_VEC_TYPENAME(dim)##Multiply(_CCV_VEC_TYPENAME(dim) v, float n) { \
+	static inline void _CCV_VEC_TYPENAME(dim)##Multiply(_CCV_VEC_TYPENAME(dim) v, _CCV_TYPE n) { \
 		unsigned int i; \
 		for(i = 0; i < dim; i++) \
 			v[i] *= n; \
@@ -100,34 +104,38 @@
 
 // Matrix operations
 
-#define _CCV_DEFINE_MAT_ZERO(rows, cols) \
-	static inline _CCV_MAT_TYPENAME(rows, cols)##Zero(_CCV_MAT_TYPENAME(rows, cols) m) { \
+#define _CCV_DEFINE_MAT_ZERO(dim) \
+	static inline _CCV_MAT_TYPENAME(dim)##Zero(_CCV_MAT_TYPENAME(dim) m) { \
 		unsigned int row = 0; \
 		unsigned int col = 0; \
-		for(col = 0; col < cols; col++) \
-			for(row = 0; row < rows; row++) m[row][col] = 0; \
+		for(col = 0; col < dim; col++) \
+			for(row = 0; row < dim; row++) m[row][col] = 0; \
 		}
 
-#define _CCV_DEFINE_MAT_IDENTITY(rows, cols) \
-	static inline _CCV_MAT_TYPENAME(rows, cols)##Identity(_CCV_MAT_TYPENAME(rows, cols) m) { \
+#define _CCV_DEFINE_MAT_IDENTITY(dim) \
+	static inline _CCV_MAT_TYPENAME(dim)##Identity(_CCV_MAT_TYPENAME(dim) m) { \
 		unsigned int row = 0; \
 		unsigned int col = 0; \
-		for(col = 0; col < cols; col++) \
-			for(row = 0; row < rows; row++) m[row][col] = row == col ? 1.f : 0; \
+		for(col = 0; col < dim; col++) \
+			for(row = 0; row < dim; row++) m[row][col] = row == col ? 1.f : 0; \
 		}
 
-#define _CCV_DEFINE_MAT_MULTIPLY_SCALAR(rows, cols) \
-	static inline _CCV_MAT_TYPENAME(rows, cols)##MultiplyScalar(_CCV_MAT_TYPENAME(rows, cols) m, float n) { \
+#define _CCV_DEFINE_MAT_MULTIPLY_SCALAR(dim) \
+	static inline _CCV_MAT_TYPENAME(dim)##MultiplyScalar(_CCV_MAT_TYPENAME(dim) m, _CCV_TYPE n) { \
 		unsigned int row = 0; \
 		unsigned int col = 0; \
-		for(col = 0; col < cols; col++) \
-			for(row = 0; row < rows; row++) m[row][col] *= n; \
+		for(col = 0; col < dim; col++) \
+			for(row = 0; row < dim; row++) m[row][col] *= n; \
 		}
+
+#define _CCV_DEFINE_MAT_MULTIPLY_VECTOR(dim) \
+	static inline _CCV_MAT_TYPENAME(dim)##MultiplyVector(_CCV_VEC_TYPENAME(dim) v, _CCV_MAT_TYPENAME(dim) a, _CCV_VEC_TYPENAME(dim) b) { \
+	}
 
 // Definition calls
 
-#define CCV_DEFINE_VEC(type, dim) \
-	_CCV_DEFINE_VEC_TYPE(type, dim) \
+#define CCV_DEFINE_VEC(dim) \
+	_CCV_DEFINE_VEC_TYPE(dim) \
 	_CCV_DEFINE_VEC_ZERO(dim) \
 	_CCV_DEFINE_VEC_ADD(dim) \
 	_CCV_DEFINE_VEC_SUBTRACT(dim) \
@@ -137,12 +145,13 @@
 	_CCV_DEFINE_VEC_LENGTH(dim) \
 	_CCV_DEFINE_VEC_NORMALIZE(dim)
 
-#define CCV_DEFINE_MAT(type, rows, cols) \
-	_CCV_DEFINE_VEC_TYPE(type, cols) \
-	_CCV_DEFINE_MAT_TYPE(type, rows, cols) \
-	_CCV_DEFINE_MAT_ZERO(rows, cols) \
-	_CCV_DEFINE_MAT_IDENTITY(rows, cols) \
-	_CCV_DEFINE_MAT_MULTIPLY_SCALAR(rows, cols)
+#define CCV_DEFINE_MAT(dim) \
+	_CCV_DEFINE_VEC_TYPE(dim) \
+	_CCV_DEFINE_MAT_TYPE(dim) \
+	_CCV_DEFINE_MAT_ZERO(dim) \
+	_CCV_DEFINE_MAT_IDENTITY(dim) \
+	_CCV_DEFINE_MAT_MULTIPLY_SCALAR(dim) \
+	_CCV_DEFINE_MAT_MULTIPLY_VECTOR(dim)
 
 // Getters & setters
 

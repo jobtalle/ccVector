@@ -2,12 +2,12 @@
 
 #include <ccVector/ccVector.h>
 
-CCV_DEFINE_VEC(float, 2)
-CCV_DEFINE_MAT(float, 2, 2)
+CCV_DEFINE_VEC(2)
+CCV_DEFINE_MAT(2)
 
 int main(int argc, char **argv) {
 	ccvVec2 vec0;
-	ccvMat2x2 mat0;
+	ccvMat2 mat0;
 
 	ccvVec2Zero(vec0);
 
@@ -22,8 +22,8 @@ int main(int argc, char **argv) {
 	printf("%f\t%f\n", CCV_VEC_GET(vec0, 0), CCV_VEC_GET(vec0, 1));
 	printf("Length: %f\n", ccvVec2Length(vec0));
 
-	ccvMat2x2Identity(mat0);
-	ccvMat2x2MultiplyScalar(mat0, 3.f);
+	ccvMat2Identity(mat0);
+	ccvMat2MultiplyScalar(mat0, 3.f);
 
 	for(int col = 0; col < 2; col++) {
 		for(int row = 0; row < 2; row++) {
