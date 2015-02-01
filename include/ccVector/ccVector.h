@@ -130,6 +130,12 @@
 
 #define _CCV_DEFINE_MAT_MULTIPLY_VECTOR(dim) \
 	static inline _CCV_MAT_TYPENAME(dim)##MultiplyVector(_CCV_VEC_TYPENAME(dim) v, _CCV_MAT_TYPENAME(dim) a, _CCV_VEC_TYPENAME(dim) b) { \
+		unsigned int i, j; \
+		for(i = 0; i < dim; i++) { \
+			v[i] = a[0][i] * b[0]; \
+			for(j = 1; j < dim; j++) \
+				v[i] += a[j][i] * b[j]; \
+		} \
 	}
 
 // Definition calls
