@@ -154,6 +154,24 @@
 			} \
 	}
 
+#define _CCV_DEFINE_MAT_ADD(dim) \
+	static inline _CCV_MAT_TYPENAME(dim)##Add(_CCV_MAT_TYPENAME(dim) m, _CCV_MAT_TYPENAME(dim) a, _CCV_MAT_TYPENAME(dim) b) { \
+		unsigned int row = 0; \
+		unsigned int col = 0; \
+		for(row = 0; row < dim; row++) \
+			for(col = 0; col < dim; col++) \
+				m[row][col] = a[row][col] + b[row][col]; \
+	}
+
+#define _CCV_DEFINE_MAT_SUBTRACT(dim) \
+	static inline _CCV_MAT_TYPENAME(dim)##Subtract(_CCV_MAT_TYPENAME(dim) m, _CCV_MAT_TYPENAME(dim) a, _CCV_MAT_TYPENAME(dim) b) { \
+		unsigned int row = 0; \
+		unsigned int col = 0; \
+		for(row = 0; row < dim; row++) \
+			for(col = 0; col < dim; col++) \
+				m[row][col] = a[row][col] - b[row][col]; \
+	}
+
 #define _CCV_DEFINE_MAT_COPY(dim) \
 	static inline _CCV_MAT_TYPENAME(dim)##Copy(_CCV_MAT_TYPENAME(dim) dest, _CCV_MAT_TYPENAME(dim) source) { \
 		memcpy(dest, source, sizeof(_CCV_TYPE) * dim * dim); \
@@ -181,6 +199,8 @@
 	_CCV_DEFINE_MAT_MULTIPLY_SCALAR(dim) \
 	_CCV_DEFINE_MAT_MULTIPLY_VECTOR(dim) \
 	_CCV_DEFINE_MAT_MULTIPLY_MATRIX(dim) \
+	_CCV_DEFINE_MAT_ADD(dim) \
+	_CCV_DEFINE_MAT_SUBTRACT(dim) \
 	_CCV_DEFINE_MAT_COPY(dim)
 
 // Getters & setters
