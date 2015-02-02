@@ -102,6 +102,11 @@
 		_CCV_VEC_TYPENAME(dim)##Multiply(v, 1 / _CCV_VEC_TYPENAME(dim)##Length(v)); \
 	}
 
+#define _CCV_DEFINE_VEC_COPY(dim) \
+	static inline _CCV_VEC_TYPENAME(dim)##Copy(_CCV_VEC_TYPENAME(dim) dest, _CCV_VEC_TYPENAME(dim) source) { \
+		memcpy(dest, source, sizeof(_CCV_TYPE) * dim); \
+	}
+
 // Matrix operations
 
 #define _CCV_DEFINE_MAT_ZERO(dim) \
@@ -117,7 +122,7 @@
 		unsigned int row = 0; \
 		unsigned int col = 0; \
 		for(col = 0; col < dim; col++) \
-			for(row = 0; row < dim; row++) m[row][col] = row == col ? 1.f : 0; \
+			for(row = 0; row < dim; row++) m[row][col] = row == col ? (_CCV_TYPE)1 : 0; \
 		}
 
 #define _CCV_DEFINE_MAT_MULTIPLY_SCALAR(dim) \
@@ -149,6 +154,11 @@
 			} \
 	}
 
+#define _CCV_DEFINE_MAT_COPY(dim) \
+	static inline _CCV_MAT_TYPENAME(dim)##Copy(_CCV_MAT_TYPENAME(dim) dest, _CCV_MAT_TYPENAME(dim) source) { \
+		memcpy(dest, source, sizeof(_CCV_TYPE) * dim * dim); \
+	}
+
 // Definition calls
 
 #define CCV_DEFINE_VEC(dim) \
@@ -160,7 +170,8 @@
 	_CCV_DEFINE_VEC_MULTIPLY(dim) \
 	_CCV_DEFINE_VEC_DOTPRODUCT(dim) \
 	_CCV_DEFINE_VEC_LENGTH(dim) \
-	_CCV_DEFINE_VEC_NORMALIZE(dim)
+	_CCV_DEFINE_VEC_NORMALIZE(dim) \
+	_CCV_DEFINE_VEC_COPY(dim)
 
 #define CCV_DEFINE_MAT(dim) \
 	_CCV_DEFINE_VEC_TYPE(dim) \
@@ -169,7 +180,8 @@
 	_CCV_DEFINE_MAT_IDENTITY(dim) \
 	_CCV_DEFINE_MAT_MULTIPLY_SCALAR(dim) \
 	_CCV_DEFINE_MAT_MULTIPLY_VECTOR(dim) \
-	_CCV_DEFINE_MAT_MULTIPLY_MATRIX(dim)
+	_CCV_DEFINE_MAT_MULTIPLY_MATRIX(dim) \
+	_CCV_DEFINE_MAT_COPY(dim)
 
 // Getters & setters
 

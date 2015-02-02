@@ -11,12 +11,12 @@ int main(int argc, char **argv) {
 	ccvVec2 vec0, vec1;
 	ccvMat2 mat0, mat1, mat2;
 
-	float r = PI;
+	float r = PI/4;
 
 	ccvVec2Zero(vec0);
 
-	CCV_VEC_SET(vec0, 0, 0.3f);
-	CCV_VEC_SET(vec0, 1, 0.5f);
+	CCV_VEC_SET(vec0, 0, 1);
+	CCV_VEC_SET(vec0, 1, 0);
 
 	printf("%f\t%f\n", CCV_VEC_GET(vec0, 0), CCV_VEC_GET(vec0, 1));
 	printf("Length: %f\n", ccvVec2Length(vec0));
