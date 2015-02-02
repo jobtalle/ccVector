@@ -17,6 +17,33 @@
 //      this program. If not, see <http://opensource.org/licenses/>.                //
 //__________________________________________________________________________________//
 
+// Vector functions, preceded by the type name
+//
+// CCV_DEFINE_VEC(n)                Defines n-dimensional vector ccvVec<n> and its functions
+//
+// ccvVec<n>Zero(v)                 Sets all elements in vector v to 0
+// ccvVec<n>Add(v, a, b)            Add vectors a and b and stores the result in vector v
+// ccvVec<n>Subtract(v, a, b)       Subtracts vector b from vector a and stores the result in vector v
+// ccvVec<n>Copy(dest, source)      Copies vector source to vector dest
+// ccvVec<n>Crossproduct(v, a, b)   Takes the cross product from vectors a and b and stores it in vector v
+// ccvVec<n>Multiply(v, n)          Multiplies vector v with scalar n
+// ccvVec<n>DotProduct(a, b)        Returns the dot product from vectors a and b
+// ccvVec<n>Length(v)               Returns the length of vector v
+// ccvVec<n>Normalize(v)            Scales v to have a length of 1
+
+// Matrix functions
+//
+// CCV_DEFINE_MAT(n)                Defines n x n matrix ccvMat<n> and its functions
+//
+// ccvMat<n>Zero(m)                 Sets all elements in matrix m to 0
+// ccvMat<n>Add(m, a, b)            Adds matrices a and b and stores the result in matrix m
+// ccvMat<n>Subtract(m, a, b)       Subtracts matrix b from matrix a and stores the result in matrix m
+// ccvMat<n>Copy(dest, source)      Copies matrix source to matrix dest
+// ccvMat<n>Identity(m)             Sets matrix m to the identity matrix
+// ccvMat<n>MultiplyScalar(m, n)    Multiplies matrix m by scalar n
+// ccvMat<n>MultiplyVector(v, a, b) Multiplies matrix a by vector b and stores the result in vector v
+// ccvMat<n>MultiplyMatrix(m, a, b) Multiplies matrix a by matrix b and stores the result in matrix m
+
 #pragma once
 
 #include <math.h>
@@ -28,7 +55,7 @@
 
 // Type
 
-#define _CCV_TYPE double
+#define _CCV_TYPE float
 
 // Prefixes
 
@@ -63,6 +90,11 @@
 		unsigned int i; \
 		for(i = 0; i < dim; i++) \
 			v[i] = a[i] - b[i]; \
+	}
+
+#define _CCV_DEFINE_VEC_COPY(dim) \
+	static inline _CCV_VEC_TYPENAME(dim)##Copy(_CCV_VEC_TYPENAME(dim) dest, _CCV_VEC_TYPENAME(dim) source) { \
+		memcpy(dest, source, sizeof(_CCV_TYPE) * dim); \
 	}
 
 #define _CCV_DEFINE_VEC_CROSSPRODUCT(dim) \
@@ -102,11 +134,6 @@
 		_CCV_VEC_TYPENAME(dim)##Multiply(v, 1 / _CCV_VEC_TYPENAME(dim)##Length(v)); \
 	}
 
-#define _CCV_DEFINE_VEC_COPY(dim) \
-	static inline _CCV_VEC_TYPENAME(dim)##Copy(_CCV_VEC_TYPENAME(dim) dest, _CCV_VEC_TYPENAME(dim) source) { \
-		memcpy(dest, source, sizeof(_CCV_TYPE) * dim); \
-	}
-
 // Matrix operations
 
 #define _CCV_DEFINE_MAT_ZERO(dim) \
@@ -116,6 +143,29 @@
 		for(col = 0; col < dim; col++) \
 			for(row = 0; row < dim; row++) m[row][col] = 0; \
 		}
+
+#define _CCV_DEFINE_MAT_ADD(dim) \
+	static inline _CCV_MAT_TYPENAME(dim)##Add(_CCV_MAT_TYPENAME(dim) m, _CCV_MAT_TYPENAME(dim) a, _CCV_MAT_TYPENAME(dim) b) { \
+		unsigned int row = 0; \
+		unsigned int col = 0; \
+		for(row = 0; row < dim; row++) \
+			for(col = 0; col < dim; col++) \
+				m[row][col] = a[row][col] + b[row][col]; \
+	}
+
+#define _CCV_DEFINE_MAT_SUBTRACT(dim) \
+	static inline _CCV_MAT_TYPENAME(dim)##Subtract(_CCV_MAT_TYPENAME(dim) m, _CCV_MAT_TYPENAME(dim) a, _CCV_MAT_TYPENAME(dim) b) { \
+		unsigned int row = 0; \
+		unsigned int col = 0; \
+		for(row = 0; row < dim; row++) \
+			for(col = 0; col < dim; col++) \
+				m[row][col] = a[row][col] - b[row][col]; \
+	}
+
+#define _CCV_DEFINE_MAT_COPY(dim) \
+	static inline _CCV_MAT_TYPENAME(dim)##Copy(_CCV_MAT_TYPENAME(dim) dest, _CCV_MAT_TYPENAME(dim) source) { \
+		memcpy(dest, source, sizeof(_CCV_TYPE) * dim * dim); \
+	}
 
 #define _CCV_DEFINE_MAT_IDENTITY(dim) \
 	static inline _CCV_MAT_TYPENAME(dim)##Identity(_CCV_MAT_TYPENAME(dim) m) { \
@@ -154,29 +204,6 @@
 			} \
 	}
 
-#define _CCV_DEFINE_MAT_ADD(dim) \
-	static inline _CCV_MAT_TYPENAME(dim)##Add(_CCV_MAT_TYPENAME(dim) m, _CCV_MAT_TYPENAME(dim) a, _CCV_MAT_TYPENAME(dim) b) { \
-		unsigned int row = 0; \
-		unsigned int col = 0; \
-		for(row = 0; row < dim; row++) \
-			for(col = 0; col < dim; col++) \
-				m[row][col] = a[row][col] + b[row][col]; \
-	}
-
-#define _CCV_DEFINE_MAT_SUBTRACT(dim) \
-	static inline _CCV_MAT_TYPENAME(dim)##Subtract(_CCV_MAT_TYPENAME(dim) m, _CCV_MAT_TYPENAME(dim) a, _CCV_MAT_TYPENAME(dim) b) { \
-		unsigned int row = 0; \
-		unsigned int col = 0; \
-		for(row = 0; row < dim; row++) \
-			for(col = 0; col < dim; col++) \
-				m[row][col] = a[row][col] - b[row][col]; \
-	}
-
-#define _CCV_DEFINE_MAT_COPY(dim) \
-	static inline _CCV_MAT_TYPENAME(dim)##Copy(_CCV_MAT_TYPENAME(dim) dest, _CCV_MAT_TYPENAME(dim) source) { \
-		memcpy(dest, source, sizeof(_CCV_TYPE) * dim * dim); \
-	}
-
 // Definition calls
 
 #define CCV_DEFINE_VEC(dim) \
@@ -184,24 +211,24 @@
 	_CCV_DEFINE_VEC_ZERO(dim) \
 	_CCV_DEFINE_VEC_ADD(dim) \
 	_CCV_DEFINE_VEC_SUBTRACT(dim) \
+	_CCV_DEFINE_VEC_COPY(dim) \
 	_CCV_DEFINE_VEC_CROSSPRODUCT(dim) \
 	_CCV_DEFINE_VEC_MULTIPLY(dim) \
 	_CCV_DEFINE_VEC_DOTPRODUCT(dim) \
 	_CCV_DEFINE_VEC_LENGTH(dim) \
-	_CCV_DEFINE_VEC_NORMALIZE(dim) \
-	_CCV_DEFINE_VEC_COPY(dim)
+	_CCV_DEFINE_VEC_NORMALIZE(dim)
 
 #define CCV_DEFINE_MAT(dim) \
 	_CCV_DEFINE_VEC_TYPE(dim) \
 	_CCV_DEFINE_MAT_TYPE(dim) \
 	_CCV_DEFINE_MAT_ZERO(dim) \
+	_CCV_DEFINE_MAT_ADD(dim) \
+	_CCV_DEFINE_MAT_SUBTRACT(dim) \
+	_CCV_DEFINE_MAT_COPY(dim) \
 	_CCV_DEFINE_MAT_IDENTITY(dim) \
 	_CCV_DEFINE_MAT_MULTIPLY_SCALAR(dim) \
 	_CCV_DEFINE_MAT_MULTIPLY_VECTOR(dim) \
-	_CCV_DEFINE_MAT_MULTIPLY_MATRIX(dim) \
-	_CCV_DEFINE_MAT_ADD(dim) \
-	_CCV_DEFINE_MAT_SUBTRACT(dim) \
-	_CCV_DEFINE_MAT_COPY(dim)
+	_CCV_DEFINE_MAT_MULTIPLY_MATRIX(dim)
 
 // Getters & setters
 

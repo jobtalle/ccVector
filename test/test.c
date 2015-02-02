@@ -11,27 +11,28 @@ int main(int argc, char **argv) {
 	ccvVec2 vec0, vec1;
 	ccvMat2 mat0, mat1, mat2;
 
-	float r = 1;
+	float r = PI / 2;
 
 	vec0[0] = 1;
 	vec0[1] = 0;
 
-	printf("%f\t%f\n", CCV_VEC_GET(vec0, 0), CCV_VEC_GET(vec0, 1));
-	printf("Length: %f\n", ccvVec2Length(vec0));
-
 	ccvVec2Normalize(vec0);
 	
-	printf("%f\t%f\n", CCV_VEC_GET(vec0, 0), CCV_VEC_GET(vec0, 1));
-	printf("Length: %f\n", ccvVec2Length(vec0));
+	printf("(%f, %f)\n", vec0[0], vec0[1]);
 
-	CCV_MAT_SET(mat1, 0, 0, cosf(r));
-	CCV_MAT_SET(mat1, 1, 0, -sinf(r));
-	CCV_MAT_SET(mat1, 0, 1, sinf(r));
-	CCV_MAT_SET(mat1, 1, 1, cosf(r));
+	mat1[0][0] = cosf(r);
+	mat1[1][0] = -sinf(r);
+	mat1[0][1] = sinf(r);
+	mat1[1][1] = cosf(r);
+
+	// mat2 will scale rotation matrix mat0
 
 	ccvMat2Identity(mat2);
 	ccvMat2MultiplyScalar(mat2, 3.f);
+
 	ccvMat2MultiplyMatrix(mat0, mat1, mat2);
+
+	// print scaled rotation matrix mat2
 
 	printf("\n");
 	for(int col = 0; col < 2; col++) {
@@ -42,10 +43,11 @@ int main(int argc, char **argv) {
 	}
 	printf("\n");
 
+	// apply rotation matrix mat0 to vec0
+
 	ccvMat2MultiplyVector(vec1, mat0, vec0);
 
-	printf("%f\t%f\n", CCV_VEC_GET(vec1, 0), CCV_VEC_GET(vec1, 1));
-	printf("Length: %f\n", ccvVec2Length(vec1));
+	printf("(%f, %f)\n", vec1[0], vec1[1]);
 
 	getchar();
 
