@@ -28,7 +28,7 @@
 
 // Type
 
-#define _CCV_TYPE float
+#define _CCV_TYPE double
 
 // Prefixes
 
@@ -94,7 +94,7 @@
 		_CCV_TYPE squaredResult = 0; \
 		for(i = 0; i < dim; i++) \
 			squaredResult += v[i] * v[i]; \
-		return sqrtf(squaredResult); \
+		return (_CCV_TYPE)sqrt(squaredResult); \
 	}
 
 #define _CCV_DEFINE_VEC_NORMALIZE(dim) \
