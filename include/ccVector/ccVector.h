@@ -17,7 +17,7 @@
 //      this program. If not, see <http://opensource.org/licenses/>.                //
 //__________________________________________________________________________________//
 
-// Vector functions, preceded by the type name
+// Vector functions
 //
 // CCV_DEFINE_VEC(n)                Defines n-dimensional vector ccvVec<n> and its functions
 //
