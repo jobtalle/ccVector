@@ -9,7 +9,7 @@ CCV_DEFINE_MAT(2)
 
 int main(int argc, char **argv) {
 	ccvVec2 vec0, vec1;
-	ccvMat2 mat0, mat1, mat2;
+	ccvMat2x2 mat0, mat1, mat2;
 
 	float r = PI / 2;
 
@@ -27,10 +27,10 @@ int main(int argc, char **argv) {
 
 	// mat2 will scale rotation matrix mat0
 
-	ccvMat2Identity(mat2);
-	ccvMat2MultiplyScalar(mat2, 3.f);
+	ccvMat2x2Identity(mat2);
+	ccvMat2x2MultiplyScalar(mat2, 3.f);
 
-	ccvMat2MultiplyMatrix(mat0, mat1, mat2);
+	ccvMat2x2MultiplyMatrix(mat0, mat1, mat2);
 
 	// print scaled rotation matrix mat2
 
@@ -45,7 +45,7 @@ int main(int argc, char **argv) {
 
 	// apply rotation matrix mat0 to vec0
 
-	ccvMat2MultiplyVector(vec1, mat0, vec0);
+	ccvMat2x2MultiplyVector(vec1, mat0, vec0);
 
 	printf("(%f, %f)\n", vec1[0], vec1[1]);
 

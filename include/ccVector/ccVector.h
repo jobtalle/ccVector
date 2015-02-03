@@ -61,7 +61,7 @@
 
 #define _CCV_VEC_TYPENAME(dim) ccvVec##dim
 
-#define _CCV_MAT_TYPENAME(dim) ccvMat##dim
+#define _CCV_MAT_TYPENAME(dim) ccvMat##dim##x##dim
 
 // Type definitions
 
@@ -166,8 +166,8 @@
 
 #define _CCV_DEFINE_MAT_IDENTITY(dim) \
 	static inline _CCV_MAT_TYPENAME(dim)##Identity(_CCV_MAT_TYPENAME(dim) m) { \
-		_CCV_MAT_TYPENAME(dim)##Zero(m); \
 		unsigned int i; \
+		_CCV_MAT_TYPENAME(dim)##Zero(m); \
 		for(i = 0; i < dim; i++) \
 			m[i][i] = 1; \
 	}
