@@ -30,7 +30,7 @@
 // ccvVec<n>DotProduct(a, b)            Returns the dot product from vectors a and b
 // ccvVec<n>Length(v)                   Returns the length of vector v
 // ccvVec<n>Normalize(v)                Scales vector v to have a length of 1
-// ccvVec<n>Reflect(v, a)               Reflects vector v 
+// ccvVec<n>Reflect(v, n, r)            Reflects vector r by normal n and stores the result in vector v
 
 // Matrix functions
 //
@@ -135,6 +135,14 @@
 		_CCV_VEC_TYPENAME(dim)##Multiply(v, 1 / _CCV_VEC_TYPENAME(dim)##Length(v)); \
 	}
 
+#define _CCV_DEFINE_VEC_REFLECT(dim) \
+	static inline void _CCV_VEC_TYPENAME(dim)##Reflect(_CCV_VEC_TYPENAME(dim) v, _CCV_VEC_TYPENAME(dim) n, _CCV_VEC_TYPENAME(dim) r) { \
+		_CCV_VEC_TYPENAME(dim) _v; \
+		_CCV_VEC_TYPENAME(dim)##Copy(_v, n); \
+		_CCV_VEC_TYPENAME(dim)##Multiply(_v, 2 * _CCV_VEC_TYPENAME(dim)##DotProduct(n, r)); \
+		_CCV_VEC_TYPENAME(dim)##Subtract(v, r, _v); \
+	}
+
 // Matrix operations
 
 #define _CCV_DEFINE_MAT_ZERO(dim) \
@@ -214,7 +222,8 @@
 	_CCV_DEFINE_VEC_MULTIPLY(dim) \
 	_CCV_DEFINE_VEC_DOTPRODUCT(dim) \
 	_CCV_DEFINE_VEC_LENGTH(dim) \
-	_CCV_DEFINE_VEC_NORMALIZE(dim)
+	_CCV_DEFINE_VEC_NORMALIZE(dim) \
+	_CCV_DEFINE_VEC_REFLECT(dim)
 
 #define CCV_DEFINE_MAT(dim) \
 	_CCV_DEFINE_VEC_TYPE(dim) \

@@ -8,7 +8,7 @@ CCV_DEFINE_VEC(2)
 CCV_DEFINE_MAT(2)
 
 int main(int argc, char **argv) {
-	ccvVec2 vec0, vec1;
+	ccvVec2 vec0, vec1, vec2;
 	ccvMat2x2 mat0, mat1, mat2;
 
 	float r = PI / 4;
@@ -48,6 +48,13 @@ int main(int argc, char **argv) {
 	ccvMat2x2MultiplyVector(vec1, mat0, vec0);
 
 	printf("(%f, %f)\n", vec1[0], vec1[1]);
+
+	vec2[0] = 0;
+	vec2[1] = 1;
+
+	ccvVec2Reflect(vec0, vec2, vec1);
+
+	printf("(%f, %f)\n", vec0[0], vec0[1]);
 
 	getchar();
 
