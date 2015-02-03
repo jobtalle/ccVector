@@ -138,11 +138,8 @@
 
 #define _CCV_DEFINE_MAT_ZERO(dim) \
 	static inline _CCV_MAT_TYPENAME(dim)##Zero(_CCV_MAT_TYPENAME(dim) m) { \
-		unsigned int row = 0; \
-		unsigned int col = 0; \
-		for(col = 0; col < dim; col++) \
-			for(row = 0; row < dim; row++) m[row][col] = 0; \
-		}
+		memset(m, 0, sizeof(float)* dim * dim); \
+	}
 
 #define _CCV_DEFINE_MAT_ADD(dim) \
 	static inline _CCV_MAT_TYPENAME(dim)##Add(_CCV_MAT_TYPENAME(dim) m, _CCV_MAT_TYPENAME(dim) a, _CCV_MAT_TYPENAME(dim) b) { \
