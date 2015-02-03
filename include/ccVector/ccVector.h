@@ -172,7 +172,7 @@
 		unsigned int row = 0; \
 		unsigned int col = 0; \
 		for(col = 0; col < dim; col++) \
-			for(row = 0; row < dim; row++) m[row][col] = row == col ? (_CCV_TYPE)1 : 0; \
+			for(row = 0; row < dim; row++) m[row][col] = (_CCV_TYPE)(row == col); \
 		}
 
 #define _CCV_DEFINE_MAT_MULTIPLY_SCALAR(dim) \
