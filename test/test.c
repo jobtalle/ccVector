@@ -11,7 +11,7 @@ int main(int argc, char **argv) {
 	ccvVec2 vec0, vec1;
 	ccvMat2x2 mat0, mat1, mat2;
 
-	float r = PI / 2;
+	float r = PI / 4;
 
 	vec0[0] = 1;
 	vec0[1] = 0;
