@@ -166,11 +166,11 @@
 
 #define _CCV_DEFINE_MAT_IDENTITY(dim) \
 	static inline _CCV_MAT_TYPENAME(dim)##Identity(_CCV_MAT_TYPENAME(dim) m) { \
-		unsigned int row = 0; \
-		unsigned int col = 0; \
-		for(col = 0; col < dim; col++) \
-			for(row = 0; row < dim; row++) m[row][col] = (_CCV_TYPE)(row == col); \
-		}
+		_CCV_MAT_TYPENAME(dim)##Zero(m); \
+		unsigned int i; \
+		for(i = 0; i < dim; i++) \
+			m[i][i] = 1; \
+	}
 
 #define _CCV_DEFINE_MAT_MULTIPLY_SCALAR(dim) \
 	static inline _CCV_MAT_TYPENAME(dim)##MultiplyScalar(_CCV_MAT_TYPENAME(dim) m, _CCV_TYPE n) { \
@@ -178,7 +178,7 @@
 		unsigned int col = 0; \
 		for(col = 0; col < dim; col++) \
 			for(row = 0; row < dim; row++) m[row][col] *= n; \
-		}
+	}
 
 #define _CCV_DEFINE_MAT_MULTIPLY_VECTOR(dim) \
 	static inline _CCV_MAT_TYPENAME(dim)##MultiplyVector(_CCV_VEC_TYPENAME(dim) v, _CCV_MAT_TYPENAME(dim) a, _CCV_VEC_TYPENAME(dim) b) { \
