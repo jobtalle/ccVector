@@ -56,7 +56,7 @@
 
 // Type
 
-#define _CCV_TYPE float
+#define _CCV_TYPE double
 
 // Prefixes
 
@@ -147,7 +147,7 @@
 
 #define _CCV_DEFINE_MAT_ZERO(dim) \
 	static inline _CCV_MAT_TYPENAME(dim)##Zero(_CCV_MAT_TYPENAME(dim) m) { \
-		memset(m, 0, sizeof(float)* dim * dim); \
+		memset(m, 0, sizeof(_CCV_TYPE)* dim * dim); \
 	}
 
 #define _CCV_DEFINE_MAT_ADD(dim) \

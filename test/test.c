@@ -49,8 +49,9 @@ int main(int argc, char **argv) {
 
 	printf("(%f, %f)\n", vec1[0], vec1[1]);
 
-	vec2[0] = 0;
-	vec2[1] = 1;
+	vec2[0] = -1;
+	vec2[1] = 0.1f;
+	ccvVec2Normalize(vec2);
 
 	ccvVec2Reflect(vec0, vec2, vec1);
 
