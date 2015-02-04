@@ -236,11 +236,3 @@
 	_CCV_DEFINE_MAT_MULTIPLY_SCALAR(dim) \
 	_CCV_DEFINE_MAT_MULTIPLY_VECTOR(dim) \
 	_CCV_DEFINE_MAT_MULTIPLY_MATRIX(dim)
-
-// Getters & setters
-
-#define CCV_VEC_SET(vec, n, value) vec[n] = value
-#define CCV_VEC_GET(vec, n) vec[n]
-
-#define CCV_MAT_SET(mat, row, col, value) mat[row][col] = value
-#define CCV_MAT_GET(mat, row, col) mat[row][col]
