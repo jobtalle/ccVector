@@ -283,16 +283,6 @@ static inline void ccMat2x2SetRotation(ccMat2x2 m, const _CCV_TYPE r)
 	_SET_ROTATION_2D();
 }
 
-static inline void ccMat3x3SetRotation2D(ccMat3x3 m, const _CCV_TYPE r)
-{
-	_SET_ROTATION_2D();
-	m[0][2] = 0;
-	m[1][2] = 0;
-	m[2][2] = 1;
-	m[2][1] = 0;
-	m[2][0] = 0;
-}
-
 static inline void ccMat2x2Rotate(ccMat2x2 m, const _CCV_TYPE r)
 {
 	ccMat2x2 initial, rotation;
@@ -301,6 +291,16 @@ static inline void ccMat2x2Rotate(ccMat2x2 m, const _CCV_TYPE r)
 	ccMat2x2Copy(initial, m);
 
 	ccMat2x2MultiplyMatrix(m, initial, rotation);
+}
+
+static inline void ccMat3x3SetRotation2D(ccMat3x3 m, const _CCV_TYPE r)
+{
+	_SET_ROTATION_2D();
+	m[0][2] = 0;
+	m[1][2] = 0;
+	m[2][2] = 1;
+	m[2][1] = 0;
+	m[2][0] = 0;
 }
 
 static inline void ccMat3x3Rotate2D(ccMat3x3 m, const _CCV_TYPE r)
@@ -363,6 +363,36 @@ static inline void ccMat3x3SetRotationZ(ccMat3x3 m, const _CCV_TYPE r)
 	_SET_ROTATION_3D_Z();
 }
 
+static inline void ccMat3x3RotateX(ccMat3x3 m, const _CCV_TYPE r)
+{
+	ccMat3x3 initial, rotation;
+
+	ccMat3x3SetRotationX(rotation, r);
+	ccMat3x3Copy(initial, m);
+
+	ccMat3x3MultiplyMatrix(m, initial, rotation);
+}
+
+static inline void ccMat3x3RotateY(ccMat3x3 m, const _CCV_TYPE r)
+{
+	ccMat3x3 initial, rotation;
+
+	ccMat3x3SetRotationY(rotation, r);
+	ccMat3x3Copy(initial, m);
+
+	ccMat3x3MultiplyMatrix(m, initial, rotation);
+}
+
+static inline void ccMat3x3RotateZ(ccMat3x3 m, const _CCV_TYPE r)
+{
+	ccMat3x3 initial, rotation;
+
+	ccMat3x3SetRotationZ(rotation, r);
+	ccMat3x3Copy(initial, m);
+
+	ccMat3x3MultiplyMatrix(m, initial, rotation);
+}
+
 #define _SET_ROTATION_4D_AFFINE() \
 	m[0][3] = 0; \
 	m[1][3] = 0; \
@@ -388,4 +418,34 @@ static inline void ccMat4x4SetRotationZ(ccMat4x4 m, const _CCV_TYPE r)
 {
 	_SET_ROTATION_3D_Z();
 	_SET_ROTATION_4D_AFFINE();
+}
+
+static inline void ccMat4x4RotateX(ccMat4x4 m, const _CCV_TYPE r)
+{
+	ccMat4x4 initial, rotation;
+
+	ccMat4x4SetRotationX(rotation, r);
+	ccMat4x4Copy(initial, m);
+
+	ccMat4x4MultiplyMatrix(m, initial, rotation);
+}
+
+static inline void ccMat4x4RotateY(ccMat4x4 m, const _CCV_TYPE r)
+{
+	ccMat4x4 initial, rotation;
+
+	ccMat4x4SetRotationY(rotation, r);
+	ccMat4x4Copy(initial, m);
+
+	ccMat4x4MultiplyMatrix(m, initial, rotation);
+}
+
+static inline void ccMat4x4RotateZ(ccMat4x4 m, const _CCV_TYPE r)
+{
+	ccMat4x4 initial, rotation;
+
+	ccMat4x4SetRotationZ(rotation, r);
+	ccMat4x4Copy(initial, m);
+
+	ccMat4x4MultiplyMatrix(m, initial, rotation);
 }
