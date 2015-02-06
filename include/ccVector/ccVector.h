@@ -98,13 +98,6 @@
 		memcpy(dest, source, sizeof(_CCV_TYPE) * dim); \
 	}
 
-#define _CCV_DEFINE_VEC_CROSSPRODUCT(dim) \
-	static inline void _CCV_VEC_TYPENAME(dim)##CrossProduct(_CCV_VEC_TYPENAME(dim) v, const _CCV_VEC_TYPENAME(dim) a, const _CCV_VEC_TYPENAME(dim) b) { \
-		unsigned int i; \
-		for(i = 0; i < dim; i++) \
-			v[i] = a[i] * b[i]; \
-	}
-
 #define _CCV_DEFINE_VEC_MULTIPLY(dim) \
 	static inline void _CCV_VEC_TYPENAME(dim)##Multiply(_CCV_VEC_TYPENAME(dim) v, const _CCV_TYPE n) { \
 		unsigned int i; \
@@ -218,7 +211,6 @@
 	_CCV_DEFINE_VEC_ADD(dim) \
 	_CCV_DEFINE_VEC_SUBTRACT(dim) \
 	_CCV_DEFINE_VEC_COPY(dim) \
-	_CCV_DEFINE_VEC_CROSSPRODUCT(dim) \
 	_CCV_DEFINE_VEC_MULTIPLY(dim) \
 	_CCV_DEFINE_VEC_DOTPRODUCT(dim) \
 	_CCV_DEFINE_VEC_LENGTH(dim) \
