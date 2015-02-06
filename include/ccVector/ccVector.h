@@ -199,9 +199,9 @@
 		unsigned int i, j, k; \
 		for(i = 0; i < dim; i++) \
 			for(j = 0; j < dim; j++) { \
-				m[i][j] = a[0][j] * b[i][0]; \
+				m[i][j] = a[i][0] * b[0][j]; \
 				for(k = 1; k < dim; k++) \
-					m[i][j] += a[k][j] * b[i][k]; \
+					m[i][j] += a[i][k] * b[k][j]; \
 			} \
 	}
 
