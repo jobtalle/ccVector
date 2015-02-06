@@ -488,3 +488,74 @@ static inline void ccMat4x4Translate(ccMat4x4 m, const ccVec3 v)
 
 	ccMat4x4MultiplyMatrix(m, initial, translation);
 }
+
+// Define scaling methods
+
+static inline void ccMat2x2SetScale(ccMat2x2 m, const _CCV_TYPE scale)
+{
+	m[0][0] = m[1][1] = scale;
+	m[1][0] = m[0][1] = 0;
+}
+
+static inline void ccMat2x2Scale(ccMat2x2 m, const _CCV_TYPE scale)
+{
+	ccMat2x2 initial, scaling;
+
+	ccMat2x2SetScale(scaling, scale);
+	ccMat2x2Copy(initial, m);
+
+	ccMat2x2MultiplyMatrix(m, initial, scaling);
+}
+
+static inline void ccMat3x3SetScale2D(ccMat3x3 m, const _CCV_TYPE scale)
+{
+	ccMat3x3Zero(m);
+
+	m[2][2] = 1;
+	m[0][0] = m[1][1] = scale;
+}
+
+static inline void ccMat3x3Scale2D(ccMat3x3 m, const _CCV_TYPE scale)
+{
+	ccMat3x3 initial, scaling;
+
+	ccMat3x3SetScale2D(scaling, scale);
+	ccMat3x3Copy(initial, m);
+
+	ccMat3x3MultiplyMatrix(m, initial, scaling);
+}
+
+static inline void ccMat3x3SetScale(ccMat3x3 m, const _CCV_TYPE scale)
+{
+	ccMat3x3Zero(m);
+	
+	m[0][0] = m[1][1] = m[2][2] = scale;
+}
+
+static inline void ccMat3x3Scale(ccMat3x3 m, const _CCV_TYPE scale)
+{
+	ccMat3x3 initial, scaling;
+
+	ccMat3x3SetScale(scaling, scale);
+	ccMat3x3Copy(initial, m);
+
+	ccMat3x3MultiplyMatrix(m, initial, scaling);
+}
+
+static inline void ccMat4x4SetScale(ccMat4x4 m, const _CCV_TYPE scale)
+{
+	ccMat4x4Zero(m);
+	
+	m[3][3] = 1;
+	m[0][0] = m[1][1] = m[2][2] = scale;
+}
+
+static inline void ccMat4x4Scale(ccMat4x4 m, const _CCV_TYPE scale)
+{
+	ccMat4x4 initial, scaling;
+
+	ccMat4x4SetScale(scaling, scale);
+	ccMat4x4Copy(initial, m);
+
+	ccMat4x4MultiplyMatrix(m, initial, scaling);
+}

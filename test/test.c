@@ -30,13 +30,13 @@ int main(int argc, char **argv) {
 	vector[1] = 0;
 	vector[2] = 1;
 
-	add[0] = 10;
-	add[1] = 10;
+	add[0] = -10;
+	add[1] = -10;
 
 	printVec3(vector);
 
 	ccMat3x3Identity(transform);
-	ccMat3x3Rotate2D(transform, PI / 2);
+	ccMat3x3Rotate2D(transform, PI / 4);
 	ccMat3x3Translate(transform, add);
 
 	printMat3x3(transform);
