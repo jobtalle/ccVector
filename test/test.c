@@ -17,10 +17,7 @@ int main(int argc, char **argv) {
 	
 	printf("(%f, %f)\n", vec0[0], vec0[1]);
 
-	mat1[0][0] = cosf(r);
-	mat1[1][0] = -sinf(r);
-	mat1[0][1] = sinf(r);
-	mat1[1][1] = cosf(r);
+	ccMat2x2SetRotation(mat1, r);
 
 	// mat2 will scale rotation matrix mat0
 

@@ -293,6 +293,25 @@ static inline void ccMat3x3SetRotation2D(ccMat3x3 m, const _CCV_TYPE r)
 	m[2][0] = 0;
 }
 
+static inline void ccMat2x2Rotate(ccMat2x2 m, const _CCV_TYPE r)
+{
+	ccMat2x2 initial, rotation;
+
+	ccMat2x2SetRotation(rotation, r);
+	ccMat2x2Copy(initial, m);
+
+	ccMat2x2MultiplyMatrix(m, initial, rotation);
+}
+
+static inline void ccMat3x3Rotate2D(ccMat3x3 m, const _CCV_TYPE r)
+{
+	ccMat3x3 initial, rotation;
+
+	ccMat3x3SetRotation2D(rotation, r);
+	ccMat3x3Copy(initial, m);
+	ccMat3x3MultiplyMatrix(m, initial, rotation);
+}
+
 #define _SET_ROTATION_3D_X() \
 	_SET_ROTATION_VARS(); \
 	m[0][0] = 1; \
