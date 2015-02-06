@@ -50,7 +50,7 @@
 #include <math.h>
 #include <string.h>
 
-#ifndef inline
+#ifdef _MSC_VER
 #define inline __inline
 #endif
 
