@@ -362,3 +362,30 @@ static inline void ccMat3x3SetRotationZ(ccMat3x3 m, const _CCV_TYPE r)
 {
 	_SET_ROTATION_3D_Z();
 }
+
+#define _SET_ROTATION_4D_AFFINE() \
+	m[0][3] = 0; \
+	m[1][3] = 0; \
+	m[2][3] = 0; \
+	m[3][3] = 1; \
+	m[3][2] = 0; \
+	m[3][1] = 0; \
+	m[3][0] = 0
+
+static inline void ccMat4x4SetRotationX(ccMat4x4 m, const _CCV_TYPE r)
+{
+	_SET_ROTATION_3D_X();
+	_SET_ROTATION_4D_AFFINE();
+}
+
+static inline void ccMat4x4SetRotationY(ccMat4x4 m, const _CCV_TYPE r)
+{
+	_SET_ROTATION_3D_Y();
+	_SET_ROTATION_4D_AFFINE();
+}
+
+static inline void ccMat4x4SetRotationZ(ccMat4x4 m, const _CCV_TYPE r)
+{
+	_SET_ROTATION_3D_Z();
+	_SET_ROTATION_4D_AFFINE();
+}
