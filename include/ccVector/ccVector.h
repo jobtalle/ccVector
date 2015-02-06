@@ -393,7 +393,7 @@ static inline void ccMat3x3RotateZ(ccMat3x3 m, const _CCV_TYPE r)
 	ccMat3x3MultiplyMatrix(m, initial, rotation);
 }
 
-#define _SET_ROTATION_4D_AFFINE() \
+#define _SET_ROTATION_4D_HOMOGENEOUS() \
 	m[0][3] = 0; \
 	m[1][3] = 0; \
 	m[2][3] = 0; \
@@ -405,19 +405,19 @@ static inline void ccMat3x3RotateZ(ccMat3x3 m, const _CCV_TYPE r)
 static inline void ccMat4x4SetRotationX(ccMat4x4 m, const _CCV_TYPE r)
 {
 	_SET_ROTATION_3D_X();
-	_SET_ROTATION_4D_AFFINE();
+	_SET_ROTATION_4D_HOMOGENEOUS();
 }
 
 static inline void ccMat4x4SetRotationY(ccMat4x4 m, const _CCV_TYPE r)
 {
 	_SET_ROTATION_3D_Y();
-	_SET_ROTATION_4D_AFFINE();
+	_SET_ROTATION_4D_HOMOGENEOUS();
 }
 
 static inline void ccMat4x4SetRotationZ(ccMat4x4 m, const _CCV_TYPE r)
 {
 	_SET_ROTATION_3D_Z();
-	_SET_ROTATION_4D_AFFINE();
+	_SET_ROTATION_4D_HOMOGENEOUS();
 }
 
 static inline void ccMat4x4RotateX(ccMat4x4 m, const _CCV_TYPE r)
@@ -448,4 +448,43 @@ static inline void ccMat4x4RotateZ(ccMat4x4 m, const _CCV_TYPE r)
 	ccMat4x4Copy(initial, m);
 
 	ccMat4x4MultiplyMatrix(m, initial, rotation);
+}
+
+// Define translation methods
+
+static inline void ccMat3x3SetTranslation(ccMat3x3 m, const ccVec2 v)
+{
+	ccMat3x3Identity(m);
+
+	m[2][0] = v[0];
+	m[2][1] = v[1];
+}
+
+static inline void ccMat3x3Translate(ccMat3x3 m, const ccVec2 v)
+{
+	ccMat3x3 initial, translation;
+
+	ccMat3x3SetTranslation(translation, v);
+	ccMat3x3Copy(initial, m);
+
+	ccMat3x3MultiplyMatrix(m, initial, translation);
+}
+
+static inline void ccMat4x4SetTranslation(ccMat4x4 m, const ccVec3 v)
+{
+	ccMat4x4Identity(m);
+
+	m[3][0] = v[0];
+	m[3][1] = v[1];
+	m[3][2] = v[2];
+}
+
+static inline void ccMat4x4Translate(ccMat4x4 m, const ccVec3 v)
+{
+	ccMat4x4 initial, translation;
+
+	ccMat4x4SetTranslation(translation, v);
+	ccMat4x4Copy(initial, m);
+
+	ccMat4x4MultiplyMatrix(m, initial, translation);
 }

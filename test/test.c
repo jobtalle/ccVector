@@ -4,52 +4,50 @@
 
 #define PI 3.141592f
 
-int main(int argc, char **argv) {
-	ccVec2 vec0, vec1, vec2;
-	ccMat2x2 mat0, mat1, mat2;
-
-	float r = PI / 4;
-
-	vec0[0] = 1;
-	vec0[1] = 0;
-
-	ccVec2Normalize(vec0);
-	
-	printf("(%f, %f)\n", vec0[0], vec0[1]);
-
-	ccMat2x2SetRotation(mat1, r);
-
-	// mat2 will scale rotation matrix mat0
-
-	ccMat2x2Identity(mat2);
-	ccMat2x2MultiplyScalar(mat2, 3.f);
-
-	ccMat2x2MultiplyMatrix(mat0, mat1, mat2);
-
-	// print scaled rotation matrix mat2
-
+static void printVec3(ccVec3 v) {
+	for(int i = 0; i < 3; i++) {
+		printf("%.2f\n", v[i]);
+	}
 	printf("\n");
-	for(int col = 0; col < 2; col++) {
-		for(int row = 0; row < 2; row++) {
-			printf("%f\t", mat0[row][col]);
+}
+
+static void printMat3x3(ccMat3x3 m) {
+	for(int c = 0; c < 3; c++) {
+		for(int r = 0; r < 3; r++) {
+			printf("%.2f\t", m[r][c]);
 		}
 		printf("\n");
 	}
 	printf("\n");
+}
 
-	// apply rotation matrix mat0 to vec0
+int main(int argc, char **argv) {
+	ccVec3 vector, vectorMultiplied;
+	ccVec2 add;
+	ccMat3x3 transform;
 
-	ccMat2x2MultiplyVector(vec1, mat0, vec0);
+	vector[0] = 10;
+	vector[1] = 0;
+	vector[2] = 1;
 
-	printf("(%f, %f)\n", vec1[0], vec1[1]);
+	add[0] = 10;
+	add[1] = 10;
 
-	vec2[0] = -1;
-	vec2[1] = -0.1f;
-	ccVec2Normalize(vec2);
+	printVec3(vector);
 
-	ccVec2Reflect(vec0, vec2, vec1);
+	ccMat3x3Identity(transform);
+	ccMat3x3Rotate2D(transform, PI / 2);
+	ccMat3x3Translate(transform, add);
 
-	printf("(%f, %f)\n", vec0[0], vec0[1]);
+	printMat3x3(transform);
+
+	printf("Applying transformation matrix...\n\n");
+
+	ccMat3x3MultiplyVector(vectorMultiplied, transform, vector);
+
+	printVec3(vectorMultiplied);
+
+	printf("Length: %.2f\n", ccVec2Length(vector));
 
 	getchar();
 
