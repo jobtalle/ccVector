@@ -5,15 +5,15 @@
 #define PI 3.141592f
 
 int main(int argc, char **argv) {
-	ccvVec2 vec0, vec1, vec2;
-	ccvMat2x2 mat0, mat1, mat2;
+	ccVec2 vec0, vec1, vec2;
+	ccMat2x2 mat0, mat1, mat2;
 
 	float r = PI / 4;
 
 	vec0[0] = 1;
 	vec0[1] = 0;
 
-	ccvVec2Normalize(vec0);
+	ccVec2Normalize(vec0);
 	
 	printf("(%f, %f)\n", vec0[0], vec0[1]);
 
@@ -24,10 +24,10 @@ int main(int argc, char **argv) {
 
 	// mat2 will scale rotation matrix mat0
 
-	ccvMat2x2Identity(mat2);
-	ccvMat2x2MultiplyScalar(mat2, 3.f);
+	ccMat2x2Identity(mat2);
+	ccMat2x2MultiplyScalar(mat2, 3.f);
 
-	ccvMat2x2MultiplyMatrix(mat0, mat1, mat2);
+	ccMat2x2MultiplyMatrix(mat0, mat1, mat2);
 
 	// print scaled rotation matrix mat2
 
@@ -42,15 +42,15 @@ int main(int argc, char **argv) {
 
 	// apply rotation matrix mat0 to vec0
 
-	ccvMat2x2MultiplyVector(vec1, mat0, vec0);
+	ccMat2x2MultiplyVector(vec1, mat0, vec0);
 
 	printf("(%f, %f)\n", vec1[0], vec1[1]);
 
 	vec2[0] = -1;
 	vec2[1] = -0.1f;
-	ccvVec2Normalize(vec2);
+	ccVec2Normalize(vec2);
 
-	ccvVec2Reflect(vec0, vec2, vec1);
+	ccVec2Reflect(vec0, vec2, vec1);
 
 	printf("(%f, %f)\n", vec0[0], vec0[1]);
 

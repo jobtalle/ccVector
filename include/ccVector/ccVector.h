@@ -60,9 +60,9 @@
 
 // Prefixes
 
-#define _CCV_VEC_TYPENAME(dim) ccvVec##dim
+#define _CCV_VEC_TYPENAME(dim) ccVec##dim
 
-#define _CCV_MAT_TYPENAME(dim) ccvMat##dim##x##dim
+#define _CCV_MAT_TYPENAME(dim) ccMat##dim##x##dim
 
 // Type definitions
 
@@ -238,3 +238,18 @@ CCV_DEFINE_VEC(4)
 CCV_DEFINE_MAT(2)
 CCV_DEFINE_MAT(3)
 CCV_DEFINE_MAT(4)
+
+// Define cross products
+
+static inline void ccVec3CrossProduct(ccVec3 v, const ccVec3 a, const ccVec3 b) {
+	v[0] = a[1] * b[2] - a[2] * b[1];
+	v[1] = a[2] * b[0] - a[0] * b[2];
+	v[2] = a[0] * b[1] - a[1] * b[0];
+}
+
+static inline void ccVec4CrossProduct(ccVec4 v, const ccVec4 a, const ccVec4 b) {
+	v[0] = a[1] * b[2] - a[2] * b[1];
+	v[1] = a[2] * b[0] - a[0] * b[2];
+	v[2] = a[0] * b[1] - a[1] * b[0];
+	v[3] = 1;
+}
