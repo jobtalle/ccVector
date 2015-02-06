@@ -56,7 +56,7 @@
 
 // Type
 
-#define _CCV_TYPE double
+#define _CCV_TYPE float
 
 // Prefixes
 
@@ -228,3 +228,13 @@
 	_CCV_DEFINE_MAT_MULTIPLY_SCALAR(dim) \
 	_CCV_DEFINE_MAT_MULTIPLY_VECTOR(dim) \
 	_CCV_DEFINE_MAT_MULTIPLY_MATRIX(dim)
+
+// Define 2d, 3d and 4d vectors and matrices
+
+CCV_DEFINE_VEC(2)
+CCV_DEFINE_VEC(3)
+CCV_DEFINE_VEC(4)
+
+CCV_DEFINE_MAT(2)
+CCV_DEFINE_MAT(3)
+CCV_DEFINE_MAT(4)

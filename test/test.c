@@ -4,9 +4,6 @@
 
 #define PI 3.141592f
 
-CCV_DEFINE_VEC(2)
-CCV_DEFINE_MAT(2)
-
 int main(int argc, char **argv) {
 	ccvVec2 vec0, vec1, vec2;
 	ccvMat2x2 mat0, mat1, mat2;
