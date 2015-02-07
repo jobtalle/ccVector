@@ -17,34 +17,6 @@
 //      this program. If not, see <http://opensource.org/licenses/>.                //
 //__________________________________________________________________________________//
 
-// Vector functions
-//
-// CCV_DEFINE_VEC(n)                    Defines n-dimensional vector ccvVec<n> and its functions
-//
-// ccvVec<n>Zero(v)                     Sets all elements in vector v to 0
-// ccvVec<n>Add(v, a, b)                Add vectors a and b and stores the result in vector v
-// ccvVec<n>Subtract(v, a, b)           Subtracts vector b from vector a and stores the result in vector v
-// ccvVec<n>Copy(dest, source)          Copies vector source to vector dest
-// ccvVec<n>Crossproduct(v, a, b)       Takes the cross product from vectors a and b and stores it in vector v
-// ccvVec<n>Multiply(v, n)              Multiplies vector v with scalar n
-// ccvVec<n>DotProduct(a, b)            Returns the dot product from vectors a and b
-// ccvVec<n>Length(v)                   Returns the length of vector v
-// ccvVec<n>Normalize(v)                Scales vector v to have a length of 1
-// ccvVec<n>Reflect(v, n, r)            Reflects vector r by normal n and stores the result in vector v
-
-// Matrix functions
-//
-// CCV_DEFINE_MAT(n)                    Defines n x n matrix ccvMat<n>x<n> and its functions
-//
-// ccvMat<n>x<n>Zero(m)                 Sets all elements in matrix m to 0
-// ccvMat<n>x<n>Add(m, a, b)            Adds matrices a and b and stores the result in matrix m
-// ccvMat<n>x<n>Subtract(m, a, b)       Subtracts matrix b from matrix a and stores the result in matrix m
-// ccvMat<n>x<n>Copy(dest, source)      Copies matrix source to matrix dest
-// ccvMat<n>x<n>Identity(m)             Sets matrix m to the identity matrix
-// ccvMat<n>x<n>MultiplyScalar(m, n)    Multiplies matrix m by scalar n
-// ccvMat<n>x<n>MultiplyVector(v, a, b) Multiplies matrix a by vector b and stores the result in vector v
-// ccvMat<n>x<n>MultiplyMatrix(m, a, b) Multiplies matrix a by matrix b and stores the result in matrix m
-
 #pragma once
 
 #ifdef __cplusplus
