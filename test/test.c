@@ -26,7 +26,7 @@ int main(int argc, char **argv) {
 	ccVec2 add;
 	ccMat3x3 transform;
 
-	vector[0] = 10;
+	vector[0] = 5;
 	vector[1] = 0;
 	vector[2] = 1;
 
