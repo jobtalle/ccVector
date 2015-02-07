@@ -263,20 +263,11 @@ static inline void ccVec2Orthogonal(ccVec2 v, const ccVec2 a)
 	v[1] = a[0];
 }
 
-#define _CCV_SET_CROSS_PRODUCT() \
-	v[0] = a[1] * b[2] - a[2] * b[1]; \
-	v[1] = a[2] * b[0] - a[0] * b[2]; \
-	v[2] = a[0] * b[1] - a[1] * b[0]
-
 static inline void ccVec3CrossProduct(ccVec3 v, const ccVec3 a, const ccVec3 b)
 {
-	_CCV_SET_CROSS_PRODUCT();
-}
-
-static inline void ccVec4CrossProduct(ccVec4 v, const ccVec4 a, const ccVec4 b)
-{
-	_CCV_SET_CROSS_PRODUCT();
-	v[3] = 1;
+	v[0] = a[1] * b[2] - a[2] * b[1];
+	v[1] = a[2] * b[0] - a[0] * b[2];
+	v[2] = a[0] * b[1] - a[1] * b[0];
 }
 
 // Define rotation methods
