@@ -254,30 +254,30 @@ static inline void ccVec2Orthogonal(ccVec2 v, const ccVec2 a)
 	v[1] = a[0];
 }
 
-#define _SET_CROSS_PRODUCT() \
+#define _CCV_SET_CROSS_PRODUCT() \
 	v[0] = a[1] * b[2] - a[2] * b[1]; \
 	v[1] = a[2] * b[0] - a[0] * b[2]; \
 	v[2] = a[0] * b[1] - a[1] * b[0]
 
 static inline void ccVec3CrossProduct(ccVec3 v, const ccVec3 a, const ccVec3 b)
 {
-	_SET_CROSS_PRODUCT();
+	_CCV_SET_CROSS_PRODUCT();
 }
 
 static inline void ccVec4CrossProduct(ccVec4 v, const ccVec4 a, const ccVec4 b)
 {
-	_SET_CROSS_PRODUCT();
+	_CCV_SET_CROSS_PRODUCT();
 	v[3] = 1;
 }
 
 // Define rotation methods
 
-#define _SET_ROTATION_VARS() \
+#define _CCV_SET_ROTATION_VARS() \
 	_CCV_TYPE c = (_CCV_TYPE)cos(r); \
 	_CCV_TYPE s = (_CCV_TYPE)sin(r)
 
-#define _SET_ROTATION_2D() \
-	_SET_ROTATION_VARS(); \
+#define _CCV_SET_ROTATION_2D() \
+	_CCV_SET_ROTATION_VARS(); \
 	m[0][0] = c; \
 	m[1][0] = -s; \
 	m[0][1] = s; \
@@ -285,7 +285,7 @@ static inline void ccVec4CrossProduct(ccVec4 v, const ccVec4 a, const ccVec4 b)
 
 static inline void ccMat2x2SetRotation(ccMat2x2 m, const _CCV_TYPE r)
 {
-	_SET_ROTATION_2D();
+	_CCV_SET_ROTATION_2D();
 }
 
 static inline void ccMat2x2Rotate(ccMat2x2 m, const _CCV_TYPE r)
@@ -302,7 +302,7 @@ static inline void ccMat3x3SetRotation2D(ccMat3x3 m, const _CCV_TYPE r)
 {
 	ccMat3x3Zero(m);
 
-	_SET_ROTATION_2D();
+	_CCV_SET_ROTATION_2D();
 	m[2][2] = 1;
 }
 
@@ -315,24 +315,24 @@ static inline void ccMat3x3Rotate2D(ccMat3x3 m, const _CCV_TYPE r)
 	ccMat3x3MultiplyMatrix(m, initial, rotation);
 }
 
-#define _SET_ROTATION_3D_X() \
-	_SET_ROTATION_VARS(); \
+#define _CCV_SET_ROTATION_3D_X() \
+	_CCV_SET_ROTATION_VARS(); \
 	m[0][0] = 1; \
 	m[1][1] = c; \
 	m[2][1] = -s; \
 	m[1][2] = s; \
 	m[2][2] = c
 
-#define _SET_ROTATION_3D_Y() \
-	_SET_ROTATION_VARS(); \
+#define _CCV_SET_ROTATION_3D_Y() \
+	_CCV_SET_ROTATION_VARS(); \
 	m[0][0] = c; \
 	m[2][0] = s; \
 	m[1][1] = 1; \
 	m[0][2] = -s; \
 	m[2][2] = c
 
-#define _SET_ROTATION_3D_Z() \
-	_SET_ROTATION_VARS(); \
+#define _CCV_SET_ROTATION_3D_Z() \
+	_CCV_SET_ROTATION_VARS(); \
 	m[0][0] = c; \
 	m[1][0] = -s; \
 	m[0][1] = s; \
@@ -341,17 +341,17 @@ static inline void ccMat3x3Rotate2D(ccMat3x3 m, const _CCV_TYPE r)
 
 static inline void ccMat3x3SetRotationX(ccMat3x3 m, const _CCV_TYPE r)
 {
-	_SET_ROTATION_3D_X();
+	_CCV_SET_ROTATION_3D_X();
 }
 
 static inline void ccMat3x3SetRotationY(ccMat3x3 m, const _CCV_TYPE r)
 {
-	_SET_ROTATION_3D_Y();
+	_CCV_SET_ROTATION_3D_Y();
 }
 
 static inline void ccMat3x3SetRotationZ(ccMat3x3 m, const _CCV_TYPE r)
 {
-	_SET_ROTATION_3D_Z();
+	_CCV_SET_ROTATION_3D_Z();
 }
 
 static inline void ccMat3x3RotateX(ccMat3x3 m, const _CCV_TYPE r)
@@ -388,7 +388,7 @@ static inline void ccMat4x4SetRotationX(ccMat4x4 m, const _CCV_TYPE r)
 {
 	ccMat4x4Zero(m);
 
-	_SET_ROTATION_3D_X();
+	_CCV_SET_ROTATION_3D_X();
 	m[3][3] = 1;
 }
 
@@ -396,7 +396,7 @@ static inline void ccMat4x4SetRotationY(ccMat4x4 m, const _CCV_TYPE r)
 {
 	ccMat4x4Zero(m);
 
-	_SET_ROTATION_3D_Y();
+	_CCV_SET_ROTATION_3D_Y();
 	m[3][3] = 1;
 }
 
@@ -404,7 +404,7 @@ static inline void ccMat4x4SetRotationZ(ccMat4x4 m, const _CCV_TYPE r)
 {
 	ccMat4x4Zero(m);
 
-	_SET_ROTATION_3D_Z();
+	_CCV_SET_ROTATION_3D_Z();
 	m[3][3] = 1;
 }
 
