@@ -47,6 +47,11 @@
 
 #pragma once
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
 #include <math.h>
 #include <string.h>
 
@@ -542,3 +547,7 @@ static inline void ccMat4x4Scale(ccMat4x4 m, const _CCV_TYPE scale)
 
 	ccMat4x4MultiplyMatrix(m, initial, scaling);
 }
+
+#ifdef __cplusplus
+}
+#endif
