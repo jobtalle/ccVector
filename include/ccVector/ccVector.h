@@ -35,7 +35,7 @@ extern "C"
 
 // Type
 
-#define _CCV_TYPE float
+typedef float ccvType;
 
 // Prefixes
 
@@ -46,16 +46,16 @@ extern "C"
 // Type definitions
 
 #define _CCV_DEFINE_VEC_TYPE(dim) \
-	typedef _CCV_TYPE _CCV_VEC_TYPENAME(dim)[dim];
+	typedef ccvType _CCV_VEC_TYPENAME(dim)[dim];
 
 #define _CCV_DEFINE_MAT_TYPE(dim) \
-	typedef _CCV_TYPE _CCV_MAT_TYPENAME(dim)[dim][dim];
+	typedef ccvType _CCV_MAT_TYPENAME(dim)[dim][dim];
 
 // Vector operations
 
 #define _CCV_DEFINE_VEC_ZERO(dim) \
 	static inline void _CCV_VEC_TYPENAME(dim)##Zero(_CCV_VEC_TYPENAME(dim) v) { \
-		memset(v, 0, sizeof(_CCV_TYPE)* dim); \
+		memset(v, 0, sizeof(ccvType)* dim); \
 	}
 
 #define _CCV_DEFINE_VEC_ADD(dim) \
@@ -74,32 +74,32 @@ extern "C"
 
 #define _CCV_DEFINE_VEC_COPY(dim) \
 	static inline _CCV_VEC_TYPENAME(dim)##Copy(_CCV_VEC_TYPENAME(dim) dest, const _CCV_VEC_TYPENAME(dim) source) { \
-		memcpy(dest, source, sizeof(_CCV_TYPE) * dim); \
+		memcpy(dest, source, sizeof(ccvType) * dim); \
 	}
 
 #define _CCV_DEFINE_VEC_MULTIPLY(dim) \
-	static inline void _CCV_VEC_TYPENAME(dim)##Multiply(_CCV_VEC_TYPENAME(dim) v, const _CCV_TYPE n) { \
+	static inline void _CCV_VEC_TYPENAME(dim)##Multiply(_CCV_VEC_TYPENAME(dim) v, const ccvType n) { \
 		unsigned int i; \
 		for(i = 0; i < dim; i++) \
 			v[i] *= n; \
 	}
 
 #define _CCV_DEFINE_VEC_DOTPRODUCT(dim) \
-	static inline _CCV_TYPE _CCV_VEC_TYPENAME(dim)##DotProduct(const _CCV_VEC_TYPENAME(dim) a, const _CCV_VEC_TYPENAME(dim) b) { \
+	static inline ccvType _CCV_VEC_TYPENAME(dim)##DotProduct(const _CCV_VEC_TYPENAME(dim) a, const _CCV_VEC_TYPENAME(dim) b) { \
 		unsigned int i; \
-		_CCV_TYPE result = 0; \
+		ccvType result = 0; \
 		for(i = 0; i < dim; i++) \
 			result += a[i] * b[i]; \
 		return result; \
 	}
 
 #define _CCV_DEFINE_VEC_LENGTH(dim) \
-	static inline _CCV_TYPE _CCV_VEC_TYPENAME(dim)##Length(const _CCV_VEC_TYPENAME(dim) v) { \
+	static inline ccvType _CCV_VEC_TYPENAME(dim)##Length(const _CCV_VEC_TYPENAME(dim) v) { \
 		unsigned int i; \
-		_CCV_TYPE squaredResult = 0; \
+		ccvType squaredResult = 0; \
 		for(i = 0; i < dim; i++) \
 			squaredResult += v[i] * v[i]; \
-		return (_CCV_TYPE)sqrt(squaredResult); \
+		return (ccvType)sqrt(squaredResult); \
 	}
 
 #define _CCV_DEFINE_VEC_NORMALIZE(dim) \
@@ -119,7 +119,7 @@ extern "C"
 
 #define _CCV_DEFINE_MAT_ZERO(dim) \
 	static inline _CCV_MAT_TYPENAME(dim)##Zero(_CCV_MAT_TYPENAME(dim) m) { \
-		memset(m, 0, sizeof(_CCV_TYPE)* dim * dim); \
+		memset(m, 0, sizeof(ccvType)* dim * dim); \
 	}
 
 #define _CCV_DEFINE_MAT_ADD(dim) \
@@ -142,7 +142,7 @@ extern "C"
 
 #define _CCV_DEFINE_MAT_COPY(dim) \
 	static inline _CCV_MAT_TYPENAME(dim)##Copy(_CCV_MAT_TYPENAME(dim) dest, const _CCV_MAT_TYPENAME(dim) source) { \
-		memcpy(dest, source, sizeof(_CCV_TYPE) * dim * dim); \
+		memcpy(dest, source, sizeof(ccvType) * dim * dim); \
 	}
 
 #define _CCV_DEFINE_MAT_IDENTITY(dim) \
@@ -154,7 +154,7 @@ extern "C"
 	}
 
 #define _CCV_DEFINE_MAT_MULTIPLY_SCALAR(dim) \
-	static inline _CCV_MAT_TYPENAME(dim)##MultiplyScalar(_CCV_MAT_TYPENAME(dim) m, const _CCV_TYPE n) { \
+	static inline _CCV_MAT_TYPENAME(dim)##MultiplyScalar(_CCV_MAT_TYPENAME(dim) m, const ccvType n) { \
 		unsigned int row = 0; \
 		unsigned int col = 0; \
 		for(col = 0; col < dim; col++) \
@@ -245,19 +245,19 @@ static inline void ccVec3CrossProduct(ccVec3 v, const ccVec3 a, const ccVec3 b)
 // Define rotation methods
 
 #define _CCV_SET_ROTATION_2D() \
-	m[0][0] = (_CCV_TYPE)cos(r); \
-	m[0][1] = (_CCV_TYPE)sin(r); \
+	m[0][0] = (ccvType)cos(r); \
+	m[0][1] = (ccvType)sin(r); \
 	m[1][0] = -m[0][1]; \
 	m[1][1] = m[0][0]
 
-static inline void ccMat2x2SetRotation(ccMat2x2 m, const _CCV_TYPE r)
+static inline void ccMat2x2SetRotation(ccMat2x2 m, const ccvType r)
 {
 	_CCV_SET_ROTATION_2D();
 }
 
-static inline void ccMat2x2Rotate(ccMat2x2 m, const _CCV_TYPE r) _CCV_APPLY_MATRIX(ccMat2x2, ccMat2x2SetRotation(multiply, r));
+static inline void ccMat2x2Rotate(ccMat2x2 m, const ccvType r) _CCV_APPLY_MATRIX(ccMat2x2, ccMat2x2SetRotation(multiply, r));
 
-static inline void ccMat3x3SetRotation2D(ccMat3x3 m, const _CCV_TYPE r)
+static inline void ccMat3x3SetRotation2D(ccMat3x3 m, const ccvType r)
 {
 	ccMat3x3Zero(m);
 
@@ -265,51 +265,51 @@ static inline void ccMat3x3SetRotation2D(ccMat3x3 m, const _CCV_TYPE r)
 	m[2][2] = 1;
 }
 
-static inline void ccMat3x3Rotate2D(ccMat3x3 m, const _CCV_TYPE r) _CCV_APPLY_MATRIX(ccMat3x3, ccMat3x3SetRotation2D(multiply, r));
+static inline void ccMat3x3Rotate2D(ccMat3x3 m, const ccvType r) _CCV_APPLY_MATRIX(ccMat3x3, ccMat3x3SetRotation2D(multiply, r));
 
 #define _CCV_SET_ROTATION_3D_X() \
 	m[0][0] = 1; \
-	m[1][1] = (_CCV_TYPE)cos(r); \
-	m[1][2] = (_CCV_TYPE)sin(r); \
+	m[1][1] = (ccvType)cos(r); \
+	m[1][2] = (ccvType)sin(r); \
 	m[2][1] = -m[1][2]; \
 	m[2][2] = m[1][1]
 
 #define _CCV_SET_ROTATION_3D_Y() \
-	m[0][0] = (_CCV_TYPE)cos(r); \
-	m[2][0] = (_CCV_TYPE)sin(r); \
+	m[0][0] = (ccvType)cos(r); \
+	m[2][0] = (ccvType)sin(r); \
 	m[1][1] = 1; \
 	m[0][2] = -m[2][0]; \
 	m[2][2] = m[0][0]
 
 #define _CCV_SET_ROTATION_3D_Z() \
-	m[0][0] = (_CCV_TYPE)cos(r); \
-	m[0][1] = (_CCV_TYPE)sin(r); \
+	m[0][0] = (ccvType)cos(r); \
+	m[0][1] = (ccvType)sin(r); \
 	m[1][0] = -m[0][1]; \
 	m[1][1] = m[0][0]; \
 	m[2][2] = 1
 
-static inline void ccMat3x3SetRotationX(ccMat3x3 m, const _CCV_TYPE r)
+static inline void ccMat3x3SetRotationX(ccMat3x3 m, const ccvType r)
 {
 	_CCV_SET_ROTATION_3D_X();
 }
 
-static inline void ccMat3x3SetRotationY(ccMat3x3 m, const _CCV_TYPE r)
+static inline void ccMat3x3SetRotationY(ccMat3x3 m, const ccvType r)
 {
 	_CCV_SET_ROTATION_3D_Y();
 }
 
-static inline void ccMat3x3SetRotationZ(ccMat3x3 m, const _CCV_TYPE r)
+static inline void ccMat3x3SetRotationZ(ccMat3x3 m, const ccvType r)
 {
 	_CCV_SET_ROTATION_3D_Z();
 }
 
-static inline void ccMat3x3RotateX(ccMat3x3 m, const _CCV_TYPE r) _CCV_APPLY_MATRIX(ccMat3x3, ccMat3x3SetRotationX(multiply, r))
+static inline void ccMat3x3RotateX(ccMat3x3 m, const ccvType r) _CCV_APPLY_MATRIX(ccMat3x3, ccMat3x3SetRotationX(multiply, r))
 
-static inline void ccMat3x3RotateY(ccMat3x3 m, const _CCV_TYPE r) _CCV_APPLY_MATRIX(ccMat3x3, ccMat3x3SetRotationY(multiply, r))
+static inline void ccMat3x3RotateY(ccMat3x3 m, const ccvType r) _CCV_APPLY_MATRIX(ccMat3x3, ccMat3x3SetRotationY(multiply, r))
 
-static inline void ccMat3x3RotateZ(ccMat3x3 m, const _CCV_TYPE r) _CCV_APPLY_MATRIX(ccMat3x3, ccMat3x3SetRotationZ(multiply, r))
+static inline void ccMat3x3RotateZ(ccMat3x3 m, const ccvType r) _CCV_APPLY_MATRIX(ccMat3x3, ccMat3x3SetRotationZ(multiply, r))
 
-static inline void ccMat4x4SetRotationX(ccMat4x4 m, const _CCV_TYPE r)
+static inline void ccMat4x4SetRotationX(ccMat4x4 m, const ccvType r)
 {
 	ccMat4x4Zero(m);
 
@@ -317,7 +317,7 @@ static inline void ccMat4x4SetRotationX(ccMat4x4 m, const _CCV_TYPE r)
 	m[3][3] = 1;
 }
 
-static inline void ccMat4x4SetRotationY(ccMat4x4 m, const _CCV_TYPE r)
+static inline void ccMat4x4SetRotationY(ccMat4x4 m, const ccvType r)
 {
 	ccMat4x4Zero(m);
 
@@ -325,7 +325,7 @@ static inline void ccMat4x4SetRotationY(ccMat4x4 m, const _CCV_TYPE r)
 	m[3][3] = 1;
 }
 
-static inline void ccMat4x4SetRotationZ(ccMat4x4 m, const _CCV_TYPE r)
+static inline void ccMat4x4SetRotationZ(ccMat4x4 m, const ccvType r)
 {
 	ccMat4x4Zero(m);
 
@@ -333,11 +333,11 @@ static inline void ccMat4x4SetRotationZ(ccMat4x4 m, const _CCV_TYPE r)
 	m[3][3] = 1;
 }
 
-static inline void ccMat4x4RotateX(ccMat4x4 m, const _CCV_TYPE r) _CCV_APPLY_MATRIX(ccMat4x4, ccMat4x4SetRotationX(multiply, r))
+static inline void ccMat4x4RotateX(ccMat4x4 m, const ccvType r) _CCV_APPLY_MATRIX(ccMat4x4, ccMat4x4SetRotationX(multiply, r))
 
-static inline void ccMat4x4RotateY(ccMat4x4 m, const _CCV_TYPE r) _CCV_APPLY_MATRIX(ccMat4x4, ccMat4x4SetRotationY(multiply, r))
+static inline void ccMat4x4RotateY(ccMat4x4 m, const ccvType r) _CCV_APPLY_MATRIX(ccMat4x4, ccMat4x4SetRotationY(multiply, r))
 
-static inline void ccMat4x4RotateZ(ccMat4x4 m, const _CCV_TYPE r) _CCV_APPLY_MATRIX(ccMat4x4, ccMat4x4SetRotationZ(multiply, r))
+static inline void ccMat4x4RotateZ(ccMat4x4 m, const ccvType r) _CCV_APPLY_MATRIX(ccMat4x4, ccMat4x4SetRotationZ(multiply, r))
 
 // Define translation methods
 
@@ -364,15 +364,15 @@ static inline void ccMat4x4Translate(ccMat4x4 m, const ccVec3 v) _CCV_APPLY_MATR
 
 // Define scaling methods
 
-static inline void ccMat2x2SetScale(ccMat2x2 m, const _CCV_TYPE scale)
+static inline void ccMat2x2SetScale(ccMat2x2 m, const ccvType scale)
 {
 	m[0][0] = m[1][1] = scale;
 	m[1][0] = m[0][1] = 0;
 }
 
-static inline void ccMat2x2Scale(ccMat2x2 m, const _CCV_TYPE scale) _CCV_APPLY_MATRIX(ccMat2x2, ccMat2x2SetScale(multiply, scale))
+static inline void ccMat2x2Scale(ccMat2x2 m, const ccvType scale) _CCV_APPLY_MATRIX(ccMat2x2, ccMat2x2SetScale(multiply, scale))
 
-static inline void ccMat3x3SetScale2D(ccMat3x3 m, const _CCV_TYPE scale)
+static inline void ccMat3x3SetScale2D(ccMat3x3 m, const ccvType scale)
 {
 	ccMat3x3Zero(m);
 
@@ -380,18 +380,18 @@ static inline void ccMat3x3SetScale2D(ccMat3x3 m, const _CCV_TYPE scale)
 	m[0][0] = m[1][1] = scale;
 }
 
-static inline void ccMat3x3Scale2D(ccMat3x3 m, const _CCV_TYPE scale) _CCV_APPLY_MATRIX(ccMat3x3, ccMat3x3SetScale2D(multiply, scale))
+static inline void ccMat3x3Scale2D(ccMat3x3 m, const ccvType scale) _CCV_APPLY_MATRIX(ccMat3x3, ccMat3x3SetScale2D(multiply, scale))
 
-static inline void ccMat3x3SetScale(ccMat3x3 m, const _CCV_TYPE scale)
+static inline void ccMat3x3SetScale(ccMat3x3 m, const ccvType scale)
 {
 	ccMat3x3Zero(m);
 	
 	m[0][0] = m[1][1] = m[2][2] = scale;
 }
 
-static inline void ccMat3x3Scale(ccMat3x3 m, const _CCV_TYPE scale) _CCV_APPLY_MATRIX(ccMat3x3, ccMat3x3SetScale(multiply, scale))
+static inline void ccMat3x3Scale(ccMat3x3 m, const ccvType scale) _CCV_APPLY_MATRIX(ccMat3x3, ccMat3x3SetScale(multiply, scale))
 
-static inline void ccMat4x4SetScale(ccMat4x4 m, const _CCV_TYPE scale)
+static inline void ccMat4x4SetScale(ccMat4x4 m, const ccvType scale)
 {
 	ccMat4x4Zero(m);
 	
@@ -399,7 +399,7 @@ static inline void ccMat4x4SetScale(ccMat4x4 m, const _CCV_TYPE scale)
 	m[0][0] = m[1][1] = m[2][2] = scale;
 }
 
-static inline void ccMat4x4Scale(ccMat4x4 m, const _CCV_TYPE scale) _CCV_APPLY_MATRIX(ccMat4x4, ccMat4x4SetScale(multiply, scale))
+static inline void ccMat4x4Scale(ccMat4x4 m, const ccvType scale) _CCV_APPLY_MATRIX(ccMat4x4, ccMat4x4SetScale(multiply, scale))
 
 #ifdef __cplusplus
 }
