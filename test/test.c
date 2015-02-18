@@ -50,7 +50,7 @@ int main(int argc, char **argv) {
 
 	printVec3(vectorMultiplied);
 
-	printf("Length: %.2f\n", ccVec3Length(vector));
+	printf("Length: %.2f\n", ccVec3Length2D(vector));
 
 	getchar();
 

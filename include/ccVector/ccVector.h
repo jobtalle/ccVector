@@ -249,7 +249,7 @@ CCV_DEFINE_MAT(4)
 	type##MultiplyMatrix(m, buffer, multiply); \
 }
 
-// Define normals & cross products
+// Define vector utilities
 
 static inline ccVec2 ccVec2Orthogonal(const ccVec2 a)
 {
@@ -270,6 +270,16 @@ static inline ccVec3 ccVec3CrossProduct(const ccVec3 a, const ccVec3 b)
 	v.v[2] = a.v[0] * b.v[1] - a.v[1] * b.v[0];
 
 	return v;
+}
+
+static inline ccvType ccVec3Length2D(const ccVec3 a)
+{
+	return (ccvType)sqrt(a.x * a.x + a.y * a.y);
+}
+
+static inline ccvType ccVec4Length3D(const ccVec4 a)
+{
+	return (ccvType)sqrt(a.x * a.x + a.y * a.y + a.z * a.z);
 }
 
 // Define rotation methods
