@@ -214,18 +214,45 @@ typedef union {
 
 typedef union {
 	ccvType v[3];
-	struct {
-		ccvType x, y;
-		union {
-			ccvType z;
-			ccvType w;
+	union {
+		struct {
+			union {
+				struct { ccvType x, y; };
+				ccVec2 xy;
+			};
+			union {
+				ccvType z;
+				ccvType w;
+			};
+		};
+		struct {
+			ccvType _x;
+			ccVec2 yz;
 		};
 	};
 } _CCV_VEC_TYPENAME(3);
 
 typedef union {
 	ccvType v[4];
-	struct { ccvType x, y, z, w; };
+	struct {
+		union {
+			struct {
+				union {
+					struct { ccvType x, y; };
+					ccVec2 xy;
+				};
+				ccvType z, w;
+			};
+			struct {
+				ccvType _x;
+				union {
+					struct { ccvType _y, _z; };
+					ccVec2 yz;
+				};
+				ccvType _w;
+			};
+		};
+	};
 } _CCV_VEC_TYPENAME(4);
 
 // Define 2d, 3d and 4d vectors and matrices
