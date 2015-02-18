@@ -158,13 +158,15 @@ typedef float ccvType;
 	}
 
 #define _CCV_DEFINE_MAT_MULTIPLY_VECTOR(dim) \
-	static inline _CCV_MAT_TYPENAME(dim)##MultiplyVector(_CCV_VEC_TYPENAME(dim) *v, const _CCV_MAT_TYPENAME(dim) a, const _CCV_VEC_TYPENAME(dim) *b) { \
+	static inline _CCV_VEC_TYPENAME(dim) _CCV_MAT_TYPENAME(dim)##MultiplyVector(const _CCV_MAT_TYPENAME(dim) a, const _CCV_VEC_TYPENAME(dim) b) { \
+		_CCV_VEC_TYPENAME(dim) v; \
 		unsigned int i, j; \
 		for(i = 0; i < dim; i++) { \
-			v->v[i] = a[0][i] * b->v[0]; \
+			v.v[i] = a[0][i] * b.v[0]; \
 			for(j = 1; j < dim; j++) \
-				v->v[i] += a[j][i] * b->v[j]; \
+				v.v[i] += a[j][i] * b.v[j]; \
 		} \
+		return v; \
 	}
 
 #define _CCV_DEFINE_MAT_MULTIPLY_MATRIX(dim) \

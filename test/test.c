@@ -46,7 +46,7 @@ int main(int argc, char **argv) {
 
 	printf("Applying transformation matrix...\n\n");
 
-	ccMat3x3MultiplyVector(&vectorMultiplied, transform, &vector);
+	vectorMultiplied = ccMat3x3MultiplyVector(transform, vector);
 
 	printVec3(vectorMultiplied);
 
