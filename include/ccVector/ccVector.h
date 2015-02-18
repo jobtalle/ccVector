@@ -418,8 +418,8 @@ static inline void ccMat3x3SetTranslation(ccMat3x3 m, const ccVec2 v)
 {
 	ccMat3x3Identity(m);
 
-	m[2][0] = v.v[0];
-	m[2][1] = v.v[1];
+	m[2][0] = v.x;
+	m[2][1] = v.y;
 }
 
 static inline void ccMat3x3Translate(ccMat3x3 m, const ccVec2 v) _CCV_APPLY_MATRIX(ccMat3x3, ccMat3x3SetTranslation(multiply, v))
@@ -428,9 +428,9 @@ static inline void ccMat4x4SetTranslation(ccMat4x4 m, const ccVec3 v)
 {
 	ccMat4x4Identity(m);
 
-	m[3][0] = v.v[0];
-	m[3][1] = v.v[1];
-	m[3][2] = v.v[2];
+	m[3][0] = v.x;
+	m[3][1] = v.y;
+	m[3][2] = v.z;
 }
 
 static inline void ccMat4x4Translate(ccMat4x4 m, const ccVec3 v) _CCV_APPLY_MATRIX(ccMat4x4, ccMat4x4SetTranslation(multiply, v))
