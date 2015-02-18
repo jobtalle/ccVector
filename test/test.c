@@ -26,12 +26,12 @@ int main(int argc, char **argv) {
 	ccVec2 add;
 	ccMat3x3 transform;
 
-	vector.v[0] = 5;
-	vector.v[1] = 0;
-	vector.v[2] = 1;
+	vector.x = 5;
+	vector.y = 0;
+	vector.z = 1;
 
-	add.v[0] = 1000;
-	add.v[1] = 1000;
+	add.x = 1000;
+	add.y = 1000;
 
 	printVec3(vector);
 	ccVec3Multiply(&vector, 2);
@@ -50,7 +50,7 @@ int main(int argc, char **argv) {
 
 	printVec3(vectorMultiplied);
 
-	//printf("Length: %.2f\n", ccVec2Length(vector.v));
+	printf("Length: %.2f\n", ccVec2Length((ccVec2*)&vector));
 
 	getchar();
 
