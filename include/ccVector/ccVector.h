@@ -251,17 +251,25 @@ CCV_DEFINE_MAT(4)
 
 // Define normals & cross products
 
-static inline void ccVec2Orthogonal(ccVec2 v, const ccVec2 a)
+static inline ccVec2 ccVec2Orthogonal(const ccVec2 a)
 {
+	ccVec2 v;
+
 	v.v[0] = -a.v[1];
 	v.v[1] = a.v[0];
+
+	return v;
 }
 
-static inline void ccVec3CrossProduct(ccVec3 v, const ccVec3 a, const ccVec3 b)
+static inline ccVec3 ccVec3CrossProduct(const ccVec3 a, const ccVec3 b)
 {
+	ccVec3 v;
+
 	v.v[0] = a.v[1] * b.v[2] - a.v[2] * b.v[1];
 	v.v[1] = a.v[2] * b.v[0] - a.v[0] * b.v[2];
 	v.v[2] = a.v[0] * b.v[1] - a.v[1] * b.v[0];
+
+	return v;
 }
 
 // Define rotation methods
