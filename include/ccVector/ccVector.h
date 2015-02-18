@@ -214,7 +214,13 @@ typedef union {
 
 typedef union {
 	ccvType v[3];
-	struct { ccvType x, y, z; };
+	struct {
+		ccvType x, y;
+		union {
+			ccvType z;
+			ccvType w;
+		};
+	};
 } _CCV_VEC_TYPENAME(3);
 
 typedef union {
