@@ -6,7 +6,7 @@
 
 static void printVec3(ccVec3 v) {
 	for(int i = 0; i < 3; i++) {
-		printf("%.2f\n", v[i]);
+		printf("%.2f\n", v.v[i]);
 	}
 	printf("\n");
 }
@@ -26,13 +26,15 @@ int main(int argc, char **argv) {
 	ccVec2 add;
 	ccMat3x3 transform;
 
-	vector[0] = 5;
-	vector[1] = 0;
-	vector[2] = 1;
+	vector.v[0] = 5;
+	vector.v[1] = 0;
+	vector.v[2] = 1;
 
-	add[0] = 1000;
-	add[1] = 1000;
+	add.v[0] = 1000;
+	add.v[1] = 1000;
 
+	printVec3(vector);
+	ccVec3Multiply(&vector, 2);
 	printVec3(vector);
 
 	ccMat3x3Identity(transform);
@@ -44,11 +46,11 @@ int main(int argc, char **argv) {
 
 	printf("Applying transformation matrix...\n\n");
 
-	ccMat3x3MultiplyVector(vectorMultiplied, transform, vector);
+	ccMat3x3MultiplyVector(&vectorMultiplied, transform, &vector);
 
 	printVec3(vectorMultiplied);
 
-	printf("Length: %.2f\n", ccVec2Length(vector));
+	//printf("Length: %.2f\n", ccVec2Length(vector.v));
 
 	getchar();
 

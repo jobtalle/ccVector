@@ -28,9 +28,7 @@ extern "C"
 #include <string.h>
 
 #ifdef _MSC_VER
-#ifndef inline
 #define inline __inline
-#endif
 #endif
 
 // Type
@@ -45,8 +43,7 @@ typedef float ccvType;
 
 // Type definitions
 
-#define _CCV_DEFINE_VEC_TYPE(dim) \
-	typedef ccvType _CCV_VEC_TYPENAME(dim)[dim];
+#define _CCV_DEFINE_VEC_TYPE(dim)
 
 #define _CCV_DEFINE_MAT_TYPE(dim) \
 	typedef ccvType _CCV_MAT_TYPENAME(dim)[dim][dim];
@@ -54,65 +51,65 @@ typedef float ccvType;
 // Vector operations
 
 #define _CCV_DEFINE_VEC_ZERO(dim) \
-	static inline void _CCV_VEC_TYPENAME(dim)##Zero(_CCV_VEC_TYPENAME(dim) v) { \
-		memset(v, 0, sizeof(ccvType)* dim); \
+	static inline void _CCV_VEC_TYPENAME(dim)##Zero(_CCV_VEC_TYPENAME(dim) *v) { \
+		memset(v->v, 0, sizeof(ccvType) * dim); \
 	}
 
 #define _CCV_DEFINE_VEC_ADD(dim) \
-	static inline void _CCV_VEC_TYPENAME(dim)##Add(_CCV_VEC_TYPENAME(dim) v, const _CCV_VEC_TYPENAME(dim) a, const _CCV_VEC_TYPENAME(dim) b) { \
+	static inline void _CCV_VEC_TYPENAME(dim)##Add(_CCV_VEC_TYPENAME(dim) *v, const _CCV_VEC_TYPENAME(dim) *a, const _CCV_VEC_TYPENAME(dim) *b) { \
 		unsigned int i; \
 		for(i = 0; i < dim; i++) \
-			v[i] = a[i] + b[i]; \
+			v->v[i] = a->v[i] + b->v[i]; \
 	}
 
 #define _CCV_DEFINE_VEC_SUBTRACT(dim) \
-	static inline void _CCV_VEC_TYPENAME(dim)##Subtract(_CCV_VEC_TYPENAME(dim) v, const _CCV_VEC_TYPENAME(dim) a, const _CCV_VEC_TYPENAME(dim) b) { \
+	static inline void _CCV_VEC_TYPENAME(dim)##Subtract(_CCV_VEC_TYPENAME(dim) *v, const _CCV_VEC_TYPENAME(dim) *a, const _CCV_VEC_TYPENAME(dim) *b) { \
 		unsigned int i; \
 		for(i = 0; i < dim; i++) \
-			v[i] = a[i] - b[i]; \
+			v->v[i] = a->v[i] - b->v[i]; \
 	}
 
 #define _CCV_DEFINE_VEC_COPY(dim) \
-	static inline _CCV_VEC_TYPENAME(dim)##Copy(_CCV_VEC_TYPENAME(dim) dest, const _CCV_VEC_TYPENAME(dim) source) { \
-		memcpy(dest, source, sizeof(ccvType) * dim); \
+	static inline _CCV_VEC_TYPENAME(dim)##Copy(_CCV_VEC_TYPENAME(dim) *dest, const _CCV_VEC_TYPENAME(dim) *source) { \
+		memcpy(dest->v, source->v, sizeof(ccvType) * dim); \
 	}
 
 #define _CCV_DEFINE_VEC_MULTIPLY(dim) \
-	static inline void _CCV_VEC_TYPENAME(dim)##Multiply(_CCV_VEC_TYPENAME(dim) v, const ccvType n) { \
+	static inline void _CCV_VEC_TYPENAME(dim)##Multiply(_CCV_VEC_TYPENAME(dim) *v, const ccvType n) { \
 		unsigned int i; \
 		for(i = 0; i < dim; i++) \
-			v[i] *= n; \
+			v->v[i] *= n; \
 	}
 
 #define _CCV_DEFINE_VEC_DOTPRODUCT(dim) \
-	static inline ccvType _CCV_VEC_TYPENAME(dim)##DotProduct(const _CCV_VEC_TYPENAME(dim) a, const _CCV_VEC_TYPENAME(dim) b) { \
+	static inline ccvType _CCV_VEC_TYPENAME(dim)##DotProduct(const _CCV_VEC_TYPENAME(dim) *a, const _CCV_VEC_TYPENAME(dim) *b) { \
 		unsigned int i; \
 		ccvType result = 0; \
 		for(i = 0; i < dim; i++) \
-			result += a[i] * b[i]; \
+			result += a->v[i] * b->v[i]; \
 		return result; \
 	}
 
 #define _CCV_DEFINE_VEC_LENGTH(dim) \
-	static inline ccvType _CCV_VEC_TYPENAME(dim)##Length(const _CCV_VEC_TYPENAME(dim) v) { \
+	static inline ccvType _CCV_VEC_TYPENAME(dim)##Length(const _CCV_VEC_TYPENAME(dim) *v) { \
 		unsigned int i; \
 		ccvType squaredResult = 0; \
 		for(i = 0; i < dim; i++) \
-			squaredResult += v[i] * v[i]; \
+			squaredResult += v->v[i] * v->v[i]; \
 		return (ccvType)sqrt(squaredResult); \
 	}
 
 #define _CCV_DEFINE_VEC_NORMALIZE(dim) \
-	static inline _CCV_VEC_TYPENAME(dim)##Normalize(_CCV_VEC_TYPENAME(dim) v) { \
+	static inline _CCV_VEC_TYPENAME(dim)##Normalize(_CCV_VEC_TYPENAME(dim) *v) { \
 		_CCV_VEC_TYPENAME(dim)##Multiply(v, 1 / _CCV_VEC_TYPENAME(dim)##Length(v)); \
 	}
 
 #define _CCV_DEFINE_VEC_REFLECT(dim) \
-	static inline void _CCV_VEC_TYPENAME(dim)##Reflect(_CCV_VEC_TYPENAME(dim) v, const _CCV_VEC_TYPENAME(dim) n, const _CCV_VEC_TYPENAME(dim) r) { \
+	static inline void _CCV_VEC_TYPENAME(dim)##Reflect(_CCV_VEC_TYPENAME(dim) *v, const _CCV_VEC_TYPENAME(dim) *n, const _CCV_VEC_TYPENAME(dim) *r) { \
 		_CCV_VEC_TYPENAME(dim) _v; \
-		_CCV_VEC_TYPENAME(dim)##Copy(_v, n); \
-		_CCV_VEC_TYPENAME(dim)##Multiply(_v, 2 * _CCV_VEC_TYPENAME(dim)##DotProduct(n, r)); \
-		_CCV_VEC_TYPENAME(dim)##Subtract(v, r, _v); \
+		_CCV_VEC_TYPENAME(dim)##Copy(&_v, n); \
+		_CCV_VEC_TYPENAME(dim)##Multiply(&_v, 2 * _CCV_VEC_TYPENAME(dim)##DotProduct(n, r)); \
+		_CCV_VEC_TYPENAME(dim)##Subtract(v, r, &_v); \
 	}
 
 // Matrix operations
@@ -162,12 +159,12 @@ typedef float ccvType;
 	}
 
 #define _CCV_DEFINE_MAT_MULTIPLY_VECTOR(dim) \
-	static inline _CCV_MAT_TYPENAME(dim)##MultiplyVector(_CCV_VEC_TYPENAME(dim) v, const _CCV_MAT_TYPENAME(dim) a, const _CCV_VEC_TYPENAME(dim) b) { \
+	static inline _CCV_MAT_TYPENAME(dim)##MultiplyVector(_CCV_VEC_TYPENAME(dim) *v, const _CCV_MAT_TYPENAME(dim) a, const _CCV_VEC_TYPENAME(dim) *b) { \
 		unsigned int i, j; \
 		for(i = 0; i < dim; i++) { \
-			v[i] = a[0][i] * b[0]; \
+			v->v[i] = a[0][i] * b->v[0]; \
 			for(j = 1; j < dim; j++) \
-				v[i] += a[j][i] * b[j]; \
+				v->v[i] += a[j][i] * b->v[j]; \
 		} \
 	}
 
@@ -208,6 +205,23 @@ typedef float ccvType;
 	_CCV_DEFINE_MAT_MULTIPLY_VECTOR(dim) \
 	_CCV_DEFINE_MAT_MULTIPLY_MATRIX(dim)
 
+// Vector type override
+
+typedef union {
+	ccvType v[2];
+	struct { ccvType x, y; };
+} _CCV_VEC_TYPENAME(2);
+
+typedef union {
+	ccvType v[3];
+	struct { ccvType x, y, z; };
+} _CCV_VEC_TYPENAME(3);
+
+typedef union {
+	ccvType v[4];
+	struct { ccvType x, y, z, w; };
+} _CCV_VEC_TYPENAME(4);
+
 // Define 2d, 3d and 4d vectors and matrices
 
 CCV_DEFINE_VEC(2)
@@ -217,6 +231,14 @@ CCV_DEFINE_VEC(4)
 CCV_DEFINE_MAT(2)
 CCV_DEFINE_MAT(3)
 CCV_DEFINE_MAT(4)
+
+// General vector type
+
+#undef _CCV_DEFINE_VEC_TYPE
+#define _CCV_DEFINE_VEC_TYPE(dim) \
+	typedef struct { \
+		ccvType v[dim]; \
+	} _CCV_VEC_TYPENAME(dim);
 
 // Shorthand transformation multiplier
 
@@ -231,15 +253,15 @@ CCV_DEFINE_MAT(4)
 
 static inline void ccVec2Orthogonal(ccVec2 v, const ccVec2 a)
 {
-	v[0] = -a[1];
-	v[1] = a[0];
+	v.v[0] = -a.v[1];
+	v.v[1] = a.v[0];
 }
 
 static inline void ccVec3CrossProduct(ccVec3 v, const ccVec3 a, const ccVec3 b)
 {
-	v[0] = a[1] * b[2] - a[2] * b[1];
-	v[1] = a[2] * b[0] - a[0] * b[2];
-	v[2] = a[0] * b[1] - a[1] * b[0];
+	v.v[0] = a.v[1] * b.v[2] - a.v[2] * b.v[1];
+	v.v[1] = a.v[2] * b.v[0] - a.v[0] * b.v[2];
+	v.v[2] = a.v[0] * b.v[1] - a.v[1] * b.v[0];
 }
 
 // Define rotation methods
@@ -345,8 +367,8 @@ static inline void ccMat3x3SetTranslation(ccMat3x3 m, const ccVec2 v)
 {
 	ccMat3x3Identity(m);
 
-	m[2][0] = v[0];
-	m[2][1] = v[1];
+	m[2][0] = v.v[0];
+	m[2][1] = v.v[1];
 }
 
 static inline void ccMat3x3Translate(ccMat3x3 m, const ccVec2 v) _CCV_APPLY_MATRIX(ccMat3x3, ccMat3x3SetTranslation(multiply, v))
@@ -355,9 +377,9 @@ static inline void ccMat4x4SetTranslation(ccMat4x4 m, const ccVec3 v)
 {
 	ccMat4x4Identity(m);
 
-	m[3][0] = v[0];
-	m[3][1] = v[1];
-	m[3][2] = v[2];
+	m[3][0] = v.v[0];
+	m[3][1] = v.v[1];
+	m[3][2] = v.v[2];
 }
 
 static inline void ccMat4x4Translate(ccMat4x4 m, const ccVec3 v) _CCV_APPLY_MATRIX(ccMat4x4, ccMat4x4SetTranslation(multiply, v))
