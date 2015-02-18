@@ -218,7 +218,10 @@ typedef union {
 		struct {
 			union {
 				struct { ccvType x, y; };
-				ccVec2 xy;
+				union {
+					ccVec2 xy;
+					ccVec2 vec2;
+				};
 			};
 			union {
 				ccvType z;
@@ -234,23 +237,29 @@ typedef union {
 
 typedef union {
 	ccvType v[4];
-	struct {
-		union {
-			struct {
-				union {
-					struct { ccvType x, y; };
-					ccVec2 xy;
+	union {
+		struct {
+			union {
+				struct {
+					union {
+						struct { ccvType x, y; };
+						ccVec2 xy;
+					};
+					ccvType z, w;
 				};
-				ccvType z, w;
-			};
-			struct {
-				ccvType _x;
-				union {
-					struct { ccvType _y, _z; };
-					ccVec2 yz;
+				struct {
+					ccvType _x;
+					union {
+						struct { ccvType _y, _z; };
+						ccVec2 yz;
+					};
+					ccvType _w;
 				};
-				ccvType _w;
 			};
+		};
+		struct {
+			ccVec3 vec3;
+			ccvType __w;
 		};
 	};
 } _CCV_VEC_TYPENAME(4);
@@ -303,16 +312,6 @@ static inline ccVec3 ccVec3CrossProduct(const ccVec3 a, const ccVec3 b)
 	v.z = a.x * b.y - a.y * b.x;
 
 	return v;
-}
-
-static inline ccvType ccVec3Length2D(const ccVec3 a)
-{
-	return (ccvType)sqrt(a.x * a.x + a.y * a.y);
-}
-
-static inline ccvType ccVec4Length3D(const ccVec4 a)
-{
-	return (ccvType)sqrt(a.x * a.x + a.y * a.y + a.z * a.z);
 }
 
 // Define rotation methods
