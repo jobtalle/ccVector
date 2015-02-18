@@ -51,65 +51,64 @@ typedef float ccvType;
 // Vector operations
 
 #define _CCV_DEFINE_VEC_ZERO(dim) \
-	static inline void _CCV_VEC_TYPENAME(dim)##Zero(_CCV_VEC_TYPENAME(dim) *v) { \
-		memset(v->v, 0, sizeof(ccvType) * dim); \
+	static inline _CCV_VEC_TYPENAME(dim) _CCV_VEC_TYPENAME(dim)##Zero(void) { \
+		_CCV_VEC_TYPENAME(dim) v; \
+		memset(v.v, 0, sizeof(ccvType) * dim); \
+		return v; \
 	}
 
 #define _CCV_DEFINE_VEC_ADD(dim) \
-	static inline void _CCV_VEC_TYPENAME(dim)##Add(_CCV_VEC_TYPENAME(dim) *v, const _CCV_VEC_TYPENAME(dim) *a, const _CCV_VEC_TYPENAME(dim) *b) { \
+	static inline _CCV_VEC_TYPENAME(dim) _CCV_VEC_TYPENAME(dim)##Add(const _CCV_VEC_TYPENAME(dim) a, const _CCV_VEC_TYPENAME(dim) b) { \
+		_CCV_VEC_TYPENAME(dim) v; \
 		unsigned int i; \
 		for(i = 0; i < dim; i++) \
-			v->v[i] = a->v[i] + b->v[i]; \
+			v.v[i] = a.v[i] + b.v[i]; \
+		return v; \
 	}
 
 #define _CCV_DEFINE_VEC_SUBTRACT(dim) \
-	static inline void _CCV_VEC_TYPENAME(dim)##Subtract(_CCV_VEC_TYPENAME(dim) *v, const _CCV_VEC_TYPENAME(dim) *a, const _CCV_VEC_TYPENAME(dim) *b) { \
+	static inline _CCV_VEC_TYPENAME(dim) _CCV_VEC_TYPENAME(dim)##Subtract(const _CCV_VEC_TYPENAME(dim) a, const _CCV_VEC_TYPENAME(dim) b) { \
+		_CCV_VEC_TYPENAME(dim) v; \
 		unsigned int i; \
 		for(i = 0; i < dim; i++) \
-			v->v[i] = a->v[i] - b->v[i]; \
-	}
-
-#define _CCV_DEFINE_VEC_COPY(dim) \
-	static inline _CCV_VEC_TYPENAME(dim)##Copy(_CCV_VEC_TYPENAME(dim) *dest, const _CCV_VEC_TYPENAME(dim) *source) { \
-		memcpy(dest->v, source->v, sizeof(ccvType) * dim); \
+			v.v[i] = a.v[i] - b.v[i]; \
+		return v; \
 	}
 
 #define _CCV_DEFINE_VEC_MULTIPLY(dim) \
-	static inline void _CCV_VEC_TYPENAME(dim)##Multiply(_CCV_VEC_TYPENAME(dim) *v, const ccvType n) { \
+	static inline _CCV_VEC_TYPENAME(dim) _CCV_VEC_TYPENAME(dim)##Multiply(_CCV_VEC_TYPENAME(dim) v, const ccvType n) { \
 		unsigned int i; \
 		for(i = 0; i < dim; i++) \
-			v->v[i] *= n; \
+			v.v[i] *= n; \
+		return v; \
 	}
 
 #define _CCV_DEFINE_VEC_DOTPRODUCT(dim) \
-	static inline ccvType _CCV_VEC_TYPENAME(dim)##DotProduct(const _CCV_VEC_TYPENAME(dim) *a, const _CCV_VEC_TYPENAME(dim) *b) { \
+	static inline ccvType _CCV_VEC_TYPENAME(dim)##DotProduct(const _CCV_VEC_TYPENAME(dim) a, const _CCV_VEC_TYPENAME(dim) b) { \
 		unsigned int i; \
 		ccvType result = 0; \
 		for(i = 0; i < dim; i++) \
-			result += a->v[i] * b->v[i]; \
+			result += a.v[i] * b.v[i]; \
 		return result; \
 	}
 
 #define _CCV_DEFINE_VEC_LENGTH(dim) \
-	static inline ccvType _CCV_VEC_TYPENAME(dim)##Length(const _CCV_VEC_TYPENAME(dim) *v) { \
+	static inline ccvType _CCV_VEC_TYPENAME(dim)##Length(const _CCV_VEC_TYPENAME(dim) v) { \
 		unsigned int i; \
 		ccvType squaredResult = 0; \
 		for(i = 0; i < dim; i++) \
-			squaredResult += v->v[i] * v->v[i]; \
+			squaredResult += v.v[i] * v.v[i]; \
 		return (ccvType)sqrt(squaredResult); \
 	}
 
 #define _CCV_DEFINE_VEC_NORMALIZE(dim) \
-	static inline _CCV_VEC_TYPENAME(dim)##Normalize(_CCV_VEC_TYPENAME(dim) *v) { \
-		_CCV_VEC_TYPENAME(dim)##Multiply(v, 1 / _CCV_VEC_TYPENAME(dim)##Length(v)); \
+	static inline _CCV_VEC_TYPENAME(dim) _CCV_VEC_TYPENAME(dim)##Normalize(_CCV_VEC_TYPENAME(dim) v) { \
+		return _CCV_VEC_TYPENAME(dim)##Multiply(v, 1 / _CCV_VEC_TYPENAME(dim)##Length(v)); \
 	}
 
 #define _CCV_DEFINE_VEC_REFLECT(dim) \
-	static inline void _CCV_VEC_TYPENAME(dim)##Reflect(_CCV_VEC_TYPENAME(dim) *v, const _CCV_VEC_TYPENAME(dim) *n, const _CCV_VEC_TYPENAME(dim) *r) { \
-		_CCV_VEC_TYPENAME(dim) _v; \
-		_CCV_VEC_TYPENAME(dim)##Copy(&_v, n); \
-		_CCV_VEC_TYPENAME(dim)##Multiply(&_v, 2 * _CCV_VEC_TYPENAME(dim)##DotProduct(n, r)); \
-		_CCV_VEC_TYPENAME(dim)##Subtract(v, r, &_v); \
+	static inline _CCV_VEC_TYPENAME(dim) _CCV_VEC_TYPENAME(dim)##Reflect(const _CCV_VEC_TYPENAME(dim) n, const _CCV_VEC_TYPENAME(dim) r) { \
+		return _CCV_VEC_TYPENAME(dim)##Subtract(r, _CCV_VEC_TYPENAME(dim)##Multiply(n, 2 * _CCV_VEC_TYPENAME(dim)##DotProduct(n, r))); \
 	}
 
 // Matrix operations
@@ -186,7 +185,6 @@ typedef float ccvType;
 	_CCV_DEFINE_VEC_ZERO(dim) \
 	_CCV_DEFINE_VEC_ADD(dim) \
 	_CCV_DEFINE_VEC_SUBTRACT(dim) \
-	_CCV_DEFINE_VEC_COPY(dim) \
 	_CCV_DEFINE_VEC_MULTIPLY(dim) \
 	_CCV_DEFINE_VEC_DOTPRODUCT(dim) \
 	_CCV_DEFINE_VEC_LENGTH(dim) \

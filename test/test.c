@@ -34,8 +34,8 @@ int main(int argc, char **argv) {
 	add.y = 1000;
 
 	printVec3(vector);
-	ccVec3Multiply(&vector, 2);
-	printVec3(vector);
+
+	vectorMultiplied = vector;
 
 	ccMat3x3Identity(transform);
 	ccMat3x3Rotate2D(transform, PI / 4);
@@ -50,7 +50,7 @@ int main(int argc, char **argv) {
 
 	printVec3(vectorMultiplied);
 
-	printf("Length: %.2f\n", ccVec2Length((ccVec2*)&vector));
+	printf("Length: %.2f\n", ccVec3Length(vector));
 
 	getchar();
 
