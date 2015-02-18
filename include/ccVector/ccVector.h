@@ -288,8 +288,8 @@ static inline ccVec2 ccVec2Orthogonal(const ccVec2 a)
 {
 	ccVec2 v;
 
-	v.v[0] = -a.v[1];
-	v.v[1] = a.v[0];
+	v.x = -a.y;
+	v.y = a.x;
 
 	return v;
 }
@@ -298,9 +298,9 @@ static inline ccVec3 ccVec3CrossProduct(const ccVec3 a, const ccVec3 b)
 {
 	ccVec3 v;
 
-	v.v[0] = a.v[1] * b.v[2] - a.v[2] * b.v[1];
-	v.v[1] = a.v[2] * b.v[0] - a.v[0] * b.v[2];
-	v.v[2] = a.v[0] * b.v[1] - a.v[1] * b.v[0];
+	v.x = a.y * b.z - a.z * b.y;
+	v.y = a.z * b.x - a.x * b.z;
+	v.z = a.x * b.y - a.y * b.x;
 
 	return v;
 }
