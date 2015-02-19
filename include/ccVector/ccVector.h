@@ -53,7 +53,7 @@ typedef float ccvType;
 #define _CCV_DEFINE_VEC_ZERO(dim) \
 	static inline _CCV_VEC_TYPENAME(dim) _CCV_VEC_TYPENAME(dim)##Zero(void) { \
 		_CCV_VEC_TYPENAME(dim) v; \
-		memset(v.v, 0, sizeof(ccvType) * dim); \
+		memset(&v, 0, sizeof(_CCV_VEC_TYPENAME(dim))); \
 		return v; \
 	}
 
