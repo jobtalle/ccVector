@@ -180,6 +180,24 @@ typedef float ccvType;
 			} \
 	}
 
+#define _CCV_DEFINE_MAT_GET_ROW(dim) \
+	static inline _CCV_VEC_TYPENAME(dim)  _CCV_MAT_TYPENAME(dim)##GetRow(_CCV_MAT_TYPENAME(dim) m, const int n) { \
+		_CCV_VEC_TYPENAME(dim) v; \
+		unsigned int i; \
+		for(i = 0; i < dim; i++) \
+			v.v[i] = m[i][n]; \
+		return v; \
+	}
+
+#define _CCV_DEFINE_MAT_GET_COL(dim) \
+	static inline _CCV_VEC_TYPENAME(dim)  _CCV_MAT_TYPENAME(dim)##GetCol(_CCV_MAT_TYPENAME(dim) m, const int n) { \
+		_CCV_VEC_TYPENAME(dim) v; \
+		unsigned int i; \
+		for(i = 0; i < dim; i++) \
+			v.v[i] = m[n][i]; \
+		return v; \
+	}
+
 // Definition calls
 
 #define CCV_DEFINE_VEC(dim) \
@@ -203,7 +221,9 @@ typedef float ccvType;
 	_CCV_DEFINE_MAT_IDENTITY(dim) \
 	_CCV_DEFINE_MAT_MULTIPLY_SCALAR(dim) \
 	_CCV_DEFINE_MAT_MULTIPLY_VECTOR(dim) \
-	_CCV_DEFINE_MAT_MULTIPLY_MATRIX(dim)
+	_CCV_DEFINE_MAT_MULTIPLY_MATRIX(dim) \
+	_CCV_DEFINE_MAT_GET_ROW(dim) \
+	_CCV_DEFINE_MAT_GET_COL(dim)
 
 // Vector type override
 

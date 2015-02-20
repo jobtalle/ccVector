@@ -42,6 +42,9 @@ int main(int argc, char **argv) {
 	ccMat3x3Scale2D(transform, 2);
 	ccMat3x3Translate(transform, add);
 
+	printf("Vector row:\n");
+	printVec3(ccMat3x3GetCol(transform, 2));
+
 	printMat3x3(transform);
 
 	printf("Applying transformation matrix...\n\n");
