@@ -114,12 +114,12 @@ typedef float ccvType;
 // Matrix operations
 
 #define _CCV_DEFINE_MAT_ZERO(dim) \
-	static inline _CCV_MAT_TYPENAME(dim)##Zero(_CCV_MAT_TYPENAME(dim) m) { \
+	static inline void _CCV_MAT_TYPENAME(dim)##Zero(_CCV_MAT_TYPENAME(dim) m) { \
 		memset(m, 0, sizeof(ccvType)* dim * dim); \
 	}
 
 #define _CCV_DEFINE_MAT_ADD(dim) \
-	static inline _CCV_MAT_TYPENAME(dim)##Add(_CCV_MAT_TYPENAME(dim) m, const _CCV_MAT_TYPENAME(dim) a, const _CCV_MAT_TYPENAME(dim) b) { \
+	static inline void _CCV_MAT_TYPENAME(dim)##Add(_CCV_MAT_TYPENAME(dim) m, const _CCV_MAT_TYPENAME(dim) a, const _CCV_MAT_TYPENAME(dim) b) { \
 		unsigned int row = 0; \
 		unsigned int col = 0; \
 		for(row = 0; row < dim; row++) \
@@ -128,7 +128,7 @@ typedef float ccvType;
 	}
 
 #define _CCV_DEFINE_MAT_SUBTRACT(dim) \
-	static inline _CCV_MAT_TYPENAME(dim)##Subtract(_CCV_MAT_TYPENAME(dim) m, const _CCV_MAT_TYPENAME(dim) a, const _CCV_MAT_TYPENAME(dim) b) { \
+	static inline void _CCV_MAT_TYPENAME(dim)##Subtract(_CCV_MAT_TYPENAME(dim) m, const _CCV_MAT_TYPENAME(dim) a, const _CCV_MAT_TYPENAME(dim) b) { \
 		unsigned int row = 0; \
 		unsigned int col = 0; \
 		for(row = 0; row < dim; row++) \
@@ -137,12 +137,12 @@ typedef float ccvType;
 	}
 
 #define _CCV_DEFINE_MAT_COPY(dim) \
-	static inline _CCV_MAT_TYPENAME(dim)##Copy(_CCV_MAT_TYPENAME(dim) dest, const _CCV_MAT_TYPENAME(dim) source) { \
+	static inline void _CCV_MAT_TYPENAME(dim)##Copy(_CCV_MAT_TYPENAME(dim) dest, const _CCV_MAT_TYPENAME(dim) source) { \
 		memcpy(dest, source, sizeof(ccvType) * dim * dim); \
 	}
 
 #define _CCV_DEFINE_MAT_IDENTITY(dim) \
-	static inline _CCV_MAT_TYPENAME(dim)##Identity(_CCV_MAT_TYPENAME(dim) m) { \
+	static inline void _CCV_MAT_TYPENAME(dim)##Identity(_CCV_MAT_TYPENAME(dim) m) { \
 		unsigned int i; \
 		_CCV_MAT_TYPENAME(dim)##Zero(m); \
 		for(i = 0; i < dim; i++) \
@@ -150,7 +150,7 @@ typedef float ccvType;
 	}
 
 #define _CCV_DEFINE_MAT_MULTIPLY_SCALAR(dim) \
-	static inline _CCV_MAT_TYPENAME(dim)##MultiplyScalar(_CCV_MAT_TYPENAME(dim) m, const ccvType n) { \
+	static inline void _CCV_MAT_TYPENAME(dim)##MultiplyScalar(_CCV_MAT_TYPENAME(dim) m, const ccvType n) { \
 		unsigned int row = 0; \
 		unsigned int col = 0; \
 		for(col = 0; col < dim; col++) \
@@ -170,7 +170,7 @@ typedef float ccvType;
 	}
 
 #define _CCV_DEFINE_MAT_MULTIPLY_MATRIX(dim) \
-	static inline _CCV_MAT_TYPENAME(dim)##MultiplyMatrix(_CCV_MAT_TYPENAME(dim) m, const _CCV_MAT_TYPENAME(dim) a, const _CCV_MAT_TYPENAME(dim) b) { \
+	static inline void _CCV_MAT_TYPENAME(dim)##MultiplyMatrix(_CCV_MAT_TYPENAME(dim) m, const _CCV_MAT_TYPENAME(dim) a, const _CCV_MAT_TYPENAME(dim) b) { \
 		unsigned int i, j, k; \
 		for(i = 0; i < dim; i++) \
 			for(j = 0; j < dim; j++) { \
