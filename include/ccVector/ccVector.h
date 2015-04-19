@@ -57,6 +57,7 @@ typedef float ccvType;
 		return v; \
 	}
 
+<<<<<<< HEAD
 #define _CCV_DEFINE_VEC_NEGATE(dim) \
 	static inline _CCV_VEC_TYPENAME(dim) _CCV_VEC_TYPENAME(dim)##Negate(const _CCV_VEC_TYPENAME(dim) v) { \
 		_CCV_VEC_TYPENAME(dim) r; \
@@ -66,6 +67,8 @@ typedef float ccvType;
 		return r; \
 	}
 
+=======
+>>>>>>> 05aa18d3cad4e40eb17572ba62c98172a964a4a1
 #define _CCV_DEFINE_VEC_ISZERO(dim) \
 	static inline int _CCV_VEC_TYPENAME(dim)##IsZero(_CCV_VEC_TYPENAME(dim) v) { \
 		unsigned int i; \
@@ -228,7 +231,10 @@ typedef float ccvType;
 #define CCV_DEFINE_VEC(dim) \
 	_CCV_DEFINE_VEC_TYPE(dim) \
 	_CCV_DEFINE_VEC_ZERO(dim) \
+<<<<<<< HEAD
 	_CCV_DEFINE_VEC_NEGATE(dim) \
+=======
+>>>>>>> 05aa18d3cad4e40eb17572ba62c98172a964a4a1
 	_CCV_DEFINE_VEC_ISZERO(dim) \
 	_CCV_DEFINE_VEC_ADD(dim) \
 	_CCV_DEFINE_VEC_SUBTRACT(dim) \
