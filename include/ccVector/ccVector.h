@@ -57,6 +57,23 @@ typedef float ccvType;
 		return v; \
 	}
 
+#define _CCV_DEFINE_VEC_NEGATE(dim) \
+	static inline _CCV_VEC_TYPENAME(dim) _CCV_VEC_TYPENAME(dim)##Negate(const _CCV_VEC_TYPENAME(dim) v) { \
+		_CCV_VEC_TYPENAME(dim) r; \
+		unsigned int i; \
+		for(i = 0; i < dim;i++) \
+			r.v[i] = -v.v[i]; \
+		return r; \
+	}
+
+#define _CCV_DEFINE_VEC_ISZERO(dim) \
+	static inline int _CCV_VEC_TYPENAME(dim)##IsZero(_CCV_VEC_TYPENAME(dim) v) { \
+		unsigned int i; \
+		for(i = 0; i < dim; i ++) \
+			if(v.v[i] != 0) return 0; \
+		return 1; \
+	}
+
 #define _CCV_DEFINE_VEC_ADD(dim) \
 	static inline _CCV_VEC_TYPENAME(dim) _CCV_VEC_TYPENAME(dim)##Add(const _CCV_VEC_TYPENAME(dim) a, const _CCV_VEC_TYPENAME(dim) b) { \
 		_CCV_VEC_TYPENAME(dim) v; \
@@ -116,6 +133,16 @@ typedef float ccvType;
 #define _CCV_DEFINE_MAT_ZERO(dim) \
 	static inline void _CCV_MAT_TYPENAME(dim)##Zero(_CCV_MAT_TYPENAME(dim) m) { \
 		memset(m, 0, sizeof(ccvType)* dim * dim); \
+	}
+
+#define _CCV_DEFINE_MAT_ISZERO(dim) \
+	static inline int _CCV_MAT_TYPENAME(dim)##IsZero(_CCV_MAT_TYPENAME(dim) m) { \
+		unsigned int row = 0; \
+		unsigned int col = 0; \
+		for(row = 0; row < dim; row ++) \
+			for(col = 0; col < dim; col++) \
+				if(m[row][col] != 0) return 0; \
+		return 1; \
 	}
 
 #define _CCV_DEFINE_MAT_ADD(dim) \
@@ -201,6 +228,8 @@ typedef float ccvType;
 #define CCV_DEFINE_VEC(dim) \
 	_CCV_DEFINE_VEC_TYPE(dim) \
 	_CCV_DEFINE_VEC_ZERO(dim) \
+	_CCV_DEFINE_VEC_NEGATE(dim) \
+	_CCV_DEFINE_VEC_ISZERO(dim) \
 	_CCV_DEFINE_VEC_ADD(dim) \
 	_CCV_DEFINE_VEC_SUBTRACT(dim) \
 	_CCV_DEFINE_VEC_MULTIPLY(dim) \
@@ -213,6 +242,7 @@ typedef float ccvType;
 	_CCV_DEFINE_VEC_TYPE(dim) \
 	_CCV_DEFINE_MAT_TYPE(dim) \
 	_CCV_DEFINE_MAT_ZERO(dim) \
+	_CCV_DEFINE_MAT_ISZERO(dim) \
 	_CCV_DEFINE_MAT_ADD(dim) \
 	_CCV_DEFINE_MAT_SUBTRACT(dim) \
 	_CCV_DEFINE_MAT_COPY(dim) \
