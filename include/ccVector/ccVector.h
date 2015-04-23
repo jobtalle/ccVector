@@ -139,8 +139,8 @@ typedef float ccvType;
 	static inline int _CCV_MAT_TYPENAME(dim)##IsZero(_CCV_MAT_TYPENAME(dim) m) { \
 		unsigned int row = 0; \
 		unsigned int col = 0; \
-		for(row = 0; row < dim; row ++) \
-			for(col = 0; col < dim; col++) \
+		for(col = 0; col < dim; col++) \
+			for(row = 0; row < dim; row ++) \
 				if(m[row][col] != 0) return 0; \
 		return 1; \
 	}
@@ -149,8 +149,8 @@ typedef float ccvType;
 	static inline void _CCV_MAT_TYPENAME(dim)##Add(_CCV_MAT_TYPENAME(dim) m, const _CCV_MAT_TYPENAME(dim) a, const _CCV_MAT_TYPENAME(dim) b) { \
 		unsigned int row = 0; \
 		unsigned int col = 0; \
-		for(row = 0; row < dim; row++) \
-			for(col = 0; col < dim; col++) \
+		for(col = 0; col < dim; col++) \
+			for(row = 0; row < dim; row++) \
 				m[row][col] = a[row][col] + b[row][col]; \
 	}
 
@@ -158,8 +158,8 @@ typedef float ccvType;
 	static inline void _CCV_MAT_TYPENAME(dim)##Subtract(_CCV_MAT_TYPENAME(dim) m, const _CCV_MAT_TYPENAME(dim) a, const _CCV_MAT_TYPENAME(dim) b) { \
 		unsigned int row = 0; \
 		unsigned int col = 0; \
-		for(row = 0; row < dim; row++) \
-			for(col = 0; col < dim; col++) \
+		for(col = 0; col < dim; col++) \
+			for(row = 0; row < dim; row++) \
 				m[row][col] = a[row][col] - b[row][col]; \
 	}
 
@@ -199,8 +199,8 @@ typedef float ccvType;
 #define _CCV_DEFINE_MAT_MULTIPLY_MATRIX(dim) \
 	static inline void _CCV_MAT_TYPENAME(dim)##MultiplyMatrix(_CCV_MAT_TYPENAME(dim) m, const _CCV_MAT_TYPENAME(dim) a, const _CCV_MAT_TYPENAME(dim) b) { \
 		unsigned int i, j, k; \
-		for(i = 0; i < dim; i++) \
-			for(j = 0; j < dim; j++) { \
+		for(j = 0; j < dim; j++) \
+			for(i = 0; i < dim; i++) { \
 				m[i][j] = a[i][0] * b[0][j]; \
 				for(k = 1; k < dim; k++) \
 					m[i][j] += a[i][k] * b[k][j]; \
