@@ -35,6 +35,12 @@ extern "C"
 
 typedef float ccvType;
 
+// Math functions
+
+#define _CCV_COS  cosf
+#define _CCV_SIN  sinf
+#define _CCV_SQRT sqrtf
+
 // Prefixes
 
 #define _CCV_VEC_TYPENAME(dim) ccVec##dim
@@ -67,7 +73,7 @@ typedef float ccvType;
 	}
 
 #define _CCV_DEFINE_VEC_ISZERO(dim) \
-	static inline int _CCV_VEC_TYPENAME(dim)##IsZero(_CCV_VEC_TYPENAME(dim) v) { \
+	static inline int _CCV_VEC_TYPENAME(dim)##IsZero(const _CCV_VEC_TYPENAME(dim) v) { \
 		unsigned int i; \
 		for(i = 0; i < dim; i ++) \
 			if(v.v[i] != 0) return 0; \
@@ -115,7 +121,7 @@ typedef float ccvType;
 		ccvType squaredResult = 0; \
 		for(i = 0; i < dim; i++) \
 			squaredResult += v.v[i] * v.v[i]; \
-		return (ccvType)sqrt(squaredResult); \
+		return (ccvType)_CCV_SQRT(squaredResult); \
 	}
 
 #define _CCV_DEFINE_VEC_NORMALIZE(dim) \
@@ -365,8 +371,8 @@ static inline ccVec3 ccVec3CrossProduct(const ccVec3 a, const ccVec3 b)
 // Define rotation methods
 
 #define _CCV_SET_ROTATION_2D() \
-	m[0][0] = (ccvType)cos(r); \
-	m[0][1] = (ccvType)sin(r); \
+	m[0][0] = (ccvType)_CCV_COS(r); \
+	m[0][1] = (ccvType)_CCV_SIN(r); \
 	m[1][0] = -m[0][1]; \
 	m[1][1] = m[0][0]
 
@@ -389,21 +395,21 @@ static inline void ccMat3x3Rotate2D(ccMat3x3 m, const ccvType r) _CCV_APPLY_MATR
 
 #define _CCV_SET_ROTATION_3D_X() \
 	m[0][0] = 1; \
-	m[1][1] = (ccvType)cos(r); \
-	m[1][2] = (ccvType)sin(r); \
+	m[1][1] = (ccvType)_CCV_COS(r); \
+	m[1][2] = (ccvType)_CCV_SIN(r); \
 	m[2][1] = -m[1][2]; \
 	m[2][2] = m[1][1]
 
 #define _CCV_SET_ROTATION_3D_Y() \
-	m[0][0] = (ccvType)cos(r); \
-	m[2][0] = (ccvType)sin(r); \
+	m[0][0] = (ccvType)_CCV_COS(r); \
+	m[2][0] = (ccvType)_CCV_SIN(r); \
 	m[1][1] = 1; \
 	m[0][2] = -m[2][0]; \
 	m[2][2] = m[0][0]
 
 #define _CCV_SET_ROTATION_3D_Z() \
-	m[0][0] = (ccvType)cos(r); \
-	m[0][1] = (ccvType)sin(r); \
+	m[0][0] = (ccvType)_CCV_COS(r); \
+	m[0][1] = (ccvType)_CCV_SIN(r); \
 	m[1][0] = -m[0][1]; \
 	m[1][1] = m[0][0]; \
 	m[2][2] = 1
