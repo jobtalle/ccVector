@@ -39,6 +39,7 @@ typedef float ccvType;
 
 #define _CCV_COS  cosf
 #define _CCV_SIN  sinf
+#define _CCV_TAN  tanf
 #define _CCV_SQRT sqrtf
 
 // Prefixes
@@ -526,6 +527,65 @@ static inline void ccMat4x4SetScale(ccMat4x4 m, const ccvType scale)
 }
 
 static inline void ccMat4x4Scale(ccMat4x4 m, const ccvType scale) _CCV_APPLY_MATRIX(ccMat4x4, ccMat4x4SetScale(multiply, scale))
+
+// Define projection matrix
+
+static inline void ccMat4x4Perspective(ccMat4x4 m, ccvType angle, ccvType aspect, ccvType zNear, ccvType zFar)
+{
+	ccvType a = 1.0f / _CCV_TAN(angle * .5f);
+
+	m[0][0] = a / aspect;
+	m[0][1] = 0.0f;
+	m[0][2] = 0.0f;
+	m[0][3] = 0.0f;
+
+	m[1][0] = 0.0f;
+	m[1][1] = a;
+	m[1][2] = 0.0f;
+	m[1][3] = 0.0f;
+
+	m[2][0] = 0.0f;
+	m[2][1] = 0.0f;
+	m[2][2] = -((zFar + zNear) / (zFar - zNear));
+	m[2][3] = -1.0f;
+
+	m[3][0] = 0.0f;
+	m[3][1] = 0.0f;
+	m[3][2] = -((2.0f * zFar * zNear) / (zFar - zNear));
+	m[3][3] = 0.0f;
+}
+
+// Modelview matrix
+
+static inline void ccMat4x4LookAt(ccMat4x4 m, ccVec3 from, ccVec3 to, ccVec3 up)
+{
+	unsigned int i;
+	ccVec3 f = ccVec3Normalize(ccVec3Subtract(to, from));
+	ccVec3 s = ccVec3CrossProduct(f, up);
+	ccVec3 t = ccVec3CrossProduct(s, f);
+
+	m[0][0] = s.x;
+	m[0][1] = t.x;
+	m[0][2] = -f.x;
+	m[0][3] = 0.0f;
+
+	m[1][0] = s.y;
+	m[1][1] = t.y;
+	m[1][2] = -f.y;
+	m[1][3] = 0.0f;
+
+	m[2][0] = s.z;
+	m[2][1] = t.z;
+	m[2][2] = -f.z;
+	m[2][3] = 0.0f;
+
+	for(i = 0; i < 3; i++) {
+		ccVec3 r = ccMat4x4GetRow(m, i).vec3;
+		m[3][i] = -ccVec3DotProduct(r, from);
+	}
+
+	m[3][3] = 1.0f;
+}
 
 #ifdef __cplusplus
 }
