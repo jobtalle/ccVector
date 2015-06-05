@@ -229,6 +229,16 @@ typedef float ccvType;
 		return v; \
 	}
 
+#define _CCV_DEFINE_MAT_DEMOTE(dim) \
+	static inline void _CCV_MAT_TYPENAME(dim)##Demote(_CCV_MAT_TYPENAME(dim) m, ccvType *matrix, const int n) { \
+		int i, j; \
+		for(j = 0; j < dim; j++) { \
+			for(i = 0; i < dim; i++) { \
+				m[i][j] = matrix[j * n + i]; \
+			} \
+		} \
+	}
+
 // Definition calls
 
 #define CCV_DEFINE_VEC(dim) \
@@ -257,7 +267,8 @@ typedef float ccvType;
 	_CCV_DEFINE_MAT_MULTIPLY_VECTOR(dim) \
 	_CCV_DEFINE_MAT_MULTIPLY_MATRIX(dim) \
 	_CCV_DEFINE_MAT_GET_ROW(dim) \
-	_CCV_DEFINE_MAT_GET_COL(dim)
+	_CCV_DEFINE_MAT_GET_COL(dim) \
+	_CCV_DEFINE_MAT_DEMOTE(dim)
 
 // Vector type override
 
@@ -527,7 +538,78 @@ static inline void ccMat4x4SetScale(ccMat4x4 m, const ccvType scale)
 
 static inline void ccMat4x4Scale(ccMat4x4 m, const ccvType scale) _CCV_APPLY_MATRIX(ccMat4x4, ccMat4x4SetScale(multiply, scale))
 
-// Define projection matrix
+// Inverse matrix
+
+static inline void ccMat3x3Inverse(ccMat3x3 t, ccMat3x3 m)
+{
+	ccvType s[3][3];
+
+	s[0][0] = m[1][1] * m[2][2] - m[2][1] * m[1][2];
+	s[1][0] = - m[0][1] * m[2][2] + m[2][1] * m[0][2];
+	s[2][0] = m[0][1] * m[1][2] - m[1][1] * m[0][2];
+	s[0][1] = - m[1][0] * m[2][2] + m[1][2] * m[2][0];
+	s[1][1] = m[0][0] * m[2][2] - m[0][2] * m[2][0];
+	s[2][1] = - m[0][0] * m[1][2] + m[0][2] * m[1][0];
+	s[0][2] = m[1][0] * m[2][1] - m[1][1] * m[2][0];
+	s[1][2] = - m[0][0] * m[2][1] + m[0][1] * m[2][0];
+	s[2][2] = m[0][0] * m[1][1] - m[0][1] * m[1][0];
+
+	ccvType idet = 1.0f / (m[0][0] * s[0][0] + m[1][0] * s[1][0] + m[2][0] * s[2][0]);
+
+	t[0][0] = s[0][0] * idet;
+	t[1][0] = s[0][1] * idet;
+	t[2][0] = s[0][2] * idet;
+	t[0][1] = s[1][0] * idet;
+	t[1][1] = s[1][1] * idet;
+	t[2][1] = s[1][2] * idet;
+	t[0][2] = s[2][0] * idet;
+	t[1][2] = s[2][1] * idet;
+	t[2][2] = s[2][2] * idet;
+}
+
+static inline void ccMat4x4Inverse(ccMat4x4 t, ccMat4x4 m)
+{
+	ccvType s[6];
+	ccvType c[6];
+
+	s[0] = m[0][0] * m[1][1] - m[1][0] * m[0][1];
+	s[1] = m[0][0] * m[1][2] - m[1][0] * m[0][2];
+	s[2] = m[0][0] * m[1][3] - m[1][0] * m[0][3];
+	s[3] = m[0][1] * m[1][2] - m[1][1] * m[0][2];
+	s[4] = m[0][1] * m[1][3] - m[1][1] * m[0][3];
+	s[5] = m[0][2] * m[1][3] - m[1][2] * m[0][3];
+
+	c[0] = m[2][0] * m[3][1] - m[3][0] * m[2][1];
+	c[1] = m[2][0] * m[3][2] - m[3][0] * m[2][2];
+	c[2] = m[2][0] * m[3][3] - m[3][0] * m[2][3];
+	c[3] = m[2][1] * m[3][2] - m[3][1] * m[2][2];
+	c[4] = m[2][1] * m[3][3] - m[3][1] * m[2][3];
+	c[5] = m[2][2] * m[3][3] - m[3][2] * m[2][3];
+
+	ccvType idet = 1.0f / (s[0] * c[5] - s[1] * c[4] + s[2] * c[3] + s[3] * c[2] - s[4] * c[1] + s[5] * c[0]);
+
+	t[0][0] = (m[1][1] * c[5] - m[1][2] * c[4] + m[1][3] * c[3])  * idet;
+	t[0][1] = (-m[0][1] * c[5] + m[0][2] * c[4] - m[0][3] * c[3]) * idet;
+	t[0][2] = (m[3][1] * s[5] - m[3][2] * s[4] + m[3][3] * s[3])  * idet;
+	t[0][3] = (-m[2][1] * s[5] + m[2][2] * s[4] - m[2][3] * s[3]) * idet;
+
+	t[1][0] = (-m[1][0] * c[5] + m[1][2] * c[2] - m[1][3] * c[1]) * idet;
+	t[1][1] = (m[0][0] * c[5] - m[0][2] * c[2] + m[0][3] * c[1])  * idet;
+	t[1][2] = (-m[3][0] * s[5] + m[3][2] * s[2] - m[3][3] * s[1]) * idet;
+	t[1][3] = (m[2][0] * s[5] - m[2][2] * s[2] + m[2][3] * s[1])  * idet;
+
+	t[2][0] = (m[1][0] * c[4] - m[1][1] * c[2] + m[1][3] * c[0])  * idet;
+	t[2][1] = (-m[0][0] * c[4] + m[0][1] * c[2] - m[0][3] * c[0]) * idet;
+	t[2][2] = (m[3][0] * s[4] - m[3][1] * s[2] + m[3][3] * s[0])  * idet;
+	t[2][3] = (-m[2][0] * s[4] + m[2][1] * s[2] - m[2][3] * s[0]) * idet;
+
+	t[3][0] = (-m[1][0] * c[3] + m[1][1] * c[1] - m[1][2] * c[0]) * idet;
+	t[3][1] = (m[0][0] * c[3] - m[0][1] * c[1] + m[0][2] * c[0])  * idet;
+	t[3][2] = (-m[3][0] * s[3] + m[3][1] * s[1] - m[3][2] * s[0]) * idet;
+	t[3][3] = (m[2][0] * s[3] - m[2][1] * s[1] + m[2][2] * s[0])  * idet;
+}
+
+// Projection matrix
 
 static inline void ccMat4x4Perspective(ccMat4x4 m, ccvType angle, ccvType aspect, ccvType zNear, ccvType zFar)
 {
