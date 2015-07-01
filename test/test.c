@@ -5,15 +5,19 @@
 #define PI 3.141592f
 
 static void printVec3(ccVec3 v) {
-	for(int i = 0; i < 3; i++) {
+	unsigned int i;
+
+	for(i = 0; i < 3; i++) {
 		printf("%.2f\n", v.v[i]);
 	}
 	printf("\n");
 }
 
 static void printMat3x3(ccMat3x3 m) {
-	for(int c = 0; c < 3; c++) {
-		for(int r = 0; r < 3; r++) {
+	unsigned int c, r;
+
+	for(c = 0; c < 3; c++) {
+		for(r = 0; r < 3; r++) {
 			printf("%.2f\t", m[r][c]);
 		}
 		printf("\n");
@@ -26,7 +30,7 @@ int main(int argc, char **argv) {
 	ccVec2 add;
 	ccMat3x3 transform;
 
-	vector.x = 5;
+	vector.x = 3;
 	vector.y = 0;
 	vector.z = 1;
 
@@ -53,8 +57,6 @@ int main(int argc, char **argv) {
 	printVec3(vectorMultiplied);
 
 	printf("Length: %.2f\n", ccVec2Length(vector.vec2));
-
-	getchar();
 
 	return 0;
 }

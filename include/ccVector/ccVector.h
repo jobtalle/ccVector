@@ -30,6 +30,11 @@ extern "C"
 #define inline __inline
 #endif
 
+// Concatenation utilities
+
+#define _CAT2(a, b) a##b
+#define CAT2(a, b) _CAT2(a, b)
+
 // Type
 
 typedef float ccvType;
@@ -57,14 +62,14 @@ typedef float ccvType;
 // Vector operations
 
 #define _CCV_DEFINE_VEC_ZERO(dim) \
-	static inline _CCV_VEC_TYPENAME(dim) _CCV_VEC_TYPENAME(dim)##Zero(void) { \
+	static inline _CCV_VEC_TYPENAME(dim) CAT2(_CCV_VEC_TYPENAME(dim), Zero)(void) { \
 		_CCV_VEC_TYPENAME(dim) v; \
 		memset(&v, 0, sizeof(_CCV_VEC_TYPENAME(dim))); \
 		return v; \
 	}
 
 #define _CCV_DEFINE_VEC_NEGATE(dim) \
-	static inline _CCV_VEC_TYPENAME(dim) _CCV_VEC_TYPENAME(dim)##Negate(const _CCV_VEC_TYPENAME(dim) v) { \
+	static inline _CCV_VEC_TYPENAME(dim) CAT2(_CCV_VEC_TYPENAME(dim), Negate)(const _CCV_VEC_TYPENAME(dim) v) { \
 		_CCV_VEC_TYPENAME(dim) r; \
 		unsigned int i; \
 		for(i = 0; i < dim;i++) \
@@ -73,7 +78,7 @@ typedef float ccvType;
 	}
 
 #define _CCV_DEFINE_VEC_ISZERO(dim) \
-	static inline int _CCV_VEC_TYPENAME(dim)##IsZero(const _CCV_VEC_TYPENAME(dim) v) { \
+	static inline int CAT2(_CCV_VEC_TYPENAME(dim), IsZero)(const _CCV_VEC_TYPENAME(dim) v) { \
 		unsigned int i; \
 		for(i = 0; i < dim; i ++) \
 			if(v.v[i] != 0) return 0; \
@@ -81,7 +86,7 @@ typedef float ccvType;
 	}
 
 #define _CCV_DEFINE_VEC_ADD(dim) \
-	static inline _CCV_VEC_TYPENAME(dim) _CCV_VEC_TYPENAME(dim)##Add(const _CCV_VEC_TYPENAME(dim) a, const _CCV_VEC_TYPENAME(dim) b) { \
+	static inline _CCV_VEC_TYPENAME(dim) CAT2(_CCV_VEC_TYPENAME(dim), Add)(const _CCV_VEC_TYPENAME(dim) a, const _CCV_VEC_TYPENAME(dim) b) { \
 		_CCV_VEC_TYPENAME(dim) v; \
 		unsigned int i; \
 		for(i = 0; i < dim; i++) \
@@ -90,7 +95,7 @@ typedef float ccvType;
 	}
 
 #define _CCV_DEFINE_VEC_SUBTRACT(dim) \
-	static inline _CCV_VEC_TYPENAME(dim) _CCV_VEC_TYPENAME(dim)##Subtract(const _CCV_VEC_TYPENAME(dim) a, const _CCV_VEC_TYPENAME(dim) b) { \
+	static inline _CCV_VEC_TYPENAME(dim) CAT2(_CCV_VEC_TYPENAME(dim), Subtract)(const _CCV_VEC_TYPENAME(dim) a, const _CCV_VEC_TYPENAME(dim) b) { \
 		_CCV_VEC_TYPENAME(dim) v; \
 		unsigned int i; \
 		for(i = 0; i < dim; i++) \
@@ -99,7 +104,7 @@ typedef float ccvType;
 	}
 
 #define _CCV_DEFINE_VEC_MULTIPLY(dim) \
-	static inline _CCV_VEC_TYPENAME(dim) _CCV_VEC_TYPENAME(dim)##Multiply(_CCV_VEC_TYPENAME(dim) v, const ccvType n) { \
+	static inline _CCV_VEC_TYPENAME(dim) CAT2(_CCV_VEC_TYPENAME(dim), Multiply)(_CCV_VEC_TYPENAME(dim) v, const ccvType n) { \
 		unsigned int i; \
 		for(i = 0; i < dim; i++) \
 			v.v[i] *= n; \
@@ -107,7 +112,7 @@ typedef float ccvType;
 	}
 
 #define _CCV_DEFINE_VEC_DOTPRODUCT(dim) \
-	static inline ccvType _CCV_VEC_TYPENAME(dim)##DotProduct(const _CCV_VEC_TYPENAME(dim) a, const _CCV_VEC_TYPENAME(dim) b) { \
+	static inline ccvType CAT2(_CCV_VEC_TYPENAME(dim), DotProduct)(const _CCV_VEC_TYPENAME(dim) a, const _CCV_VEC_TYPENAME(dim) b) { \
 		unsigned int i; \
 		ccvType result = 0; \
 		for(i = 0; i < dim; i++) \
@@ -116,7 +121,7 @@ typedef float ccvType;
 	}
 
 #define _CCV_DEFINE_VEC_LENGTH(dim) \
-	static inline ccvType _CCV_VEC_TYPENAME(dim)##Length(const _CCV_VEC_TYPENAME(dim) v) { \
+	static inline ccvType CAT2(_CCV_VEC_TYPENAME(dim), Length)(const _CCV_VEC_TYPENAME(dim) v) { \
 		unsigned int i; \
 		ccvType squaredResult = 0; \
 		for(i = 0; i < dim; i++) \
@@ -125,24 +130,24 @@ typedef float ccvType;
 	}
 
 #define _CCV_DEFINE_VEC_NORMALIZE(dim) \
-	static inline _CCV_VEC_TYPENAME(dim) _CCV_VEC_TYPENAME(dim)##Normalize(_CCV_VEC_TYPENAME(dim) v) { \
-		return _CCV_VEC_TYPENAME(dim)##Multiply(v, 1 / _CCV_VEC_TYPENAME(dim)##Length(v)); \
+	static inline _CCV_VEC_TYPENAME(dim) CAT2(_CCV_VEC_TYPENAME(dim), Normalize)(_CCV_VEC_TYPENAME(dim) v) { \
+		return CAT2(_CCV_VEC_TYPENAME(dim), Multiply)(v, 1 / CAT2(_CCV_VEC_TYPENAME(dim), Length(v))); \
 	}
 
 #define _CCV_DEFINE_VEC_REFLECT(dim) \
-	static inline _CCV_VEC_TYPENAME(dim) _CCV_VEC_TYPENAME(dim)##Reflect(const _CCV_VEC_TYPENAME(dim) n, const _CCV_VEC_TYPENAME(dim) r) { \
-		return _CCV_VEC_TYPENAME(dim)##Subtract(r, _CCV_VEC_TYPENAME(dim)##Multiply(n, 2 * _CCV_VEC_TYPENAME(dim)##DotProduct(n, r))); \
+	static inline _CCV_VEC_TYPENAME(dim) CAT2(_CCV_VEC_TYPENAME(dim), Reflect)(const _CCV_VEC_TYPENAME(dim) n, const _CCV_VEC_TYPENAME(dim) r) { \
+		return CAT2(_CCV_VEC_TYPENAME(dim), Subtract)(r, CAT2(_CCV_VEC_TYPENAME(dim), Multiply)(n, 2 * CAT2(_CCV_VEC_TYPENAME(dim), DotProduct)(n, r))); \
 	}
 
 // Matrix operations
 
 #define _CCV_DEFINE_MAT_ZERO(dim) \
-	static inline void _CCV_MAT_TYPENAME(dim)##Zero(_CCV_MAT_TYPENAME(dim) m) { \
+	static inline void CAT2(_CCV_MAT_TYPENAME(dim), Zero)(_CCV_MAT_TYPENAME(dim) m) { \
 		memset(m, 0, sizeof(ccvType)* dim * dim); \
 	}
 
 #define _CCV_DEFINE_MAT_ISZERO(dim) \
-	static inline int _CCV_MAT_TYPENAME(dim)##IsZero(_CCV_MAT_TYPENAME(dim) m) { \
+	static inline int CAT2(_CCV_MAT_TYPENAME(dim), IsZero)(_CCV_MAT_TYPENAME(dim) m) { \
 		unsigned int row = 0; \
 		unsigned int col = 0; \
 		for(col = 0; col < dim; col++) \
@@ -152,7 +157,7 @@ typedef float ccvType;
 	}
 
 #define _CCV_DEFINE_MAT_ADD(dim) \
-	static inline void _CCV_MAT_TYPENAME(dim)##Add(_CCV_MAT_TYPENAME(dim) m, const _CCV_MAT_TYPENAME(dim) a, const _CCV_MAT_TYPENAME(dim) b) { \
+	static inline void CAT2(_CCV_MAT_TYPENAME(dim), Add)(_CCV_MAT_TYPENAME(dim) m, const _CCV_MAT_TYPENAME(dim) a, const _CCV_MAT_TYPENAME(dim) b) { \
 		unsigned int row = 0; \
 		unsigned int col = 0; \
 		for(col = 0; col < dim; col++) \
@@ -161,7 +166,7 @@ typedef float ccvType;
 	}
 
 #define _CCV_DEFINE_MAT_SUBTRACT(dim) \
-	static inline void _CCV_MAT_TYPENAME(dim)##Subtract(_CCV_MAT_TYPENAME(dim) m, const _CCV_MAT_TYPENAME(dim) a, const _CCV_MAT_TYPENAME(dim) b) { \
+	static inline void CAT2(_CCV_MAT_TYPENAME(dim), Subtract)(_CCV_MAT_TYPENAME(dim) m, const _CCV_MAT_TYPENAME(dim) a, const _CCV_MAT_TYPENAME(dim) b) { \
 		unsigned int row = 0; \
 		unsigned int col = 0; \
 		for(col = 0; col < dim; col++) \
@@ -170,20 +175,20 @@ typedef float ccvType;
 	}
 
 #define _CCV_DEFINE_MAT_COPY(dim) \
-	static inline void _CCV_MAT_TYPENAME(dim)##Copy(_CCV_MAT_TYPENAME(dim) dest, const _CCV_MAT_TYPENAME(dim) source) { \
+	static inline void CAT2(_CCV_MAT_TYPENAME(dim), Copy)(_CCV_MAT_TYPENAME(dim) dest, const _CCV_MAT_TYPENAME(dim) source) { \
 		memcpy(dest, source, sizeof(ccvType) * dim * dim); \
 	}
 
 #define _CCV_DEFINE_MAT_IDENTITY(dim) \
-	static inline void _CCV_MAT_TYPENAME(dim)##Identity(_CCV_MAT_TYPENAME(dim) m) { \
+	static inline void CAT2(_CCV_MAT_TYPENAME(dim), Identity)(_CCV_MAT_TYPENAME(dim) m) { \
 		unsigned int i; \
-		_CCV_MAT_TYPENAME(dim)##Zero(m); \
+		CAT2(_CCV_MAT_TYPENAME(dim), Zero)(m); \
 		for(i = 0; i < dim; i++) \
 			m[i][i] = 1; \
 	}
 
 #define _CCV_DEFINE_MAT_MULTIPLY_SCALAR(dim) \
-	static inline void _CCV_MAT_TYPENAME(dim)##MultiplyScalar(_CCV_MAT_TYPENAME(dim) m, const ccvType n) { \
+	static inline void CAT2(_CCV_MAT_TYPENAME(dim), MultiplyScalar)(_CCV_MAT_TYPENAME(dim) m, const ccvType n) { \
 		unsigned int row = 0; \
 		unsigned int col = 0; \
 		for(col = 0; col < dim; col++) \
@@ -191,7 +196,7 @@ typedef float ccvType;
 	}
 
 #define _CCV_DEFINE_MAT_MULTIPLY_VECTOR(dim) \
-	static inline _CCV_VEC_TYPENAME(dim) _CCV_MAT_TYPENAME(dim)##MultiplyVector(const _CCV_MAT_TYPENAME(dim) a, const _CCV_VEC_TYPENAME(dim) b) { \
+	static inline _CCV_VEC_TYPENAME(dim) CAT2(_CCV_MAT_TYPENAME(dim), MultiplyVector)(const _CCV_MAT_TYPENAME(dim) a, const _CCV_VEC_TYPENAME(dim) b) { \
 		_CCV_VEC_TYPENAME(dim) v; \
 		unsigned int i, j; \
 		for(i = 0; i < dim; i++) { \
@@ -203,7 +208,7 @@ typedef float ccvType;
 	}
 
 #define _CCV_DEFINE_MAT_MULTIPLY_MATRIX(dim) \
-	static inline void _CCV_MAT_TYPENAME(dim)##MultiplyMatrix(_CCV_MAT_TYPENAME(dim) m, const _CCV_MAT_TYPENAME(dim) a, const _CCV_MAT_TYPENAME(dim) b) { \
+	static inline void CAT2(_CCV_MAT_TYPENAME(dim), MultiplyMatrix)(_CCV_MAT_TYPENAME(dim) m, const _CCV_MAT_TYPENAME(dim) a, const _CCV_MAT_TYPENAME(dim) b) { \
 		unsigned int i, j, k; \
 		for(j = 0; j < dim; j++) \
 			for(i = 0; i < dim; i++) { \
@@ -214,7 +219,7 @@ typedef float ccvType;
 	}
 
 #define _CCV_DEFINE_MAT_GET_ROW(dim) \
-	static inline _CCV_VEC_TYPENAME(dim)  _CCV_MAT_TYPENAME(dim)##GetRow(_CCV_MAT_TYPENAME(dim) m, const int n) { \
+	static inline _CCV_VEC_TYPENAME(dim) CAT2(_CCV_MAT_TYPENAME(dim), GetRow)(_CCV_MAT_TYPENAME(dim) m, const int n) { \
 		_CCV_VEC_TYPENAME(dim) v; \
 		unsigned int i; \
 		for(i = 0; i < dim; i++) \
@@ -223,14 +228,14 @@ typedef float ccvType;
 	}
 
 #define _CCV_DEFINE_MAT_GET_COL(dim) \
-	static inline _CCV_VEC_TYPENAME(dim)  _CCV_MAT_TYPENAME(dim)##GetCol(_CCV_MAT_TYPENAME(dim) m, const int n) { \
+	static inline _CCV_VEC_TYPENAME(dim) CAT2(_CCV_MAT_TYPENAME(dim), GetCol)(_CCV_MAT_TYPENAME(dim) m, const int n) { \
 		_CCV_VEC_TYPENAME(dim) v; \
 		memcpy(v.v, m[n], sizeof(ccvType)* dim); \
 		return v; \
 	}
 
 #define _CCV_DEFINE_MAT_DEMOTE(dim) \
-	static inline void _CCV_MAT_TYPENAME(dim)##Demote(_CCV_MAT_TYPENAME(dim) m, ccvType *matrix, const int n) { \
+	static inline void CAT2(_CCV_MAT_TYPENAME(dim), Demote)(_CCV_MAT_TYPENAME(dim) m, ccvType *matrix, const int n) { \
 		int i, j; \
 		for(j = 0; j < dim; j++) { \
 			for(i = 0; i < dim; i++) { \
@@ -351,11 +356,11 @@ CCV_DEFINE_MAT(4)
 
 #define _CCV_APPLY_MATRIX(type, operation) { \
 	type buffer, multiply; \
-	operation##; \
-	type##Copy(buffer, m); \
-	type##MultiplyMatrix(m, buffer, multiply); \
-}
-
+	operation; \
+	CAT2(type, Copy)(buffer, m); \
+	CAT2(type, MultiplyMatrix)(m, buffer, multiply); \
+	}
+	
 // Define vector utilities
 
 static inline ccVec2 ccVec2Orthogonal(const ccVec2 a)
