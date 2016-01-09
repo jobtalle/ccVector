@@ -6,7 +6,7 @@
 //                    | (_| (__ \  /  __/ (__| || (_) | |                           //
 //                     \___\___| \/ \___|\___|\__\___/|_| v1.0                      //
 //                                                                                  //
-//                 Copyright (C) 2015 \ Job Talle (job@ccore.org)                   //
+//                 Copyright (C) 2015 \ Job Talle (jobtalle@hotmail.com)            //
 //__________________________________________________________________________________//
 //                                                                                  //
 //      This program is free software: you can redistribute it and/or modify        //
