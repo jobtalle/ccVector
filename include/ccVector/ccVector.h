@@ -413,23 +413,35 @@ static inline void ccMat3x3Rotate2D(ccMat3x3 m, const ccvType r) _CCV_APPLY_MATR
 
 #define _CCV_SET_ROTATION_3D_X() \
 	m[0][0] = 1; \
+	m[0][1] = 0; \
+	m[0][2] = 0; \
+	m[1][0] = 0; \
 	m[1][1] = (ccvType)_CCV_COS(r); \
 	m[1][2] = (ccvType)_CCV_SIN(r); \
+	m[2][0] = 0; \
 	m[2][1] = -m[1][2]; \
 	m[2][2] = m[1][1]
 
 #define _CCV_SET_ROTATION_3D_Y() \
 	m[0][0] = (ccvType)_CCV_COS(r); \
-	m[2][0] = (ccvType)_CCV_SIN(r); \
+	m[0][1] = 0; \
+	m[1][0] = 0; \
 	m[1][1] = 1; \
+	m[1][2] = 0; \
+	m[2][0] = (ccvType)_CCV_SIN(r); \
 	m[0][2] = -m[2][0]; \
+	m[2][1] = 0; \
 	m[2][2] = m[0][0]
 
 #define _CCV_SET_ROTATION_3D_Z() \
 	m[0][0] = (ccvType)_CCV_COS(r); \
 	m[0][1] = (ccvType)_CCV_SIN(r); \
+	m[0][2] = 0; \
 	m[1][0] = -m[0][1]; \
 	m[1][1] = m[0][0]; \
+	m[1][2] = 0; \
+	m[2][0] = 0; \
+	m[2][1] = 0; \
 	m[2][2] = 1
 
 static inline void ccMat3x3SetRotationX(ccMat3x3 m, const ccvType r)
