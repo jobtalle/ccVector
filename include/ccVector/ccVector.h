@@ -4,9 +4,9 @@
 //                      ___ __\ \  / /__  ___| |_ ___  _ __                         //
 //                     / __/ __\ \/ / _ \/ __| __/ _ \| '__|                        //
 //                    | (_| (__ \  /  __/ (__| || (_) | |                           //
-//                     \___\___| \/ \___|\___|\__\___/|_| v1.0                      //
+//                     \___\___| \/ \___|\___|\__\___/|_| v1.1                      //
 //                                                                                  //
-//                 Copyright (C) 2015 \ Job Talle (jobtalle@hotmail.com)            //
+//            Copyright (C) 2015 - 2016 \ Job Talle (jobtalle@hotmail.com)          //
 //__________________________________________________________________________________//
 //                                                                                  //
 //      This program is free software: you can redistribute it and/or modify        //
@@ -295,10 +295,7 @@ typedef union {
 					ccVec2 vec2;
 				};
 			};
-			union {
-				ccvType z;
-				ccvType w;
-			};
+			ccvType z;
 		};
 		struct {
 			ccvType _x;
@@ -316,21 +313,25 @@ typedef union {
 					union {
 						struct { ccvType x, y; };
 						ccVec2 xy;
+						ccVec2 vec2;
 					};
-					ccvType z, w;
+					union {
+						struct { ccvType z, w; };
+						ccVec2 zw;
+					};
 				};
 				struct {
 					ccvType _x;
-					union {
-						struct { ccvType _y, _z; };
-						ccVec2 yz;
-					};
+					ccVec2 yz;
 					ccvType _w;
 				};
 			};
 		};
 		struct {
-			ccVec3 vec3;
+			union {
+				ccVec3 vec3;
+				ccVec3 xyz;
+			};
 			ccvType __w;
 		};
 	};
@@ -385,6 +386,56 @@ static inline ccVec3 ccVec3CrossProduct(const ccVec3 a, const ccVec3 b)
 
 	return v;
 }
+
+// Define quaternion operations
+
+static inline ccVec4 ccQuatIdentity()
+{
+	return (ccVec4){ 0, 0, 0, 1 };
+}
+
+static inline ccVec4 ccQuatRotate(ccVec3 axis, ccvType radians)
+{
+	ccVec4 q;
+	float s = _CCV_SIN(radians * (ccvType)0.5);
+
+	q.xyz = ccVec3Multiply(axis, s);
+	q.w = _CCV_COS(radians * (ccvType)0.5);
+
+	return q;
+}
+
+static inline ccVec4 ccQuatMultiply(const ccVec4 a, const ccVec4 b)
+{
+	ccVec4 r;
+	ccVec3 w;
+
+	r.xyz = ccVec3CrossProduct(a.xyz, b.xyz);
+	w = ccVec3Multiply(a.xyz, b.w);
+	r.xyz = ccVec3Add(r.xyz, w);
+	w = ccVec3Multiply(b.xyz, a.w);
+	r.xyz = ccVec3Add(r.xyz, w);
+
+	r.w = a.w * b.w - ccVec3DotProduct(a.xyz, b.xyz);
+
+	return r;
+}
+
+static inline ccVec4 ccQuatAddRotation(ccVec4 q, ccVec3 axis, ccvType radians)
+{
+	return ccQuatMultiply(q, ccQuatRotate(axis, radians));
+}
+
+static inline ccVec3 ccQuatMultiplyVector(const ccVec4 q, const ccVec3 p)
+{
+	ccVec3 t = ccVec3Multiply(ccVec3CrossProduct(q.xyz, p), 2);
+	
+	return ccVec3Add(ccVec3Add(p, ccVec3Multiply(t, q.w)), ccVec3CrossProduct(q.xyz, t));
+}
+
+#define ccQuatAdd(a, b) ccVec4Add(a, b)
+#define ccQuadSubtract(a, b) ccVec4Subtract(a, b)
+#define ccQuatScale(q, s) ccVec4Multiply(q, s)
 
 // Define rotation methods
 
