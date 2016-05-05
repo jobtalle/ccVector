@@ -6,7 +6,7 @@
 //                    | (_| (__ \  /  __/ (__| || (_) | |                           //
 //                     \___\___| \/ \___|\___|\__\___/|_| v1.1                      //
 //                                                                                  //
-//            Copyright (C) 2015 - 2016 \ Job Talle (jobtalle@hotmail.com)          //
+//           Copyright (C) 2015 - 2016 \ Job Talle (jobtalle@hotmail.com)           //
 //__________________________________________________________________________________//
 //                                                                                  //
 //      This program is free software: you can redistribute it and/or modify        //
@@ -32,12 +32,12 @@ extern "C"
 #endif
 #endif
 
-// Concatenation utilities
+// Concatenation utility
 
 #define _CAT2(a, b) a##b
 #define CAT2(a, b) _CAT2(a, b)
 
-// Type
+// Number type
 
 typedef float ccvType;
 
@@ -48,11 +48,66 @@ typedef float ccvType;
 #define _CCV_TAN  tanf
 #define _CCV_SQRT sqrtf
 
-// Prefixes
+// Type names
 
 #define _CCV_VEC_TYPENAME(dim) vec##dim
-
+#define _CCV_QUAT_TYPENAME     quat
 #define _CCV_MAT_TYPENAME(dim) mat##dim##x##dim
+
+// Function names
+
+#define _CCV_FUNC_VEC_ZERO(dim)            CAT2(_CCV_VEC_TYPENAME(dim), Zero)
+#define _CCV_FUNC_VEC_NEGATE(dim)          CAT2(_CCV_VEC_TYPENAME(dim), Negate)
+#define _CCV_FUNC_VEC_ISZERO(dim)          CAT2(_CCV_VEC_TYPENAME(dim), IsZero)
+#define _CCV_FUNC_VEC_ADD(dim)             CAT2(_CCV_VEC_TYPENAME(dim), Add)
+#define _CCV_FUNC_VEC_SUBTRACT(dim)        CAT2(_CCV_VEC_TYPENAME(dim), Subtract)
+#define _CCV_FUNC_VEC_MULTIPLY(dim)        CAT2(_CCV_VEC_TYPENAME(dim), Multiply)
+#define _CCV_FUNC_VEC_DOTPRODUCT(dim)      CAT2(_CCV_VEC_TYPENAME(dim), DotProduct)
+#define _CCV_FUNC_VEC_LENGTH(dim)          CAT2(_CCV_VEC_TYPENAME(dim), Length)
+#define _CCV_FUNC_VEC_NORMALIZE(dim)       CAT2(_CCV_VEC_TYPENAME(dim), Normalize)
+#define _CCV_FUNC_VEC_REFLECT(dim)         CAT2(_CCV_VEC_TYPENAME(dim), Reflect)
+#define _CCV_FUNC_VEC_ORTHOGONAL(dim)      CAT2(_CCV_VEC_TYPENAME(dim), Orthogonal)
+#define _CCV_FUNC_VEC_CROSS_PRODUCT(dim)   CAT2(_CCV_VEC_TYPENAME(dim), CrossProduct)
+
+#define _CCV_FUNC_QUAT_IDENTITY            CAT2(_CCV_QUAT_TYPENAME, Identity)
+#define _CCV_FUNC_QUAT_ROTATE              CAT2(_CCV_QUAT_TYPENAME, Rotate)
+#define _CCV_FUNC_QUAT_MULTIPLY            CAT2(_CCV_QUAT_TYPENAME, Multiply)
+#define _CCV_FUNC_QUAT_ADD_ROTATION        CAT2(_CCV_QUAT_TYPENAME, AddRotation)
+#define _CCV_FUNC_QUAT_MULTIPLY_VECTOR     CAT2(_CCV_QUAT_TYPENAME, MultiplyVector)
+#define _CCV_FUNC_QUAT_ADD                 CAT2(_CCV_QUAT_TYPENAME, Add)
+#define _CCV_FUNC_QUAT_SUBTRACT            CAT2(_CCV_QUAT_TYPENAME, Subtract)
+#define _CCV_FUNC_QUAT_SCALE               CAT2(_CCV_QUAT_TYPENAME, Scale)
+
+#define _CCV_FUNC_MAT_ZERO(dim)            CAT2(_CCV_MAT_TYPENAME(dim), Zero)
+#define _CCV_FUNC_MAT_ISZERO(dim)          CAT2(_CCV_MAT_TYPENAME(dim), IsZero)
+#define _CCV_FUNC_MAT_ADD(dim)             CAT2(_CCV_MAT_TYPENAME(dim), Add)
+#define _CCV_FUNC_MAT_SUBTRACT(dim)        CAT2(_CCV_MAT_TYPENAME(dim), Subtract)
+#define _CCV_FUNC_MAT_COPY(dim)            CAT2(_CCV_MAT_TYPENAME(dim), Copy)
+#define _CCV_FUNC_MAT_IDENTITY(dim)        CAT2(_CCV_MAT_TYPENAME(dim), Identity)
+#define _CCV_FUNC_MAT_MULTIPLY_SCALAR(dim) CAT2(_CCV_MAT_TYPENAME(dim), MultiplyScalar)
+#define _CCV_FUNC_MAT_MULTIPLY_VECTOR(dim) CAT2(_CCV_MAT_TYPENAME(dim), MultiplyVector)
+#define _CCV_FUNC_MAT_MULTIPLY_MATRIX(dim) CAT2(_CCV_MAT_TYPENAME(dim), MultiplyMatrix)
+#define _CCV_FUNC_MAT_GET_ROW(dim)         CAT2(_CCV_MAT_TYPENAME(dim), GetRow)
+#define _CCV_FUNC_MAT_GET_COL(dim)         CAT2(_CCV_MAT_TYPENAME(dim), GetCol)
+#define _CCV_FUNC_MAT_DEMOTE(dim)          CAT2(_CCV_MAT_TYPENAME(dim), Demote)
+#define _CCV_FUNC_MAT_SET_ROTATION(dim)    CAT2(_CCV_MAT_TYPENAME(dim), SetRotation)
+#define _CCV_FUNC_MAT_ROTATE(dim)          CAT2(_CCV_MAT_TYPENAME(dim), Rotate)
+#define _CCV_FUNC_MAT_SET_ROTATION_2D(dim) CAT2(_CCV_MAT_TYPENAME(dim), SetRotation2D)
+#define _CCV_FUNC_MAT_SET_ROTATION_X(dim)  CAT2(_CCV_MAT_TYPENAME(dim), SetRotationX)
+#define _CCV_FUNC_MAT_SET_ROTATION_Y(dim)  CAT2(_CCV_MAT_TYPENAME(dim), SetRotationY)
+#define _CCV_FUNC_MAT_SET_ROTATION_Z(dim)  CAT2(_CCV_MAT_TYPENAME(dim), SetRotationZ)
+#define _CCV_FUNC_MAT_ROTATE_X(dim)        CAT2(_CCV_MAT_TYPENAME(dim), RotateX)
+#define _CCV_FUNC_MAT_ROTATE_Y(dim)        CAT2(_CCV_MAT_TYPENAME(dim), RotateY)
+#define _CCV_FUNC_MAT_ROTATE_Z(dim)        CAT2(_CCV_MAT_TYPENAME(dim), RotateZ)
+#define _CCV_FUNC_MAT_SET_TRANSLATION(dim) CAT2(_CCV_MAT_TYPENAME(dim), SetTranslation)
+#define _CCV_FUNC_MAT_TRANSLATE(dim)       CAT2(_CCV_MAT_TYPENAME(dim), Translate)
+#define _CCV_FUNC_MAT_SET_SCALE(dim)       CAT2(_CCV_MAT_TYPENAME(dim), SetScale)
+#define _CCV_FUNC_MAT_SCALE(dim)           CAT2(_CCV_MAT_TYPENAME(dim), Scale)
+#define _CCV_FUNC_MAT_SET_SCALE_2D(dim)    CAT2(_CCV_MAT_TYPENAME(dim), SetScale2D)
+#define _CCV_FUNC_MAT_SCALE_2D(dim)        CAT2(_CCV_MAT_TYPENAME(dim), Scale2D)
+#define _CCV_FUNC_MAT_INVERSE(dim)         CAT2(_CCV_MAT_TYPENAME(dim), Inverse)
+#define _CCV_FUNC_MAT_PERSPECTIVE(dim)     CAT2(_CCV_MAT_TYPENAME(dim), Perspective)
+#define _CCV_FUNC_MAT_LOOK_AT(dim)         CAT2(_CCV_MAT_TYPENAME(dim), LookAt)
 
 // Type definitions
 
@@ -64,14 +119,14 @@ typedef float ccvType;
 // Vector operations
 
 #define _CCV_DEFINE_VEC_ZERO(dim) \
-	static inline _CCV_VEC_TYPENAME(dim) CAT2(_CCV_VEC_TYPENAME(dim), Zero)(void) { \
+	static inline _CCV_VEC_TYPENAME(dim) _CCV_FUNC_VEC_ZERO(dim)(void) { \
 		_CCV_VEC_TYPENAME(dim) v; \
 		memset(&v, 0, sizeof(_CCV_VEC_TYPENAME(dim))); \
 		return v; \
 	}
 
 #define _CCV_DEFINE_VEC_NEGATE(dim) \
-	static inline _CCV_VEC_TYPENAME(dim) CAT2(_CCV_VEC_TYPENAME(dim), Negate)(const _CCV_VEC_TYPENAME(dim) v) { \
+	static inline _CCV_VEC_TYPENAME(dim) _CCV_FUNC_VEC_NEGATE(dim)(const _CCV_VEC_TYPENAME(dim) v) { \
 		_CCV_VEC_TYPENAME(dim) r; \
 		unsigned int i; \
 		for(i = 0; i < dim; ++i) \
@@ -80,7 +135,7 @@ typedef float ccvType;
 	}
 
 #define _CCV_DEFINE_VEC_ISZERO(dim) \
-	static inline int CAT2(_CCV_VEC_TYPENAME(dim), IsZero)(const _CCV_VEC_TYPENAME(dim) v) { \
+	static inline int _CCV_FUNC_VEC_ISZERO(dim)(const _CCV_VEC_TYPENAME(dim) v) { \
 		unsigned int i; \
 		for(i = 0; i < dim; ++i) \
 			if(v.v[i] != 0) return 0; \
@@ -88,7 +143,7 @@ typedef float ccvType;
 	}
 
 #define _CCV_DEFINE_VEC_ADD(dim) \
-	static inline _CCV_VEC_TYPENAME(dim) CAT2(_CCV_VEC_TYPENAME(dim), Add)(const _CCV_VEC_TYPENAME(dim) a, const _CCV_VEC_TYPENAME(dim) b) { \
+	static inline _CCV_VEC_TYPENAME(dim) _CCV_FUNC_VEC_ADD(dim)(const _CCV_VEC_TYPENAME(dim) a, const _CCV_VEC_TYPENAME(dim) b) { \
 		_CCV_VEC_TYPENAME(dim) v; \
 		unsigned int i; \
 		for(i = 0; i < dim; ++i) \
@@ -97,7 +152,7 @@ typedef float ccvType;
 	}
 
 #define _CCV_DEFINE_VEC_SUBTRACT(dim) \
-	static inline _CCV_VEC_TYPENAME(dim) CAT2(_CCV_VEC_TYPENAME(dim), Subtract)(const _CCV_VEC_TYPENAME(dim) a, const _CCV_VEC_TYPENAME(dim) b) { \
+	static inline _CCV_VEC_TYPENAME(dim) _CCV_FUNC_VEC_SUBTRACT(dim)(const _CCV_VEC_TYPENAME(dim) a, const _CCV_VEC_TYPENAME(dim) b) { \
 		_CCV_VEC_TYPENAME(dim) v; \
 		unsigned int i; \
 		for(i = 0; i < dim; ++i) \
@@ -106,7 +161,7 @@ typedef float ccvType;
 	}
 
 #define _CCV_DEFINE_VEC_MULTIPLY(dim) \
-	static inline _CCV_VEC_TYPENAME(dim) CAT2(_CCV_VEC_TYPENAME(dim), Multiply)(_CCV_VEC_TYPENAME(dim) v, const ccvType n) { \
+	static inline _CCV_VEC_TYPENAME(dim) _CCV_FUNC_VEC_MULTIPLY(dim)(_CCV_VEC_TYPENAME(dim) v, const ccvType n) { \
 		unsigned int i; \
 		for(i = 0; i < dim; ++i) \
 			v.v[i] *= n; \
@@ -114,7 +169,7 @@ typedef float ccvType;
 	}
 
 #define _CCV_DEFINE_VEC_DOTPRODUCT(dim) \
-	static inline ccvType CAT2(_CCV_VEC_TYPENAME(dim), DotProduct)(const _CCV_VEC_TYPENAME(dim) a, const _CCV_VEC_TYPENAME(dim) b) { \
+	static inline ccvType _CCV_FUNC_VEC_DOTPRODUCT(dim)(const _CCV_VEC_TYPENAME(dim) a, const _CCV_VEC_TYPENAME(dim) b) { \
 		unsigned int i; \
 		ccvType result = 0; \
 		for(i = 0; i < dim; ++i) \
@@ -123,7 +178,7 @@ typedef float ccvType;
 	}
 
 #define _CCV_DEFINE_VEC_LENGTH(dim) \
-	static inline ccvType CAT2(_CCV_VEC_TYPENAME(dim), Length)(const _CCV_VEC_TYPENAME(dim) v) { \
+	static inline ccvType _CCV_FUNC_VEC_LENGTH(dim)(const _CCV_VEC_TYPENAME(dim) v) { \
 		unsigned int i; \
 		ccvType squaredResult = 0; \
 		for(i = 0; i < dim; ++i) \
@@ -132,24 +187,24 @@ typedef float ccvType;
 	}
 
 #define _CCV_DEFINE_VEC_NORMALIZE(dim) \
-	static inline _CCV_VEC_TYPENAME(dim) CAT2(_CCV_VEC_TYPENAME(dim), Normalize)(_CCV_VEC_TYPENAME(dim) v) { \
-		return CAT2(_CCV_VEC_TYPENAME(dim), Multiply)(v, 1 / CAT2(_CCV_VEC_TYPENAME(dim), Length(v))); \
+	static inline _CCV_VEC_TYPENAME(dim) _CCV_FUNC_VEC_NORMALIZE(dim)(_CCV_VEC_TYPENAME(dim) v) { \
+		return _CCV_FUNC_VEC_MULTIPLY(dim)(v, 1 / _CCV_FUNC_VEC_LENGTH(dim)(v)); \
 	}
 
 #define _CCV_DEFINE_VEC_REFLECT(dim) \
-	static inline _CCV_VEC_TYPENAME(dim) CAT2(_CCV_VEC_TYPENAME(dim), Reflect)(const _CCV_VEC_TYPENAME(dim) n, const _CCV_VEC_TYPENAME(dim) r) { \
-		return CAT2(_CCV_VEC_TYPENAME(dim), Subtract)(r, CAT2(_CCV_VEC_TYPENAME(dim), Multiply)(n, 2 * CAT2(_CCV_VEC_TYPENAME(dim), DotProduct)(n, r))); \
+	static inline _CCV_VEC_TYPENAME(dim) _CCV_FUNC_VEC_REFLECT(dim)(const _CCV_VEC_TYPENAME(dim) n, const _CCV_VEC_TYPENAME(dim) r) { \
+		return _CCV_FUNC_VEC_SUBTRACT(dim)(r, _CCV_FUNC_VEC_MULTIPLY(dim)(n, 2 * _CCV_FUNC_VEC_DOTPRODUCT(dim)(n, r))); \
 	}
 
 // Matrix operations
 
 #define _CCV_DEFINE_MAT_ZERO(dim) \
-	static inline void CAT2(_CCV_MAT_TYPENAME(dim), Zero)(_CCV_MAT_TYPENAME(dim) m) { \
+	static inline void _CCV_FUNC_MAT_ZERO(dim)(_CCV_MAT_TYPENAME(dim) m) { \
 		memset(m, 0, sizeof(ccvType)* dim * dim); \
 	}
 
 #define _CCV_DEFINE_MAT_ISZERO(dim) \
-	static inline int CAT2(_CCV_MAT_TYPENAME(dim), IsZero)(_CCV_MAT_TYPENAME(dim) m) { \
+	static inline int _CCV_FUNC_MAT_ISZERO(dim)(_CCV_MAT_TYPENAME(dim) m) { \
 		unsigned int row = 0; \
 		unsigned int col = 0; \
 		for(col = 0; col < dim; ++col) \
@@ -159,7 +214,7 @@ typedef float ccvType;
 	}
 
 #define _CCV_DEFINE_MAT_ADD(dim) \
-	static inline void CAT2(_CCV_MAT_TYPENAME(dim), Add)(_CCV_MAT_TYPENAME(dim) m, const _CCV_MAT_TYPENAME(dim) a, const _CCV_MAT_TYPENAME(dim) b) { \
+	static inline void _CCV_FUNC_MAT_ADD(dim)(_CCV_MAT_TYPENAME(dim) m, const _CCV_MAT_TYPENAME(dim) a, const _CCV_MAT_TYPENAME(dim) b) { \
 		unsigned int row = 0; \
 		unsigned int col = 0; \
 		for(col = 0; col < dim; ++col) \
@@ -168,7 +223,7 @@ typedef float ccvType;
 	}
 
 #define _CCV_DEFINE_MAT_SUBTRACT(dim) \
-	static inline void CAT2(_CCV_MAT_TYPENAME(dim), Subtract)(_CCV_MAT_TYPENAME(dim) m, const _CCV_MAT_TYPENAME(dim) a, const _CCV_MAT_TYPENAME(dim) b) { \
+	static inline void _CCV_FUNC_MAT_SUBTRACT(dim)(_CCV_MAT_TYPENAME(dim) m, const _CCV_MAT_TYPENAME(dim) a, const _CCV_MAT_TYPENAME(dim) b) { \
 		unsigned int row = 0; \
 		unsigned int col = 0; \
 		for(col = 0; col < dim; ++col) \
@@ -177,20 +232,20 @@ typedef float ccvType;
 	}
 
 #define _CCV_DEFINE_MAT_COPY(dim) \
-	static inline void CAT2(_CCV_MAT_TYPENAME(dim), Copy)(_CCV_MAT_TYPENAME(dim) dest, const _CCV_MAT_TYPENAME(dim) source) { \
+	static inline void _CCV_FUNC_MAT_COPY(dim)(_CCV_MAT_TYPENAME(dim) dest, const _CCV_MAT_TYPENAME(dim) source) { \
 		memcpy(dest, source, sizeof(ccvType) * dim * dim); \
 	}
 
 #define _CCV_DEFINE_MAT_IDENTITY(dim) \
-	static inline void CAT2(_CCV_MAT_TYPENAME(dim), Identity)(_CCV_MAT_TYPENAME(dim) m) { \
+	static inline void _CCV_FUNC_MAT_IDENTITY(dim)(_CCV_MAT_TYPENAME(dim) m) { \
 		unsigned int i; \
-		CAT2(_CCV_MAT_TYPENAME(dim), Zero)(m); \
+		_CCV_FUNC_MAT_ZERO(dim)(m); \
 		for(i = 0; i < dim; ++i) \
 			m[i][i] = 1; \
 	}
 
 #define _CCV_DEFINE_MAT_MULTIPLY_SCALAR(dim) \
-	static inline void CAT2(_CCV_MAT_TYPENAME(dim), MultiplyScalar)(_CCV_MAT_TYPENAME(dim) m, const ccvType n) { \
+	static inline void _CCV_FUNC_MAT_MULTIPLY_SCALAR(dim)(_CCV_MAT_TYPENAME(dim) m, const ccvType n) { \
 		unsigned int row = 0; \
 		unsigned int col = 0; \
 		for(col = 0; col < dim; ++col) \
@@ -198,7 +253,7 @@ typedef float ccvType;
 	}
 
 #define _CCV_DEFINE_MAT_MULTIPLY_VECTOR(dim) \
-	static inline _CCV_VEC_TYPENAME(dim) CAT2(_CCV_MAT_TYPENAME(dim), MultiplyVector)(const _CCV_MAT_TYPENAME(dim) a, const _CCV_VEC_TYPENAME(dim) b) { \
+	static inline _CCV_VEC_TYPENAME(dim) _CCV_FUNC_MAT_MULTIPLY_VECTOR(dim)(const _CCV_MAT_TYPENAME(dim) a, const _CCV_VEC_TYPENAME(dim) b) { \
 		_CCV_VEC_TYPENAME(dim) v; \
 		unsigned int i, j; \
 		for(i = 0; i < dim; ++i) { \
@@ -210,7 +265,7 @@ typedef float ccvType;
 	}
 
 #define _CCV_DEFINE_MAT_MULTIPLY_MATRIX(dim) \
-	static inline void CAT2(_CCV_MAT_TYPENAME(dim), MultiplyMatrix)(_CCV_MAT_TYPENAME(dim) m, const _CCV_MAT_TYPENAME(dim) a, const _CCV_MAT_TYPENAME(dim) b) { \
+	static inline void _CCV_FUNC_MAT_MULTIPLY_MATRIX(dim)(_CCV_MAT_TYPENAME(dim) m, const _CCV_MAT_TYPENAME(dim) a, const _CCV_MAT_TYPENAME(dim) b) { \
 		unsigned int i, j, k; \
 		for(j = 0; j < dim; ++j) \
 			for(i = 0; i < dim; ++i) { \
@@ -221,7 +276,7 @@ typedef float ccvType;
 	}
 
 #define _CCV_DEFINE_MAT_GET_ROW(dim) \
-	static inline _CCV_VEC_TYPENAME(dim) CAT2(_CCV_MAT_TYPENAME(dim), GetRow)(_CCV_MAT_TYPENAME(dim) m, const int n) { \
+	static inline _CCV_VEC_TYPENAME(dim) _CCV_FUNC_MAT_GET_ROW(dim)(_CCV_MAT_TYPENAME(dim) m, const int n) { \
 		_CCV_VEC_TYPENAME(dim) v; \
 		unsigned int i; \
 		for(i = 0; i < dim; ++i) \
@@ -230,14 +285,14 @@ typedef float ccvType;
 	}
 
 #define _CCV_DEFINE_MAT_GET_COL(dim) \
-	static inline _CCV_VEC_TYPENAME(dim) CAT2(_CCV_MAT_TYPENAME(dim), GetCol)(_CCV_MAT_TYPENAME(dim) m, const int n) { \
+	static inline _CCV_VEC_TYPENAME(dim) _CCV_FUNC_MAT_GET_COL(dim)(_CCV_MAT_TYPENAME(dim) m, const int n) { \
 		_CCV_VEC_TYPENAME(dim) v; \
 		memcpy(v.v, m[n], sizeof(ccvType)* dim); \
 		return v; \
 	}
 
 #define _CCV_DEFINE_MAT_DEMOTE(dim) \
-	static inline void CAT2(_CCV_MAT_TYPENAME(dim), Demote)(_CCV_MAT_TYPENAME(dim) m, ccvType *matrix, const int n) { \
+	static inline void _CCV_FUNC_MAT_DEMOTE(dim)(_CCV_MAT_TYPENAME(dim) m, ccvType *matrix, const int n) { \
 		int i, j; \
 		for(j = 0; j < dim; ++j) { \
 			for(i = 0; i < dim; ++i) { \
@@ -291,15 +346,15 @@ typedef union {
 			union {
 				struct { ccvType x, y; };
 				union {
-					vec2 xy;
-					vec2 vec2;
+					_CCV_VEC_TYPENAME(2) xy;
+					_CCV_VEC_TYPENAME(2) _CCV_VEC_TYPENAME(2);
 				};
 			};
 			ccvType z;
 		};
 		struct {
 			ccvType _x;
-			vec2 yz;
+			_CCV_VEC_TYPENAME(2) yz;
 		};
 	};
 } _CCV_VEC_TYPENAME(3);
@@ -312,30 +367,40 @@ typedef union {
 				struct {
 					union {
 						struct { ccvType x, y; };
-						vec2 xy;
-						vec2 vec2;
+						_CCV_VEC_TYPENAME(2) xy;
+						_CCV_VEC_TYPENAME(2) _CCV_VEC_TYPENAME(2);
 					};
 					union {
 						struct { ccvType z, w; };
-						vec2 zw;
+						_CCV_VEC_TYPENAME(2) zw;
 					};
 				};
 				struct {
 					ccvType _x;
-					vec2 yz;
+					_CCV_VEC_TYPENAME(2) yz;
 					ccvType _w;
 				};
 			};
 		};
 		struct {
 			union {
-				vec3 vec3;
-				vec3 xyz;
+				struct {
+					union {
+						_CCV_VEC_TYPENAME(3) _CCV_VEC_TYPENAME(3);
+						_CCV_VEC_TYPENAME(3) xyz;
+					};
+					ccvType __w;
+				};
+				struct {
+					ccvType __x;
+					_CCV_VEC_TYPENAME(3) yzw;
+				};
 			};
-			ccvType __w;
 		};
 	};
 } _CCV_VEC_TYPENAME(4);
+
+typedef _CCV_VEC_TYPENAME(4) _CCV_QUAT_TYPENAME;
 
 // Define 2d, 3d and 4d vectors and matrices
 
@@ -347,7 +412,7 @@ CCV_DEFINE_MAT(2)
 CCV_DEFINE_MAT(3)
 CCV_DEFINE_MAT(4)
 
-// General vector type
+// Define n-dimensional vector type
 
 #undef _CCV_DEFINE_VEC_TYPE
 #define _CCV_DEFINE_VEC_TYPE(dim) \
@@ -357,18 +422,18 @@ CCV_DEFINE_MAT(4)
 
 // Shorthand transformation multiplier
 
-#define _CCV_APPLY_MATRIX(type, operation) { \
-	type buffer, multiply; \
+#define _CCV_APPLY_MATRIX(dim, operation) { \
+	_CCV_MAT_TYPENAME(dim) buffer, multiply; \
 	operation; \
-	CAT2(type, Copy)(buffer, m); \
-	CAT2(type, MultiplyMatrix)(m, buffer, multiply); \
+	_CCV_FUNC_MAT_COPY(dim)(buffer, m); \
+	_CCV_FUNC_MAT_MULTIPLY_MATRIX(dim)(m, buffer, multiply); \
 	}
 	
 // Define vector utilities
 
-static inline vec2 vec2Orthogonal(const vec2 a)
+static inline _CCV_VEC_TYPENAME(2) _CCV_FUNC_VEC_ORTHOGONAL(2)(const _CCV_VEC_TYPENAME(2) a)
 {
-	vec2 v;
+	_CCV_VEC_TYPENAME(2) v;
 
 	v.x = -a.y;
 	v.y = a.x;
@@ -376,9 +441,9 @@ static inline vec2 vec2Orthogonal(const vec2 a)
 	return v;
 }
 
-static inline vec3 vec3CrossProduct(const vec3 a, const vec3 b)
+static inline _CCV_VEC_TYPENAME(3) _CCV_FUNC_VEC_CROSS_PRODUCT(3)(const _CCV_VEC_TYPENAME(3) a, const _CCV_VEC_TYPENAME(3) b)
 {
-	vec3 v;
+	_CCV_VEC_TYPENAME(3) v;
 
 	v.x = a.y * b.z - a.z * b.y;
 	v.y = a.z * b.x - a.x * b.z;
@@ -389,53 +454,64 @@ static inline vec3 vec3CrossProduct(const vec3 a, const vec3 b)
 
 // Define quaternion operations
 
-static inline vec4 ccQuatIdentity()
+static inline _CCV_QUAT_TYPENAME _CCV_FUNC_QUAT_IDENTITY()
 {
-	return (vec4){ 0, 0, 0, 1 };
+	return (_CCV_QUAT_TYPENAME){ 0, 0, 0, 1 };
 }
 
-static inline vec4 ccQuatRotate(vec3 axis, ccvType radians)
+static inline _CCV_QUAT_TYPENAME _CCV_FUNC_QUAT_ROTATE(_CCV_VEC_TYPENAME(3) axis, ccvType radians)
 {
-	vec4 q;
+	_CCV_QUAT_TYPENAME q;
 	float s = _CCV_SIN(radians * (ccvType)0.5);
 
-	q.xyz = vec3Multiply(axis, s);
+	q.xyz = _CCV_FUNC_VEC_MULTIPLY(3)(axis, s);
 	q.w = _CCV_COS(radians * (ccvType)0.5);
 
 	return q;
 }
 
-static inline vec4 ccQuatMultiply(const vec4 a, const vec4 b)
+static inline _CCV_QUAT_TYPENAME _CCV_FUNC_QUAT_MULTIPLY(const _CCV_QUAT_TYPENAME a, const _CCV_QUAT_TYPENAME b)
 {
-	vec4 r;
-	vec3 w;
+	_CCV_QUAT_TYPENAME r;
+	_CCV_VEC_TYPENAME(3) w;
 
-	r.xyz = vec3CrossProduct(a.xyz, b.xyz);
-	w = vec3Multiply(a.xyz, b.w);
-	r.xyz = vec3Add(r.xyz, w);
-	w = vec3Multiply(b.xyz, a.w);
-	r.xyz = vec3Add(r.xyz, w);
+	r.xyz = _CCV_FUNC_VEC_CROSS_PRODUCT(3)(a.xyz, b.xyz);
+	w = _CCV_FUNC_VEC_MULTIPLY(3)(a.xyz, b.w);
+	r.xyz = _CCV_FUNC_VEC_ADD(3)(r.xyz, w);
+	w = _CCV_FUNC_VEC_MULTIPLY(3)(b.xyz, a.w);
+	r.xyz = _CCV_FUNC_VEC_ADD(3)(r.xyz, w);
 
-	r.w = a.w * b.w - vec3DotProduct(a.xyz, b.xyz);
+	r.w = a.w * b.w - _CCV_FUNC_VEC_DOTPRODUCT(3)(a.xyz, b.xyz);
 
 	return r;
 }
 
-static inline vec4 ccQuatAddRotation(vec4 q, vec3 axis, ccvType radians)
+static inline _CCV_QUAT_TYPENAME _CCV_FUNC_QUAT_ADD_ROTATION(_CCV_QUAT_TYPENAME q, _CCV_VEC_TYPENAME(3) axis, ccvType radians)
 {
-	return ccQuatMultiply(q, ccQuatRotate(axis, radians));
+	return _CCV_FUNC_QUAT_MULTIPLY(q, _CCV_FUNC_QUAT_ROTATE(axis, radians));
 }
 
-static inline vec3 ccQuatMultiplyVector(const vec4 q, const vec3 p)
+static inline _CCV_VEC_TYPENAME(3) _CCV_FUNC_QUAT_MULTIPLY_VECTOR(const _CCV_QUAT_TYPENAME q, const _CCV_VEC_TYPENAME(3) p)
 {
-	vec3 t = vec3Multiply(vec3CrossProduct(q.xyz, p), 2);
+	_CCV_VEC_TYPENAME(3) t = _CCV_FUNC_VEC_MULTIPLY(3)(_CCV_FUNC_VEC_CROSS_PRODUCT(3)(q.xyz, p), 2);
 	
-	return vec3Add(vec3Add(p, vec3Multiply(t, q.w)), vec3CrossProduct(q.xyz, t));
+	return _CCV_FUNC_VEC_ADD(3)(_CCV_FUNC_VEC_ADD(3)(p, _CCV_FUNC_VEC_MULTIPLY(3)(t, q.w)), _CCV_FUNC_VEC_CROSS_PRODUCT(3)(q.xyz, t));
 }
 
-#define ccQuatAdd(a, b) vec4Add(a, b)
-#define ccQuadSubtract(a, b) vec4Subtract(a, b)
-#define ccQuatScale(q, s) vec4Multiply(q, s)
+static inline _CCV_QUAT_TYPENAME _CCV_FUNC_QUAT_ADD(const _CCV_QUAT_TYPENAME a, const _CCV_QUAT_TYPENAME b)
+{
+	return _CCV_FUNC_VEC_ADD(4)(a, b);
+}
+
+static inline _CCV_QUAT_TYPENAME _CCV_FUNC_QUAT_SUBTRACT(const _CCV_QUAT_TYPENAME a, const _CCV_QUAT_TYPENAME b)
+{
+	return _CCV_FUNC_VEC_SUBTRACT(4)(a, b);
+}
+
+static inline _CCV_QUAT_TYPENAME _CCV_FUNC_QUAT_SCALE(const _CCV_QUAT_TYPENAME q, const ccvType n)
+{
+	return _CCV_FUNC_VEC_MULTIPLY(4)(q, n);
+}
 
 // Define rotation methods
 
@@ -445,22 +521,22 @@ static inline vec3 ccQuatMultiplyVector(const vec4 q, const vec3 p)
 	m[1][0] = -m[0][1]; \
 	m[1][1] = m[0][0]
 
-static inline void mat2x2SetRotation(mat2x2 m, const ccvType r)
+static inline void _CCV_FUNC_MAT_SET_ROTATION(2)(_CCV_MAT_TYPENAME(2) m, const ccvType r)
 {
 	_CCV_SET_ROTATION_2D();
 }
 
-static inline void mat2x2Rotate(mat2x2 m, const ccvType r) _CCV_APPLY_MATRIX(mat2x2, mat2x2SetRotation(multiply, r));
+static inline void _CCV_FUNC_MAT_ROTATE(2)(_CCV_MAT_TYPENAME(2) m, const ccvType r) _CCV_APPLY_MATRIX(2, _CCV_FUNC_MAT_SET_ROTATION(2)(multiply, r));
 
-static inline void mat3x3SetRotation2D(mat3x3 m, const ccvType r)
+static inline void _CCV_FUNC_MAT_SET_ROTATION_2D(2)(_CCV_MAT_TYPENAME(3) m, const ccvType r)
 {
-	mat3x3Zero(m);
+	_CCV_FUNC_MAT_ZERO(3)(m);
 
 	_CCV_SET_ROTATION_2D();
 	m[2][2] = 1;
 }
 
-static inline void mat3x3Rotate2D(mat3x3 m, const ccvType r) _CCV_APPLY_MATRIX(mat3x3, mat3x3SetRotation2D(multiply, r));
+static inline void _CCV_FUNC_MAT_SET_ROTATION_2D(3)(_CCV_MAT_TYPENAME(3) m, const ccvType r) _CCV_APPLY_MATRIX(3, _CCV_FUNC_MAT_SET_ROTATION_2D(2)(multiply, r));
 
 #define _CCV_SET_ROTATION_3D_X() \
 	m[0][0] = 1; \
@@ -495,122 +571,122 @@ static inline void mat3x3Rotate2D(mat3x3 m, const ccvType r) _CCV_APPLY_MATRIX(m
 	m[2][1] = 0; \
 	m[2][2] = 1
 
-static inline void mat3x3SetRotationX(mat3x3 m, const ccvType r)
+static inline void _CCV_FUNC_MAT_SET_ROTATION_X(3)(_CCV_MAT_TYPENAME(3) m, const ccvType r)
 {
 	_CCV_SET_ROTATION_3D_X();
 }
 
-static inline void mat3x3SetRotationY(mat3x3 m, const ccvType r)
+static inline void _CCV_FUNC_MAT_SET_ROTATION_Y(3)(_CCV_MAT_TYPENAME(3) m, const ccvType r)
 {
 	_CCV_SET_ROTATION_3D_Y();
 }
 
-static inline void mat3x3SetRotationZ(mat3x3 m, const ccvType r)
+static inline void _CCV_FUNC_MAT_SET_ROTATION_Z(3)(_CCV_MAT_TYPENAME(3) m, const ccvType r)
 {
 	_CCV_SET_ROTATION_3D_Z();
 }
 
-static inline void mat3x3RotateX(mat3x3 m, const ccvType r) _CCV_APPLY_MATRIX(mat3x3, mat3x3SetRotationX(multiply, r))
+static inline void _CCV_FUNC_MAT_ROTATE_X(3)(_CCV_MAT_TYPENAME(3) m, const ccvType r) _CCV_APPLY_MATRIX(3, _CCV_FUNC_MAT_SET_ROTATION_X(3)(multiply, r))
 
-static inline void mat3x3RotateY(mat3x3 m, const ccvType r) _CCV_APPLY_MATRIX(mat3x3, mat3x3SetRotationY(multiply, r))
+static inline void _CCV_FUNC_MAT_ROTATE_Y(3)(_CCV_MAT_TYPENAME(3) m, const ccvType r) _CCV_APPLY_MATRIX(3, _CCV_FUNC_MAT_SET_ROTATION_Y(3)(multiply, r))
 
-static inline void mat3x3RotateZ(mat3x3 m, const ccvType r) _CCV_APPLY_MATRIX(mat3x3, mat3x3SetRotationZ(multiply, r))
+static inline void _CCV_FUNC_MAT_ROTATE_Z(3)(_CCV_MAT_TYPENAME(3) m, const ccvType r) _CCV_APPLY_MATRIX(3, _CCV_FUNC_MAT_SET_ROTATION_Z(3)(multiply, r))
 
-static inline void mat4x4SetRotationX(mat4x4 m, const ccvType r)
+static inline void _CCV_FUNC_MAT_SET_ROTATION_X(4)(_CCV_MAT_TYPENAME(4) m, const ccvType r)
 {
-	mat4x4Zero(m);
+	_CCV_FUNC_MAT_ZERO(4)(m);
 
 	_CCV_SET_ROTATION_3D_X();
 	m[3][3] = 1;
 }
 
-static inline void mat4x4SetRotationY(mat4x4 m, const ccvType r)
+static inline void _CCV_FUNC_MAT_SET_ROTATION_Y(4)(_CCV_MAT_TYPENAME(4) m, const ccvType r)
 {
-	mat4x4Zero(m);
+	_CCV_FUNC_MAT_ZERO(4)(m);
 
 	_CCV_SET_ROTATION_3D_Y();
 	m[3][3] = 1;
 }
 
-static inline void mat4x4SetRotationZ(mat4x4 m, const ccvType r)
+static inline void _CCV_FUNC_MAT_SET_ROTATION_Z(4)(_CCV_MAT_TYPENAME(4) m, const ccvType r)
 {
-	mat4x4Zero(m);
+	_CCV_FUNC_MAT_ZERO(4)(m);
 
 	_CCV_SET_ROTATION_3D_Z();
 	m[3][3] = 1;
 }
 
-static inline void mat4x4RotateX(mat4x4 m, const ccvType r) _CCV_APPLY_MATRIX(mat4x4, mat4x4SetRotationX(multiply, r))
+static inline void _CCV_FUNC_MAT_ROTATE_X(4)(_CCV_MAT_TYPENAME(4) m, const ccvType r) _CCV_APPLY_MATRIX(4, _CCV_FUNC_MAT_SET_ROTATION_X(4)(multiply, r))
 
-static inline void mat4x4RotateY(mat4x4 m, const ccvType r) _CCV_APPLY_MATRIX(mat4x4, mat4x4SetRotationY(multiply, r))
+static inline void _CCV_FUNC_MAT_ROTATE_Y(4)(_CCV_MAT_TYPENAME(4) m, const ccvType r) _CCV_APPLY_MATRIX(4, _CCV_FUNC_MAT_SET_ROTATION_Y(4)(multiply, r))
 
-static inline void mat4x4RotateZ(mat4x4 m, const ccvType r) _CCV_APPLY_MATRIX(mat4x4, mat4x4SetRotationZ(multiply, r))
+static inline void _CCV_FUNC_MAT_ROTATE_Z(4)(_CCV_MAT_TYPENAME(4) m, const ccvType r) _CCV_APPLY_MATRIX(4, _CCV_FUNC_MAT_SET_ROTATION_Z(4)(multiply, r))
 
 // Define translation methods
 
-static inline void mat3x3SetTranslation(mat3x3 m, const vec2 v)
+static inline void _CCV_FUNC_MAT_SET_TRANSLATION(3)(_CCV_MAT_TYPENAME(3) m, const _CCV_VEC_TYPENAME(2) v)
 {
-	mat3x3Identity(m);
+	_CCV_FUNC_MAT_IDENTITY(3)(m);
 
 	m[2][0] = v.x;
 	m[2][1] = v.y;
 }
 
-static inline void mat3x3Translate(mat3x3 m, const vec2 v) _CCV_APPLY_MATRIX(mat3x3, mat3x3SetTranslation(multiply, v))
+static inline void _CCV_FUNC_MAT_TRANSLATE(3)(_CCV_MAT_TYPENAME(3) m, const _CCV_VEC_TYPENAME(2) v) _CCV_APPLY_MATRIX(3, _CCV_FUNC_MAT_SET_TRANSLATION(3)(multiply, v))
 
-static inline void mat4x4SetTranslation(mat4x4 m, const vec3 v)
+static inline void _CCV_FUNC_MAT_SET_TRANSLATION(4)(_CCV_MAT_TYPENAME(4) m, const _CCV_VEC_TYPENAME(3) v)
 {
-	mat4x4Identity(m);
+	_CCV_FUNC_MAT_IDENTITY(4)(m);
 
 	m[3][0] = v.x;
 	m[3][1] = v.y;
 	m[3][2] = v.z;
 }
 
-static inline void mat4x4Translate(mat4x4 m, const vec3 v) _CCV_APPLY_MATRIX(mat4x4, mat4x4SetTranslation(multiply, v))
+static inline void _CCV_FUNC_MAT_TRANSLATE(4)(_CCV_MAT_TYPENAME(4) m, const _CCV_VEC_TYPENAME(3) v) _CCV_APPLY_MATRIX(4, _CCV_FUNC_MAT_SET_TRANSLATION(4)(multiply, v))
 
 // Define scaling methods
 
-static inline void mat2x2SetScale(mat2x2 m, const ccvType scale)
+static inline void _CCV_FUNC_MAT_SET_SCALE(2)(_CCV_MAT_TYPENAME(2) m, const ccvType scale)
 {
 	m[0][0] = m[1][1] = scale;
 	m[1][0] = m[0][1] = 0;
 }
 
-static inline void mat2x2Scale(mat2x2 m, const ccvType scale) _CCV_APPLY_MATRIX(mat2x2, mat2x2SetScale(multiply, scale))
+static inline void _CCV_FUNC_MAT_SCALE(2)(_CCV_MAT_TYPENAME(2) m, const ccvType scale) _CCV_APPLY_MATRIX(2, _CCV_FUNC_MAT_SET_SCALE(2)(multiply, scale))
 
-static inline void mat3x3SetScale2D(mat3x3 m, const ccvType scale)
+static inline void _CCV_FUNC_MAT_SET_SCALE_2D(3)(_CCV_MAT_TYPENAME(3) m, const ccvType scale)
 {
-	mat3x3Zero(m);
+	_CCV_FUNC_MAT_ZERO(3)(m);
 
 	m[2][2] = 1;
 	m[0][0] = m[1][1] = scale;
 }
 
-static inline void mat3x3Scale2D(mat3x3 m, const ccvType scale) _CCV_APPLY_MATRIX(mat3x3, mat3x3SetScale2D(multiply, scale))
+static inline void _CCV_FUNC_MAT_SCALE_2D(3)(_CCV_MAT_TYPENAME(3) m, const ccvType scale) _CCV_APPLY_MATRIX(3, _CCV_FUNC_MAT_SET_SCALE_2D(3)(multiply, scale))
 
-static inline void mat3x3SetScale(mat3x3 m, const ccvType scale)
+static inline void _CCV_FUNC_MAT_SET_SCALE(3)(_CCV_MAT_TYPENAME(3) m, const ccvType scale)
 {
-	mat3x3Zero(m);
+	_CCV_FUNC_MAT_ZERO(3)(m);
 	
 	m[0][0] = m[1][1] = m[2][2] = scale;
 }
 
-static inline void mat3x3Scale(mat3x3 m, const ccvType scale) _CCV_APPLY_MATRIX(mat3x3, mat3x3SetScale(multiply, scale))
+static inline void _CCV_FUNC_MAT_SCALE(3)(_CCV_MAT_TYPENAME(3) m, const ccvType scale) _CCV_APPLY_MATRIX(3, _CCV_FUNC_MAT_SET_SCALE(3)(multiply, scale))
 
-static inline void mat4x4SetScale(mat4x4 m, const ccvType scale)
+static inline void _CCV_FUNC_MAT_SET_SCALE(4)(_CCV_MAT_TYPENAME(4) m, const ccvType scale)
 {
-	mat4x4Zero(m);
+	_CCV_FUNC_MAT_ZERO(4)(m);
 	
 	m[3][3] = 1;
 	m[0][0] = m[1][1] = m[2][2] = scale;
 }
 
-static inline void mat4x4Scale(mat4x4 m, const ccvType scale) _CCV_APPLY_MATRIX(mat4x4, mat4x4SetScale(multiply, scale))
+static inline void _CCV_FUNC_MAT_SCALE(4)(_CCV_MAT_TYPENAME(4) m, const ccvType scale) _CCV_APPLY_MATRIX(4, _CCV_FUNC_MAT_SET_SCALE(4)(multiply, scale))
 
 // Inverse matrix
 
-static inline void mat3x3Inverse(mat3x3 t, mat3x3 m)
+static inline void _CCV_FUNC_MAT_INVERSE(3)(_CCV_MAT_TYPENAME(3) t, _CCV_MAT_TYPENAME(3) m)
 {
 	ccvType s[3][3];
 
@@ -637,7 +713,7 @@ static inline void mat3x3Inverse(mat3x3 t, mat3x3 m)
 	t[2][2] = s[2][2] * idet;
 }
 
-static inline void mat4x4Inverse(mat4x4 t, mat4x4 m)
+static inline void _CCV_FUNC_MAT_INVERSE(4)(_CCV_MAT_TYPENAME(4) t, _CCV_MAT_TYPENAME(4) m)
 {
 	ccvType s[6];
 	ccvType c[6];
@@ -681,7 +757,7 @@ static inline void mat4x4Inverse(mat4x4 t, mat4x4 m)
 
 // Projection matrix
 
-static inline void mat4x4Perspective(mat4x4 m, ccvType angle, ccvType aspect, ccvType zNear, ccvType zFar)
+static inline void _CCV_FUNC_MAT_PERSPECTIVE(4)(_CCV_MAT_TYPENAME(4) m, ccvType angle, ccvType aspect, ccvType zNear, ccvType zFar)
 {
 	ccvType a = 1.0f / _CCV_TAN(angle * .5f);
 
@@ -708,12 +784,12 @@ static inline void mat4x4Perspective(mat4x4 m, ccvType angle, ccvType aspect, cc
 
 // Modelview matrix
 
-static inline void mat4x4LookAt(mat4x4 m, vec3 from, vec3 to, vec3 up)
+static inline void _CCV_FUNC_MAT_LOOK_AT(4)(_CCV_MAT_TYPENAME(4) m, _CCV_VEC_TYPENAME(3) from, _CCV_VEC_TYPENAME(3) to, _CCV_VEC_TYPENAME(3) up)
 {
 	unsigned int i;
-	vec3 f = vec3Normalize(vec3Subtract(to, from));
-	vec3 s = vec3Normalize(vec3CrossProduct(f, up));
-	vec3 t = vec3CrossProduct(s, f);
+	_CCV_VEC_TYPENAME(3) f = _CCV_FUNC_VEC_NORMALIZE(3)(_CCV_FUNC_VEC_SUBTRACT(3)(to, from));
+	_CCV_VEC_TYPENAME(3) s = _CCV_FUNC_VEC_NORMALIZE(3)(_CCV_FUNC_VEC_CROSS_PRODUCT(3)(f, up));
+	_CCV_VEC_TYPENAME(3) t = _CCV_FUNC_VEC_CROSS_PRODUCT(3)(s, f);
 
 	m[0][0] = s.x;
 	m[0][1] = t.x;
@@ -731,8 +807,8 @@ static inline void mat4x4LookAt(mat4x4 m, vec3 from, vec3 to, vec3 up)
 	m[2][3] = 0.0f;
 
 	for(i = 0; i < 3; ++i) {
-		vec3 r = mat4x4GetRow(m, i).vec3;
-		m[3][i] = -vec3DotProduct(r, from);
+		_CCV_VEC_TYPENAME(3) r = _CCV_FUNC_MAT_GET_ROW(4)(m, i)._CCV_VEC_TYPENAME(3);
+		m[3][i] = -_CCV_FUNC_VEC_DOTPRODUCT(3)(r, from);
 	}
 
 	m[3][3] = 1.0f;
