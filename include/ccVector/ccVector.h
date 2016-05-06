@@ -93,6 +93,7 @@ typedef float ccvType;
 #define _CCV_FUNC_MAT_SET_ROTATION(dim)    CAT2(_CCV_MAT_TYPENAME(dim), SetRotation)
 #define _CCV_FUNC_MAT_ROTATE(dim)          CAT2(_CCV_MAT_TYPENAME(dim), Rotate)
 #define _CCV_FUNC_MAT_SET_ROTATION_2D(dim) CAT2(_CCV_MAT_TYPENAME(dim), SetRotation2D)
+#define _CCV_FUNC_MAT_ROTATE_2D(dim)       CAT2(_CCV_MAT_TYPENAME(dim), Rotate2D)
 #define _CCV_FUNC_MAT_SET_ROTATION_X(dim)  CAT2(_CCV_MAT_TYPENAME(dim), SetRotationX)
 #define _CCV_FUNC_MAT_SET_ROTATION_Y(dim)  CAT2(_CCV_MAT_TYPENAME(dim), SetRotationY)
 #define _CCV_FUNC_MAT_SET_ROTATION_Z(dim)  CAT2(_CCV_MAT_TYPENAME(dim), SetRotationZ)
@@ -536,7 +537,7 @@ static inline void _CCV_FUNC_MAT_SET_ROTATION_2D(2)(_CCV_MAT_TYPENAME(3) m, cons
 	m[2][2] = 1;
 }
 
-static inline void _CCV_FUNC_MAT_SET_ROTATION_2D(3)(_CCV_MAT_TYPENAME(3) m, const ccvType r) _CCV_APPLY_MATRIX(3, _CCV_FUNC_MAT_SET_ROTATION_2D(2)(multiply, r));
+static inline void _CCV_FUNC_MAT_ROTATE_2D(3)(_CCV_MAT_TYPENAME(3) m, const ccvType r) _CCV_APPLY_MATRIX(3, _CCV_FUNC_MAT_SET_ROTATION_2D(2)(multiply, r));
 
 #define _CCV_SET_ROTATION_3D_X() \
 	m[0][0] = 1; \
