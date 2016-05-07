@@ -463,7 +463,7 @@ static inline _CCV_QUAT_TYPENAME _CCV_FUNC_QUAT_IDENTITY()
 static inline _CCV_QUAT_TYPENAME _CCV_FUNC_QUAT_ROTATE(_CCV_VEC_TYPENAME(3) axis, ccvType radians)
 {
 	_CCV_QUAT_TYPENAME q;
-	float s = _CCV_SIN(radians * (ccvType)0.5);
+	ccvType s = _CCV_SIN(radians * (ccvType)0.5);
 
 	q.xyz = _CCV_FUNC_VEC_MULTIPLY(3)(axis, s);
 	q.w = _CCV_COS(radians * (ccvType)0.5);
@@ -760,27 +760,27 @@ static inline void _CCV_FUNC_MAT_INVERSE(4)(_CCV_MAT_TYPENAME(4) t, _CCV_MAT_TYP
 
 static inline void _CCV_FUNC_MAT_PERSPECTIVE(4)(_CCV_MAT_TYPENAME(4) m, ccvType angle, ccvType aspect, ccvType zNear, ccvType zFar)
 {
-	ccvType a = 1.0f / _CCV_TAN(angle * .5f);
+	ccvType a = 1 / _CCV_TAN(angle * (ccvType)0.5);
 
 	m[0][0] = a / aspect;
-	m[0][1] = 0.0f;
-	m[0][2] = 0.0f;
-	m[0][3] = 0.0f;
+	m[0][1] = 0;
+	m[0][2] = 0;
+	m[0][3] = 0;
 
-	m[1][0] = 0.0f;
+	m[1][0] = 0;
 	m[1][1] = a;
-	m[1][2] = 0.0f;
-	m[1][3] = 0.0f;
+	m[1][2] = 0;
+	m[1][3] = 0;
 
-	m[2][0] = 0.0f;
-	m[2][1] = 0.0f;
+	m[2][0] = 0;
+	m[2][1] = 0;
 	m[2][2] = -((zFar + zNear) / (zFar - zNear));
-	m[2][3] = -1.0f;
+	m[2][3] = -1;
 
-	m[3][0] = 0.0f;
-	m[3][1] = 0.0f;
-	m[3][2] = -((2.0f * zFar * zNear) / (zFar - zNear));
-	m[3][3] = 0.0f;
+	m[3][0] = 0;
+	m[3][1] = 0;
+	m[3][2] = -((2 * zFar * zNear) / (zFar - zNear));
+	m[3][3] = 0;
 }
 
 // Modelview matrix
@@ -795,24 +795,24 @@ static inline void _CCV_FUNC_MAT_LOOK_AT(4)(_CCV_MAT_TYPENAME(4) m, _CCV_VEC_TYP
 	m[0][0] = s.x;
 	m[0][1] = t.x;
 	m[0][2] = -f.x;
-	m[0][3] = 0.0f;
+	m[0][3] = 0;
 
 	m[1][0] = s.y;
 	m[1][1] = t.y;
 	m[1][2] = -f.y;
-	m[1][3] = 0.0f;
+	m[1][3] = 0;
 
 	m[2][0] = s.z;
 	m[2][1] = t.z;
 	m[2][2] = -f.z;
-	m[2][3] = 0.0f;
+	m[2][3] = 0;
 
 	for(i = 0; i < 3; ++i) {
 		_CCV_VEC_TYPENAME(3) r = _CCV_FUNC_MAT_GET_ROW(4)(m, i)._CCV_VEC_TYPENAME(3);
 		m[3][i] = -_CCV_FUNC_VEC_DOTPRODUCT(3)(r, from);
 	}
 
-	m[3][3] = 1.0f;
+	m[3][3] = 1;
 }
 
 #ifdef __cplusplus

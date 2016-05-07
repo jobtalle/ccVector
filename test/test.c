@@ -2,6 +2,8 @@
 
 #include <ccVector/ccVector.h>
 
+CCV_DEFINE_VEC(6);
+
 #define PI 3.141592f
 
 static void printVec3(vec3 v) {
@@ -56,6 +58,6 @@ int main(int argc, char **argv) {
 	printVec3(vectorMultiplied);
 
 	printf("Length: %.2f\n", vec2Length(vector.vec2));
-	
+
 	return 0;
 }
