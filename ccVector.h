@@ -44,6 +44,10 @@ extern "C"
 #include <math.h>
 #include <string.h>
 
+#ifdef _DEBUG
+#include <assert.h>
+#endif
+
 #ifndef inline
 #ifdef _MSC_VER
 #define inline __inline
@@ -708,6 +712,7 @@ static inline void _CCV_FUNC_MAT_SCALE(4)(_CCV_MAT_TYPENAME(4) m, const ccvType 
 static inline void _CCV_FUNC_MAT_INVERSE(3)(_CCV_MAT_TYPENAME(3) t, _CCV_MAT_TYPENAME(3) m)
 {
 	ccvType s[3][3];
+	ccvType idet;
 
 	s[0][0] = m[1][1] * m[2][2] - m[2][1] * m[1][2];
 	s[1][0] = - m[0][1] * m[2][2] + m[2][1] * m[0][2];
@@ -719,7 +724,11 @@ static inline void _CCV_FUNC_MAT_INVERSE(3)(_CCV_MAT_TYPENAME(3) t, _CCV_MAT_TYP
 	s[1][2] = - m[0][0] * m[2][1] + m[0][1] * m[2][0];
 	s[2][2] = m[0][0] * m[1][1] - m[0][1] * m[1][0];
 
-	ccvType idet = 1.0f / (m[0][0] * s[0][0] + m[1][0] * s[1][0] + m[2][0] * s[2][0]);
+	idet = m[0][0] * s[0][0] + m[1][0] * s[1][0] + m[2][0] * s[2][0];
+#ifdef _DEBUG
+	assert(idet != 0);
+#endif
+	idet = 1 / idet;
 
 	t[0][0] = s[0][0] * idet;
 	t[1][0] = s[0][1] * idet;
@@ -736,6 +745,7 @@ static inline void _CCV_FUNC_MAT_INVERSE(4)(_CCV_MAT_TYPENAME(4) t, _CCV_MAT_TYP
 {
 	ccvType s[6];
 	ccvType c[6];
+	ccvType idet;
 
 	s[0] = m[0][0] * m[1][1] - m[1][0] * m[0][1];
 	s[1] = m[0][0] * m[1][2] - m[1][0] * m[0][2];
@@ -751,7 +761,11 @@ static inline void _CCV_FUNC_MAT_INVERSE(4)(_CCV_MAT_TYPENAME(4) t, _CCV_MAT_TYP
 	c[4] = m[2][1] * m[3][3] - m[3][1] * m[2][3];
 	c[5] = m[2][2] * m[3][3] - m[3][2] * m[2][3];
 
-	ccvType idet = 1.0f / (s[0] * c[5] - s[1] * c[4] + s[2] * c[3] + s[3] * c[2] - s[4] * c[1] + s[5] * c[0]);
+	idet = s[0] * c[5] - s[1] * c[4] + s[2] * c[3] + s[3] * c[2] - s[4] * c[1] + s[5] * c[0];
+#ifdef _DEBUG
+	assert(idet != 0);
+#endif
+	idet = 1 / idet;
 
 	t[0][0] = (m[1][1] * c[5] - m[1][2] * c[4] + m[1][3] * c[3])  * idet;
 	t[0][1] = (-m[0][1] * c[5] + m[0][2] * c[4] - m[0][3] * c[3]) * idet;
@@ -778,7 +792,14 @@ static inline void _CCV_FUNC_MAT_INVERSE(4)(_CCV_MAT_TYPENAME(4) t, _CCV_MAT_TYP
 
 static inline void _CCV_FUNC_MAT_PERSPECTIVE(4)(_CCV_MAT_TYPENAME(4) m, ccvType angle, ccvType aspect, ccvType zNear, ccvType zFar)
 {
-	ccvType a = 1 / _CCV_TAN(angle * (ccvType)0.5);
+	ccvType a = _CCV_TAN(angle * (ccvType)0.5);
+
+#ifdef _DEBUG
+	assert(aspect != 0);
+	assert(a != 0);
+#endif
+
+	a = 1 / a;
 
 	m[0][0] = a / aspect;
 	m[0][1] = 0;
