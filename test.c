@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-#include <ccVector/ccVector.h>
+#include "ccVector.h"
 
 CCV_DEFINE_VEC(6);
 
