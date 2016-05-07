@@ -33,7 +33,8 @@
 // THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.                //
 //__________________________________________________________________________________//
 
-#pragma once
+#ifndef CC_VECTOR
+#define CC_VECTOR
 
 #ifdef __cplusplus
 extern "C"
@@ -834,4 +835,6 @@ static inline void _CCV_FUNC_MAT_LOOK_AT(4)(_CCV_MAT_TYPENAME(4) m, _CCV_VEC_TYP
 
 #ifdef __cplusplus
 }
+#endif
+
 #endif
