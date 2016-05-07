@@ -1,5 +1,5 @@
 # ccVector
-ccVector is a quaternion and matrix math library.
+ccVector is a vector, quaternion and matrix math library.
 
 Functions for `2`, `3` and `4` dimensional vectors are defined. Functions for `2x2`, `3x3` and `4x4` sized matrices are defined. Quaternions are available and interchangeable with 4 dimensional vectors.
 
