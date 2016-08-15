@@ -206,7 +206,7 @@ typedef float ccvType;
 #define _CCV_DEFINE_VEC_MIX(dim) \
 	static inline _CCV_VEC_TYPENAME(dim) _CCV_FUNC_VEC_MIX(dim)(const _CCV_VEC_TYPENAME(dim) a, const _CCV_VEC_TYPENAME(dim) b, const ccvType f) { \
 		return _CCV_FUNC_VEC_ADD(dim)(a, _CCV_FUNC_VEC_MULTIPLY(dim)(_CCV_FUNC_VEC_SUBTRACT(dim)(b, a), f)); \
-		}
+	}
 
 // Matrix operations
 
