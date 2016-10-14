@@ -74,6 +74,7 @@ typedef float ccvType;
 #define CCV_FUNC_VEC_ORTHOGONAL(dim)      CAT2(CCV_VEC_TYPENAME(dim), Orthogonal)
 #define CCV_FUNC_VEC_CROSS_PRODUCT(dim)   CAT2(CCV_VEC_TYPENAME(dim), CrossProduct)
 #define CCV_FUNC_VEC_MIX(dim)             CAT2(CCV_VEC_TYPENAME(dim), Mix)
+#define CCV_FUNC_VEC_NEW(dim)             CAT2(CCV_VEC_TYPENAME(dim), New)
 
 #define CCV_FUNC_QUAT_IDENTITY            CAT2(CCV_QUAT_TYPENAME, Identity)
 #define CCV_FUNC_QUAT_ROTATE              CAT2(CCV_QUAT_TYPENAME, Rotate)
@@ -454,6 +455,11 @@ static inline CCV_VEC_TYPENAME(2) CCV_FUNC_VEC_ORTHOGONAL(2)(const CCV_VEC_TYPEN
 	return v;
 }
 
+static inline CCV_VEC_TYPENAME(2) CCV_FUNC_VEC_NEW(2)(const ccvType x, const ccvType y)
+{
+	return (CCV_VEC_TYPENAME(2)){ x, y };
+}
+
 static inline CCV_VEC_TYPENAME(3) CCV_FUNC_VEC_CROSS_PRODUCT(3)(const CCV_VEC_TYPENAME(3) a, const CCV_VEC_TYPENAME(3) b)
 {
 	CCV_VEC_TYPENAME(3) v;
@@ -463,6 +469,11 @@ static inline CCV_VEC_TYPENAME(3) CCV_FUNC_VEC_CROSS_PRODUCT(3)(const CCV_VEC_TY
 	v.z = a.x * b.y - a.y * b.x;
 
 	return v;
+}
+
+static inline CCV_VEC_TYPENAME(3) CCV_FUNC_VEC_NEW(3)(const ccvType x, const ccvType y, const ccvType z)
+{
+	return (CCV_VEC_TYPENAME(3)){ x, y, z };
 }
 
 // Define quaternion operations
