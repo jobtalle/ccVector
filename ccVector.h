@@ -476,6 +476,11 @@ static inline CCV_VEC_TYPENAME(3) CCV_FUNC_VEC_NEW(3)(const ccvType x, const ccv
 	return (CCV_VEC_TYPENAME(3)){ x, y, z };
 }
 
+static inline CCV_VEC_TYPENAME(4) CCV_FUNC_VEC_NEW(4)(const ccvType x, const ccvType y, const ccvType z, const ccvType w)
+{
+	return (CCV_VEC_TYPENAME(4)){ x, y, z, w };
+}
+
 // Define quaternion operations
 
 static inline CCV_QUAT_TYPENAME CCV_FUNC_QUAT_IDENTITY()
