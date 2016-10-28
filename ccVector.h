@@ -75,6 +75,7 @@ typedef float ccvType;
 #define CCV_FUNC_VEC_CROSS_PRODUCT(dim)   CAT2(CCV_VEC_TYPENAME(dim), CrossProduct)
 #define CCV_FUNC_VEC_MIX(dim)             CAT2(CCV_VEC_TYPENAME(dim), Mix)
 #define CCV_FUNC_VEC_NEW(dim)             CAT2(CCV_VEC_TYPENAME(dim), New)
+#define CCV_FUNC_VEC_EQUAL(dim)           CAT2(CCV_VEC_TYPENAME(dim), Equal)
 
 #define CCV_FUNC_QUAT_IDENTITY            CAT2(CCV_QUAT_TYPENAME, Identity)
 #define CCV_FUNC_QUAT_ROTATE              CAT2(CCV_QUAT_TYPENAME, Rotate)
@@ -209,6 +210,16 @@ typedef float ccvType;
 		return CCV_FUNC_VEC_ADD(dim)(a, CCV_FUNC_VEC_MULTIPLY(dim)(CCV_FUNC_VEC_SUBTRACT(dim)(b, a), f)); \
 		}
 
+#define CCV_DEFINE_VEC_EQUAL(dim) \
+	static inline int CCV_FUNC_VEC_EQUAL(dim)(const CCV_VEC_TYPENAME(dim) a, const CCV_VEC_TYPENAME(dim) b) { \
+		unsigned int i; \
+		for(i = 0; i < dim; ++i) \
+			if(a.v[i] != b.v[i]) \
+				return 0; \
+		return 1; \
+	}
+
+
 // Matrix operations
 
 #define CCV_DEFINE_MAT_ZERO(dim) \
@@ -328,7 +339,8 @@ typedef float ccvType;
 	CCV_DEFINE_VEC_LENGTH(dim) \
 	CCV_DEFINE_VEC_NORMALIZE(dim) \
 	CCV_DEFINE_VEC_REFLECT(dim) \
-	CCV_DEFINE_VEC_MIX(dim)
+	CCV_DEFINE_VEC_MIX(dim) \
+	CCV_DEFINE_VEC_EQUAL(dim)
 
 #define CCV_DEFINE_MAT(dim) \
 	CCV_DEFINE_VEC_TYPE(dim) \
