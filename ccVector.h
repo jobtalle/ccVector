@@ -117,6 +117,7 @@ typedef float ccvType;
 #define CCV_FUNC_MAT_INVERSE(dim)         CAT2(CCV_MAT_TYPENAME(dim), Inverse)
 #define CCV_FUNC_MAT_PERSPECTIVE(dim)     CAT2(CCV_MAT_TYPENAME(dim), Perspective)
 #define CCV_FUNC_MAT_LOOK_AT(dim)         CAT2(CCV_MAT_TYPENAME(dim), LookAt)
+#define CCV_FUNC_MAT_EQUAL(dim)           CAT2(CCV_MAT_TYPENAME(dim), Equal)
 
 // Type definitions
 
@@ -219,7 +220,6 @@ typedef float ccvType;
 		return 1; \
 	}
 
-
 // Matrix operations
 
 #define CCV_DEFINE_MAT_ZERO(dim) \
@@ -318,11 +318,19 @@ typedef float ccvType;
 #define CCV_DEFINE_MAT_DEMOTE(dim) \
 	static inline void CCV_FUNC_MAT_DEMOTE(dim)(CCV_MAT_TYPENAME(dim) m, ccvType *matrix, const int n) { \
 		int i, j; \
-		for(j = 0; j < dim; ++j) { \
-			for(i = 0; i < dim; ++i) { \
+		for(j = 0; j < dim; ++j) \
+			for(i = 0; i < dim; ++i) \
 				m[i][j] = matrix[j * n + i]; \
-			} \
-		} \
+	}
+
+#define CCV_DEFINE_MAT_EQUAL(dim) \
+	static inline int CCV_FUNC_MAT_EQUAL(dim)(CCV_MAT_TYPENAME(dim) a, CCV_MAT_TYPENAME(dim) b) { \
+		int i, j; \
+		for(j = 0; j < dim; ++j) \
+			for(i = 0; i < dim; ++i) \
+				if(a[i][j] != b[i][j]) \
+					return 0; \
+		return 1; \
 	}
 
 // Definition calls
@@ -356,7 +364,8 @@ typedef float ccvType;
 	CCV_DEFINE_MAT_MULTIPLY_MATRIX(dim) \
 	CCV_DEFINE_MAT_GET_ROW(dim) \
 	CCV_DEFINE_MAT_GET_COL(dim) \
-	CCV_DEFINE_MAT_DEMOTE(dim)
+	CCV_DEFINE_MAT_DEMOTE(dim) \
+	CCV_DEFINE_MAT_EQUAL(dim)
 
 // Vector type override
 
