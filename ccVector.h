@@ -98,6 +98,7 @@ typedef float ccvType;
 #define CCV_FUNC_MAT_GET_ROW(dim)         CAT2(CCV_MAT_TYPENAME(dim), GetRow)
 #define CCV_FUNC_MAT_GET_COL(dim)         CAT2(CCV_MAT_TYPENAME(dim), GetCol)
 #define CCV_FUNC_MAT_DEMOTE(dim)          CAT2(CCV_MAT_TYPENAME(dim), Demote)
+#define CCV_FUNC_MAT_TRANSPOSE(dim)       CAT2(CCV_MAT_TYPENAME(dim), Transpose)
 #define CCV_FUNC_MAT_SET_ROTATION(dim)    CAT2(CCV_MAT_TYPENAME(dim), SetRotation)
 #define CCV_FUNC_MAT_ROTATE(dim)          CAT2(CCV_MAT_TYPENAME(dim), Rotate)
 #define CCV_FUNC_MAT_SET_ROTATION_2D(dim) CAT2(CCV_MAT_TYPENAME(dim), SetRotation2D)
@@ -300,7 +301,7 @@ typedef float ccvType;
 	}
 
 #define CCV_DEFINE_MAT_GET_ROW(dim) \
-	static inline CCV_VEC_TYPENAME(dim) CCV_FUNC_MAT_GET_ROW(dim)(CCV_MAT_TYPENAME(dim) m, const int n) { \
+	static inline CCV_VEC_TYPENAME(dim) CCV_FUNC_MAT_GET_ROW(dim)(CCV_MAT_TYPENAME(dim) m, const unsigned int n) { \
 		CCV_VEC_TYPENAME(dim) v; \
 		unsigned int i; \
 		for(i = 0; i < dim; ++i) \
@@ -309,28 +310,36 @@ typedef float ccvType;
 	}
 
 #define CCV_DEFINE_MAT_GET_COL(dim) \
-	static inline CCV_VEC_TYPENAME(dim) CCV_FUNC_MAT_GET_COL(dim)(CCV_MAT_TYPENAME(dim) m, const int n) { \
+	static inline CCV_VEC_TYPENAME(dim) CCV_FUNC_MAT_GET_COL(dim)(CCV_MAT_TYPENAME(dim) m, const unsigned int n) { \
 		CCV_VEC_TYPENAME(dim) v; \
 		memcpy(v.v, m[n], sizeof(ccvType)* dim); \
 		return v; \
 	}
 
-#define CCV_DEFINE_MAT_DEMOTE(dim) \
-	static inline void CCV_FUNC_MAT_DEMOTE(dim)(CCV_MAT_TYPENAME(dim) m, ccvType *matrix, const int n) { \
-		int i, j; \
+#define CCV_DEFINE_MAT_TRANSPOSE(dim) \
+	static inline void CCV_FUNC_MAT_TRANSPOSE(dim)(CCV_MAT_TYPENAME(dim) m, CCV_MAT_TYPENAME(dim) n) { \
+		unsigned int i, j; \
 		for(j = 0; j < dim; ++j) \
 			for(i = 0; i < dim; ++i) \
-				m[i][j] = matrix[j * n + i]; \
+				m[i][j] = n[j][i]; \
 	}
 
 #define CCV_DEFINE_MAT_EQUAL(dim) \
 	static inline int CCV_FUNC_MAT_EQUAL(dim)(CCV_MAT_TYPENAME(dim) a, CCV_MAT_TYPENAME(dim) b) { \
-		int i, j; \
+		unsigned int i, j; \
 		for(j = 0; j < dim; ++j) \
 			for(i = 0; i < dim; ++i) \
 				if(a[i][j] != b[i][j]) \
 					return 0; \
 		return 1; \
+	}
+
+#define CCV_DEFINE_MAT_DEMOTE(dimTarget, dimSource) \
+	static inline void CCV_FUNC_MAT_DEMOTE(dimSource)(CCV_MAT_TYPENAME(dimTarget) m, CCV_MAT_TYPENAME(dimSource) n) { \
+		unsigned int i, j; \
+		for(j = 0; j < dimTarget; ++j) \
+			for(i = 0; i < dimTarget; ++i) \
+				m[i][j] = n[i][j]; \
 	}
 
 // Definition calls
@@ -364,7 +373,7 @@ typedef float ccvType;
 	CCV_DEFINE_MAT_MULTIPLY_MATRIX(dim) \
 	CCV_DEFINE_MAT_GET_ROW(dim) \
 	CCV_DEFINE_MAT_GET_COL(dim) \
-	CCV_DEFINE_MAT_DEMOTE(dim) \
+	CCV_DEFINE_MAT_TRANSPOSE(dim) \
 	CCV_DEFINE_MAT_EQUAL(dim)
 
 // Vector type override
@@ -446,6 +455,9 @@ CCV_DEFINE_VEC(4)
 CCV_DEFINE_MAT(2)
 CCV_DEFINE_MAT(3)
 CCV_DEFINE_MAT(4)
+
+CCV_DEFINE_MAT_DEMOTE(2, 3)
+CCV_DEFINE_MAT_DEMOTE(3, 4)
 
 // Define n-dimensional vector type
 
