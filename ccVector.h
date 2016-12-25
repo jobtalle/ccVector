@@ -48,10 +48,13 @@ typedef float ccvType;
 
 // Used math functions
 
-#define CCV_COS  cosf
-#define CCV_SIN  sinf
-#define CCV_TAN  tanf
-#define CCV_SQRT sqrtf
+#define CCV_COS     cosf
+#define CCV_SIN     sinf
+#define CCV_TAN     tanf
+#define CCV_ACOS    acosf
+#define CCV_SQRT    sqrtf
+#define CCV_ABS     fabsf
+#define CCV_EPSILON ((ccvType)0.0001)
 
 // Type names
 
@@ -85,6 +88,9 @@ typedef float ccvType;
 #define CCV_FUNC_QUAT_ADD                 CAT2(CCV_QUAT_TYPENAME, Add)
 #define CCV_FUNC_QUAT_SUBTRACT            CAT2(CCV_QUAT_TYPENAME, Subtract)
 #define CCV_FUNC_QUAT_SCALE               CAT2(CCV_QUAT_TYPENAME, Scale)
+#define CCV_FUNC_QUAT_MIX                 CAT2(CCV_QUAT_TYPENAME, Mix)
+#define CCV_FUNC_QUAT_FROM_VEC            CAT2(CCV_QUAT_TYPENAME, FromVector)
+#define CCV_FUNC_QUAT_TO_VEC              CAT2(CCV_QUAT_TYPENAME, ToVector)
 
 #define CCV_FUNC_MAT_ZERO(dim)            CAT2(CCV_MAT_TYPENAME(dim), Zero)
 #define CCV_FUNC_MAT_ISZERO(dim)          CAT2(CCV_MAT_TYPENAME(dim), IsZero)
@@ -210,7 +216,7 @@ typedef float ccvType;
 #define CCV_DEFINE_VEC_MIX(dim) \
 	static inline CCV_VEC_TYPENAME(dim) CCV_FUNC_VEC_MIX(dim)(const CCV_VEC_TYPENAME(dim) a, const CCV_VEC_TYPENAME(dim) b, const ccvType f) { \
 		return CCV_FUNC_VEC_ADD(dim)(a, CCV_FUNC_VEC_MULTIPLY(dim)(CCV_FUNC_VEC_SUBTRACT(dim)(b, a), f)); \
-		}
+	}
 
 #define CCV_DEFINE_VEC_EQUAL(dim) \
 	static inline int CCV_FUNC_VEC_EQUAL(dim)(const CCV_VEC_TYPENAME(dim) a, const CCV_VEC_TYPENAME(dim) b) { \
@@ -573,6 +579,46 @@ static inline CCV_QUAT_TYPENAME CCV_FUNC_QUAT_SUBTRACT(const CCV_QUAT_TYPENAME a
 static inline CCV_QUAT_TYPENAME CCV_FUNC_QUAT_SCALE(const CCV_QUAT_TYPENAME q, const ccvType n)
 {
 	return CCV_FUNC_VEC_MULTIPLY(4)(q, n);
+}
+
+static inline CCV_QUAT_TYPENAME CCV_FUNC_QUAT_FROM_VEC(const CCV_VEC_TYPENAME(4) v)
+{
+	CCV_QUAT_TYPENAME q;
+
+	memcpy(q.v, v.v, sizeof(CCV_VEC_TYPENAME(4)));
+
+	return q;
+}
+
+static inline CCV_VEC_TYPENAME(4) CCV_FUNC_QUAT_TO_VEC(const CCV_QUAT_TYPENAME q)
+{
+	CCV_VEC_TYPENAME(4) v;
+
+	memcpy(v.v, q.v, sizeof(CCV_VEC_TYPENAME(4)));
+
+	return v;
+}
+
+static inline CCV_QUAT_TYPENAME CCV_FUNC_QUAT_MIX(const CCV_QUAT_TYPENAME a, const CCV_QUAT_TYPENAME b, const ccvType f)
+{
+	CCV_VEC_TYPENAME(4) av = quatToVector(a);
+	CCV_VEC_TYPENAME(4) bv = quatToVector(b);
+	ccvType cosHalfTheta = vec4DotProduct(av, bv);
+
+	if(CCV_ABS(cosHalfTheta) >= 1)
+		return a;
+	else {
+		CCV_VEC_TYPENAME(4) result;
+		ccvType halfTheta = CCV_ACOS(cosHalfTheta);
+		ccvType sinHalfTheta = CCV_SQRT(1 - cosHalfTheta * cosHalfTheta);
+
+		if(CCV_ABS(sinHalfTheta) < CCV_EPSILON)
+			result = vec4Mix(av, bv, (ccvType)0.5);
+		else
+			result = vec4Mix(av, bv, CCV_SIN(f * halfTheta) / sinHalfTheta);
+
+		return quatFromVector(vec4Normalize(result));
+	}
 }
 
 // Define rotation methods
