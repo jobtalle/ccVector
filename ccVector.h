@@ -601,9 +601,9 @@ static inline CCV_VEC_TYPENAME(4) CCV_FUNC_QUAT_TO_VEC(const CCV_QUAT_TYPENAME q
 
 static inline CCV_QUAT_TYPENAME CCV_FUNC_QUAT_MIX(const CCV_QUAT_TYPENAME a, const CCV_QUAT_TYPENAME b, const ccvType f)
 {
-	CCV_VEC_TYPENAME(4) av = quatToVector(a);
-	CCV_VEC_TYPENAME(4) bv = quatToVector(b);
-	ccvType cosHalfTheta = vec4DotProduct(av, bv);
+	CCV_VEC_TYPENAME(4) av = a;
+	CCV_VEC_TYPENAME(4) bv = b;
+	ccvType cosHalfTheta = CCV_FUNC_VEC_DOTPRODUCT(4)(av, bv);
 
 	if(CCV_ABS(cosHalfTheta) >= 1)
 		return a;
@@ -613,11 +613,11 @@ static inline CCV_QUAT_TYPENAME CCV_FUNC_QUAT_MIX(const CCV_QUAT_TYPENAME a, con
 		ccvType sinHalfTheta = CCV_SQRT(1 - cosHalfTheta * cosHalfTheta);
 
 		if(CCV_ABS(sinHalfTheta) < CCV_EPSILON)
-			result = vec4Mix(av, bv, (ccvType)0.5);
+			result = CCV_FUNC_VEC_MIX(4)(av, bv, (ccvType)0.5);
 		else
-			result = vec4Mix(av, bv, CCV_SIN(f * halfTheta) / sinHalfTheta);
+			result = CCV_FUNC_VEC_MIX(4)(av, bv, CCV_SIN(f * halfTheta) / sinHalfTheta);
 
-		return quatFromVector(vec4Normalize(result));
+		return CCV_FUNC_VEC_NORMALIZE(4)(result);
 	}
 }
 
