@@ -6,7 +6,7 @@
 //                    | (_| (__ \  /  __/ (__| || (_) | |                           //
 //                     \___\___| \/ \___|\___|\__\___/|_| v1.1                      //
 //                                                                                  //
-//                2015 - 2016 \ Job Talle (jobtalle@hotmail.com)                    //
+//                   2015 - 2017 \ Job Talle (j.j.v.talle@rug.nl)                   //
 //__________________________________________________________________________________//
 //                                                                                  //
 //               ccVector has been dedicated to the public domain.                  //
@@ -586,16 +586,12 @@ static inline CCV_QUAT_TYPENAME CCV_FUNC_QUAT_MIX(const CCV_QUAT_TYPENAME a, con
 	if(CCV_ABS(cosHalfTheta) >= 1)
 		return a;
 	else {
-		CCV_VEC_TYPENAME(4) result;
-		ccvType halfTheta = CCV_ACOS(cosHalfTheta);
 		ccvType sinHalfTheta = CCV_SQRT(1 - cosHalfTheta * cosHalfTheta);
 
 		if(CCV_ABS(sinHalfTheta) < CCV_EPSILON)
-			result = CCV_FUNC_VEC_MIX(4)(a, b, (ccvType)0.5);
+			return CCV_FUNC_VEC_NORMALIZE(4)(CCV_FUNC_VEC_MIX(4)(a, b, (ccvType)0.5));
 		else
-			result = CCV_FUNC_VEC_MIX(4)(a, b, CCV_SIN(f * halfTheta) / sinHalfTheta);
-
-		return CCV_FUNC_VEC_NORMALIZE(4)(result);
+			return CCV_FUNC_VEC_NORMALIZE(4)(CCV_FUNC_VEC_MIX(4)(a, b, CCV_SIN(f * CCV_ACOS(cosHalfTheta)) / sinHalfTheta));
 	}
 }
 
