@@ -395,7 +395,6 @@ typedef union {
 				struct { ccvType x, y; };
 				union {
 					CCV_VEC_TYPENAME(2) xy;
-					CCV_VEC_TYPENAME(2) CCV_VEC_TYPENAME(2);
 				};
 			};
 			ccvType z;
@@ -416,7 +415,6 @@ typedef union {
 					union {
 						struct { ccvType x, y; };
 						CCV_VEC_TYPENAME(2) xy;
-						CCV_VEC_TYPENAME(2) CCV_VEC_TYPENAME(2);
 					};
 					union {
 						struct { ccvType z, w; };
@@ -434,7 +432,6 @@ typedef union {
 			union {
 				struct {
 					union {
-						CCV_VEC_TYPENAME(3) CCV_VEC_TYPENAME(3);
 						CCV_VEC_TYPENAME(3) xyz;
 					};
 					ccvType __w;
@@ -494,7 +491,12 @@ static inline CCV_VEC_TYPENAME(2) CCV_FUNC_VEC_ORTHOGONAL(2)(const CCV_VEC_TYPEN
 
 static inline CCV_VEC_TYPENAME(2) CCV_FUNC_VEC_NEW(2)(const ccvType x, const ccvType y)
 {
-	return (CCV_VEC_TYPENAME(2)){ x, y };
+	CCV_VEC_TYPENAME(2) v;
+
+	v.x = x;
+	v.y = y;
+
+	return v;
 }
 
 static inline CCV_VEC_TYPENAME(3) CCV_FUNC_VEC_CROSS_PRODUCT(3)(const CCV_VEC_TYPENAME(3) a, const CCV_VEC_TYPENAME(3) b)
@@ -510,19 +512,37 @@ static inline CCV_VEC_TYPENAME(3) CCV_FUNC_VEC_CROSS_PRODUCT(3)(const CCV_VEC_TY
 
 static inline CCV_VEC_TYPENAME(3) CCV_FUNC_VEC_NEW(3)(const ccvType x, const ccvType y, const ccvType z)
 {
-	return (CCV_VEC_TYPENAME(3)){ x, y, z };
+	CCV_VEC_TYPENAME(3) v;
+
+	v.x = x;
+	v.y = y;
+	v.z = z;
+
+	return v;
 }
 
 static inline CCV_VEC_TYPENAME(4) CCV_FUNC_VEC_NEW(4)(const ccvType x, const ccvType y, const ccvType z, const ccvType w)
 {
-	return (CCV_VEC_TYPENAME(4)){ x, y, z, w };
+	CCV_VEC_TYPENAME(4) v;
+
+	v.x = x;
+	v.y = y;
+	v.z = z;
+	v.w = w;
+
+	return v;
 }
 
 // Define quaternion operations
 
 static inline CCV_QUAT_TYPENAME CCV_FUNC_QUAT_IDENTITY()
 {
-	return (CCV_QUAT_TYPENAME){ 0, 0, 0, 1 };
+	CCV_QUAT_TYPENAME q;
+
+	q.x = q.y = q.z = 0;
+	q.w = 1;
+
+	return q;
 }
 
 static inline CCV_QUAT_TYPENAME CCV_FUNC_QUAT_ROTATE(CCV_VEC_TYPENAME(3) axis, ccvType radians)
@@ -906,7 +926,7 @@ static inline void CCV_FUNC_MAT_LOOK_AT(4)(CCV_MAT_TYPENAME(4) m, CCV_VEC_TYPENA
 	m[2][3] = 0;
 
 	for(i = 0; i < 3; ++i) {
-		CCV_VEC_TYPENAME(3) r = CCV_FUNC_MAT_GET_ROW(4)(m, i).CCV_VEC_TYPENAME(3);
+		CCV_VEC_TYPENAME(3) r = CCV_FUNC_MAT_GET_ROW(4)(m, i).xyz;
 		m[3][i] = -CCV_FUNC_VEC_DOTPRODUCT(3)(r, from);
 	}
 
